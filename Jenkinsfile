@@ -8,7 +8,7 @@ timestamps {
 		}
 
 		stage('Configuration') {
-			sh "echo \"module.exports = { logLevel: 'error', connectors: { 'appc.mysql': { }}}\" > conf/local.js"
+			sh "echo \"module.exports = { logLevel: 'error', connectors: { 'appc.odata': { }}}\" > conf/local.js"
 		}
 
 		buildConnector {
