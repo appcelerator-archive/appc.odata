@@ -5,7 +5,7 @@ const Arrow = require('arrow')
 module.exports = function (options) {
   return new Promise((resolve, reject) => {
     options = options || {}
-    const arrow = new Arrow()
+    const arrow = new Arrow({}, true)
     const connector = arrow.getConnector('appc.odata')
 
     if (options.generateTestModels !== false) {
