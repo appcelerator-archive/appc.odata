@@ -1,0 +1,141 @@
+{
+  "collections": {
+    "People": {
+      "data": [
+        {
+          "UserName": "mlukanova",
+          "FirstName": "Meglena",
+          "LastName": "Lukanova",
+          "Emails": [],
+          "AddressInfo": [],
+          "Gender": "1",
+          "Concurrency": 0
+        },
+        {
+          "UserName": "mlukanova1",
+          "FirstName": "Meglena",
+          "LastName": "Lukanova",
+          "Emails": [],
+          "AddressInfo": [],
+          "Gender": "1",
+          "Concurrency": 0,
+          "Friends": [
+            "mlukanova"
+          ]
+        },
+        {
+          "UserName": "mlukanova2",
+          "FirstName": "Meglena",
+          "LastName": "Lukanova",
+          "Emails": [],
+          "AddressInfo": [],
+          "Gender": "1",
+          "Concurrency": 0,
+          "Friends": [
+            "mlukanova",
+            "mlukanova1"
+          ]
+        },
+        {
+          "UserName": "mlukanova3",
+          "FirstName": "Meglena",
+          "LastName": "Lukanova",
+          "Emails": [],
+          "AddressInfo": [],
+          "Gender": "1",
+          "Concurrency": 0,
+          "Friends": [
+            "mlukanova",
+            "mlukanova1",
+            "mlukanova2"
+          ]
+        },
+        {
+          "UserName": "mlukanova4",
+          "FirstName": "Meglena",
+          "LastName": "Lukanova",
+          "Emails": [],
+          "AddressInfo": [],
+          "Gender": "1",
+          "Concurrency": 0,
+          "Friends": [
+            "mlukanova1",
+            "mlukanova2"
+          ]
+        },
+        {
+          "UserName": "mlukanova5",
+          "FirstName": "Meglena",
+          "LastName": "Lukanova",
+          "Emails": [],
+          "AddressInfo": [],
+          "Gender": "1",
+          "Concurrency": 0
+        },
+        {
+          "UserName": "mlukanova6",
+          "FirstName": "Meglena",
+          "LastName": "Lukanova",
+          "Emails": [],
+          "AddressInfo": [],
+          "Gender": "1",
+          "Concurrency": 0
+        },
+        {
+          "UserName": "mlukanova7",
+          "FirstName": "Meglena",
+          "LastName": "Lukanova",
+          "Emails": [],
+          "AddressInfo": [],
+          "Gender": "1",
+          "Concurrency": 0
+        },
+        {
+          "UserName": "mlukanova8",
+          "FirstName": "Meglena",
+          "LastName": "Lukanova",
+          "Emails": [],
+          "AddressInfo": [],
+          "Gender": "1",
+          "Concurrency": 0
+        }
+      ]
+    },
+    "Airlines": {
+      "data": [
+        {
+          "AirlineCode": "AA",
+          "Name": "AA"
+        },
+        {
+          "AirlineCode": "BB",
+          "Name": "BB"
+        },
+        {
+          "AirlineCode": "CC",
+          "Name": "CC"
+        },
+        {
+          "AirlineCode": "DD",
+          "Name": "DD"
+        },
+        {
+          "AirlineCode": "EE",
+          "Name": "EE"
+        },
+        {
+          "AirlineCode": "FF",
+          "Name": "FF"
+        },
+        {
+          "AirlineCode": "GG",
+          "Name": "GG"
+        },
+        {
+          "AirlineCode": "HH",
+          "Name": "HH"
+        }
+      ]
+    }
+  }
+}

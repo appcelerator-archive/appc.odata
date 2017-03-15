@@ -1,0 +1,816 @@
+{
+    "Categories": [
+        {
+            "@odata.id": "http://localhost:3000/Categories('578f2baa12eaebabec4af28a')",
+            "@odata.editLink": "http://localhost:3000/Categories('578f2baa12eaebabec4af28a')",
+            "_id": "578f2baa12eaebabec4af28a",
+            "Description": "Breads",
+            "Name": "Grains/Cereals"
+        },
+        {
+            "@odata.id": "http://localhost:3000/Categories('578f2baa12eaebabec4af28b')",
+            "@odata.editLink": "http://localhost:3000/Categories('578f2baa12eaebabec4af28b')",
+            "_id": "578f2baa12eaebabec4af28b",
+            "Description": "Prepared meats",
+            "Name": "Meat/Poultry"
+        },
+        {
+            "@odata.id": "http://localhost:3000/Categories('578f2baa12eaebabec4af28c')",
+            "@odata.editLink": "http://localhost:3000/Categories('578f2baa12eaebabec4af28c')",
+            "_id": "578f2baa12eaebabec4af28c",
+            "Description": "Dried fruit and bean curd",
+            "Name": "Produce"
+        },
+        {
+            "@odata.id": "http://localhost:3000/Categories('578f2baa12eaebabec4af28d')",
+            "@odata.editLink": "http://localhost:3000/Categories('578f2baa12eaebabec4af28d')",
+            "_id": "578f2baa12eaebabec4af28d",
+            "Description": "Seaweed and fish",
+            "Name": "Seafood"
+        },
+        {
+            "@odata.id": "http://localhost:3000/Categories('578f2baa12eaebabec4af28e')",
+            "@odata.editLink": "http://localhost:3000/Categories('578f2baa12eaebabec4af28e')",
+            "_id": "578f2baa12eaebabec4af28e",
+            "Description": "Sweet and savory sauces",
+            "Name": "Condiments"
+        },
+        {
+            "@odata.id": "http://localhost:3000/Categories('578f2baa12eaebabec4af28f')",
+            "@odata.editLink": "http://localhost:3000/Categories('578f2baa12eaebabec4af28f')",
+            "_id": "578f2baa12eaebabec4af28f",
+            "Description": "Cheeses",
+            "Name": "Dairy Products"
+        },
+        {
+            "@odata.id": "http://localhost:3000/Categories('578f2baa12eaebabec4af290')",
+            "@odata.editLink": "http://localhost:3000/Categories('578f2baa12eaebabec4af290')",
+            "_id": "578f2baa12eaebabec4af290",
+            "Description": "Desserts",
+            "Name": "Confections"
+        }
+    ],
+
+    "Products": [
+        {
+            "@odata.id": "http://localhost:3000/Products('578f2b8c12eaebabec4af23c')",
+            "@odata.editLink": "http://localhost:3000/Products('578f2b8c12eaebabec4af23c')",
+            "_id": "578f2b8c12eaebabec4af23c",
+            "CategoryId": "578f2baa12eaebabec4af289",
+            "Discontinued": false,
+            "Name": "Chai",
+            "QuantityPerUnit": "10 boxes x 20 bags",
+            "UnitPrice": 39
+        },
+        {
+            "@odata.id": "http://localhost:3000/Products('578f2b8c12eaebabec4af23d')",
+            "@odata.editLink": "http://localhost:3000/Products('578f2b8c12eaebabec4af23d')",
+            "_id": "578f2b8c12eaebabec4af23d",
+            "CategoryId": "578f2baa12eaebabec4af289",
+            "Discontinued": true,
+            "Name": "Chang",
+            "QuantityPerUnit": "24 - 12 oz bottles",
+            "UnitPrice": 19
+        },
+        {
+            "@odata.id": "http://localhost:3000/Products('578f2b8c12eaebabec4af23e')",
+            "@odata.editLink": "http://localhost:3000/Products('578f2b8c12eaebabec4af23e')",
+            "_id": "578f2b8c12eaebabec4af23e",
+            "CategoryId": "578f2baa12eaebabec4af28e",
+            "Discontinued": false,
+            "Name": "Aniseed Syrup",
+            "QuantityPerUnit": "12 - 550 ml bottles",
+            "UnitPrice": 10
+        },
+        {
+            "@odata.id": "http://localhost:3000/Products('578f2b8c12eaebabec4af23f')",
+            "@odata.editLink": "http://localhost:3000/Products('578f2b8c12eaebabec4af23f')",
+            "_id": "578f2b8c12eaebabec4af23f",
+            "CategoryId": "578f2baa12eaebabec4af28e",
+            "Discontinued": true,
+            "Name": "Chef Anton's Cajun Seasoning",
+            "QuantityPerUnit": "48 - 6 oz jars",
+            "UnitPrice": 22
+        },
+        {
+            "@odata.id": "http://localhost:3000/Products('578f2b8c12eaebabec4af240')",
+            "@odata.editLink": "http://localhost:3000/Products('578f2b8c12eaebabec4af240')",
+            "_id": "578f2b8c12eaebabec4af240",
+            "CategoryId": "578f2baa12eaebabec4af28e",
+            "Discontinued": false,
+            "Name": "Chef Anton's Gumbo Mix",
+            "QuantityPerUnit": "36 boxes",
+            "UnitPrice": 21.35
+        },
+        {
+            "@odata.id": "http://localhost:3000/Products('578f2b8c12eaebabec4af241')",
+            "@odata.editLink": "http://localhost:3000/Products('578f2b8c12eaebabec4af241')",
+            "_id": "578f2b8c12eaebabec4af241",
+            "CategoryId": "578f2baa12eaebabec4af28e",
+            "Discontinued": false,
+            "Name": "Grandma's Boysenberry Spread",
+            "QuantityPerUnit": "12 - 8 oz jars",
+            "UnitPrice": 25
+        },
+        {
+            "@odata.id": "http://localhost:3000/Products('578f2b8c12eaebabec4af242')",
+            "@odata.editLink": "http://localhost:3000/Products('578f2b8c12eaebabec4af242')",
+            "_id": "578f2b8c12eaebabec4af242",
+            "CategoryId": "578f2baa12eaebabec4af28d",
+            "Discontinued": false,
+            "Name": "Ikura",
+            "QuantityPerUnit": "12 - 200 ml jars",
+            "UnitPrice": 31
+        },
+        {
+            "@odata.id": "http://localhost:3000/Products('578f2b8c12eaebabec4af243')",
+            "@odata.editLink": "http://localhost:3000/Products('578f2b8c12eaebabec4af243')",
+            "_id": "578f2b8c12eaebabec4af243",
+            "CategoryId": "578f2baa12eaebabec4af28f",
+            "Discontinued": false,
+            "Name": "Queso Cabrales",
+            "QuantityPerUnit": "1 kg pkg.",
+            "UnitPrice": 21
+        },
+        {
+            "@odata.id": "http://localhost:3000/Products('578f2b8c12eaebabec4af244')",
+            "@odata.editLink": "http://localhost:3000/Products('578f2b8c12eaebabec4af244')",
+            "_id": "578f2b8c12eaebabec4af244",
+            "CategoryId": "578f2baa12eaebabec4af28f",
+            "Discontinued": true,
+            "Name": "Queso Manchego La Pastora",
+            "QuantityPerUnit": "10 - 500 g pkgs.",
+            "UnitPrice": 38
+        },
+        {
+            "@odata.id": "http://localhost:3000/Products('578f2b8c12eaebabec4af245')",
+            "@odata.editLink": "http://localhost:3000/Products('578f2b8c12eaebabec4af245')",
+            "_id": "578f2b8c12eaebabec4af245",
+            "CategoryId": "578f2baa12eaebabec4af28d",
+            "Discontinued": false,
+            "Name": "Konbu",
+            "QuantityPerUnit": "2 kg box",
+            "UnitPrice": 6
+        },
+        {
+            "@odata.id": "http://localhost:3000/Products('578f2b8c12eaebabec4af246')",
+            "@odata.editLink": "http://localhost:3000/Products('578f2b8c12eaebabec4af246')",
+            "_id": "578f2b8c12eaebabec4af246",
+            "CategoryId": "578f2baa12eaebabec4af28c",
+            "Discontinued": false,
+            "Name": "Tofu",
+            "QuantityPerUnit": "40 - 100 g pkgs.",
+            "UnitPrice": 23.25
+        },
+        {
+            "@odata.id": "http://localhost:3000/Products('578f2b8c12eaebabec4af247')",
+            "@odata.editLink": "http://localhost:3000/Products('578f2b8c12eaebabec4af247')",
+            "_id": "578f2b8c12eaebabec4af247",
+            "CategoryId": "578f2baa12eaebabec4af28e",
+            "Discontinued": false,
+            "Name": "Genen Shouyu",
+            "QuantityPerUnit": "24 - 250 ml bottles",
+            "UnitPrice": 15.5
+        },
+        {
+            "@odata.id": "http://localhost:3000/Products('578f2b8c12eaebabec4af248')",
+            "@odata.editLink": "http://localhost:3000/Products('578f2b8c12eaebabec4af248')",
+            "_id": "578f2b8c12eaebabec4af248",
+            "CategoryId": "578f2baa12eaebabec4af290",
+            "Discontinued": false,
+            "Name": "Pavlova",
+            "QuantityPerUnit": "32 - 500 g boxes",
+            "UnitPrice": 17.45
+        },
+        {
+            "@odata.id": "http://localhost:3000/Products('578f2b8c12eaebabec4af249')",
+            "@odata.editLink": "http://localhost:3000/Products('578f2b8c12eaebabec4af249')",
+            "_id": "578f2b8c12eaebabec4af249",
+            "CategoryId": "578f2baa12eaebabec4af28b",
+            "Discontinued": false,
+            "Name": "Alice Mutton",
+            "QuantityPerUnit": "20 - 1 kg tins",
+            "UnitPrice": 39
+        },
+        {
+            "@odata.id": "http://localhost:3000/Products('578f2b8c12eaebabec4af24a')",
+            "@odata.editLink": "http://localhost:3000/Products('578f2b8c12eaebabec4af24a')",
+            "_id": "578f2b8c12eaebabec4af24a",
+            "CategoryId": "578f2baa12eaebabec4af28d",
+            "Discontinued": false,
+            "Name": "Carnarvon Tigers",
+            "QuantityPerUnit": "16 kg pkg.",
+            "UnitPrice": 62.5
+        },
+        {
+            "@odata.id": "http://localhost:3000/Products('578f2b8c12eaebabec4af24b')",
+            "@odata.editLink": "http://localhost:3000/Products('578f2b8c12eaebabec4af24b')",
+            "_id": "578f2b8c12eaebabec4af24b",
+            "CategoryId": "578f2baa12eaebabec4af290",
+            "Discontinued": true,
+            "Name": "Teatime Chocolate Biscuits",
+            "QuantityPerUnit": "10 boxes x 12 pieces",
+            "UnitPrice": 9.2
+        },
+        {
+            "@odata.id": "http://localhost:3000/Products('578f2b8c12eaebabec4af24c')",
+            "@odata.editLink": "http://localhost:3000/Products('578f2b8c12eaebabec4af24c')",
+            "_id": "578f2b8c12eaebabec4af24c",
+            "CategoryId": "578f2baa12eaebabec4af290",
+            "Discontinued": false,
+            "Name": "Sir Rodney's Marmalade",
+            "QuantityPerUnit": "30 gift boxes",
+            "UnitPrice": 81
+        },
+        {
+            "@odata.id": "http://localhost:3000/Products('578f2b8c12eaebabec4af24d')",
+            "@odata.editLink": "http://localhost:3000/Products('578f2b8c12eaebabec4af24d')",
+            "_id": "578f2b8c12eaebabec4af24d",
+            "CategoryId": "578f2baa12eaebabec4af290",
+            "Discontinued": false,
+            "Name": "Sir Rodney's Scones",
+            "QuantityPerUnit": "24 pkgs. x 4 pieces",
+            "UnitPrice": 10
+        },
+        {
+            "@odata.id": "http://localhost:3000/Products('578f2b8c12eaebabec4af24e')",
+            "@odata.editLink": "http://localhost:3000/Products('578f2b8c12eaebabec4af24e')",
+            "_id": "578f2b8c12eaebabec4af24e",
+            "CategoryId": "578f2baa12eaebabec4af28c",
+            "Discontinued": true,
+            "Name": "Uncle Bob's Organic Dried Pears",
+            "QuantityPerUnit": "12 - 1 lb pkgs.",
+            "UnitPrice": 30
+        },
+        {
+            "@odata.id": "http://localhost:3000/Products('578f2b8c12eaebabec4af24f')",
+            "@odata.editLink": "http://localhost:3000/Products('578f2b8c12eaebabec4af24f')",
+            "_id": "578f2b8c12eaebabec4af24f",
+            "CategoryId": "578f2baa12eaebabec4af28e",
+            "Discontinued": false,
+            "Name": "Northwoods Cranberry Sauce",
+            "QuantityPerUnit": "12 - 12 oz jars",
+            "UnitPrice": 40
+        },
+        {
+            "@odata.id": "http://localhost:3000/Products('578f2b8c12eaebabec4af250')",
+            "@odata.editLink": "http://localhost:3000/Products('578f2b8c12eaebabec4af250')",
+            "_id": "578f2b8c12eaebabec4af250",
+            "CategoryId": "578f2baa12eaebabec4af28b",
+            "Discontinued": false,
+            "Name": "Mishi Kobe Niku",
+            "QuantityPerUnit": "18 - 500 g pkgs.",
+            "UnitPrice": 97
+        },
+        {
+            "@odata.id": "http://localhost:3000/Products('578f2b8c12eaebabec4af251')",
+            "@odata.editLink": "http://localhost:3000/Products('578f2b8c12eaebabec4af251')",
+            "_id": "578f2b8c12eaebabec4af251",
+            "CategoryId": "578f2baa12eaebabec4af28a",
+            "Discontinued": false,
+            "Name": "Gustaf's Knäckebröd",
+            "QuantityPerUnit": "24 - 500 g pkgs.",
+            "UnitPrice": 21
+        },
+        {
+            "@odata.id": "http://localhost:3000/Products('578f2b8c12eaebabec4af252')",
+            "@odata.editLink": "http://localhost:3000/Products('578f2b8c12eaebabec4af252')",
+            "_id": "578f2b8c12eaebabec4af252",
+            "CategoryId": "578f2baa12eaebabec4af28a",
+            "Discontinued": false,
+            "Name": "Tunnbröd",
+            "QuantityPerUnit": "12 - 250 g pkgs.",
+            "UnitPrice": 9
+        },
+        {
+            "@odata.id": "http://localhost:3000/Products('578f2b8c12eaebabec4af253')",
+            "@odata.editLink": "http://localhost:3000/Products('578f2b8c12eaebabec4af253')",
+            "_id": "578f2b8c12eaebabec4af253",
+            "CategoryId": "578f2baa12eaebabec4af289",
+            "Discontinued": false,
+            "Name": "Guaraná Fantástica",
+            "QuantityPerUnit": "12 - 355 ml cans",
+            "UnitPrice": 4.5
+        },
+        {
+            "@odata.id": "http://localhost:3000/Products('578f2b8c12eaebabec4af254')",
+            "@odata.editLink": "http://localhost:3000/Products('578f2b8c12eaebabec4af254')",
+            "_id": "578f2b8c12eaebabec4af254",
+            "CategoryId": "578f2baa12eaebabec4af290",
+            "Discontinued": true,
+            "Name": "NuNuCa Nuß-Nougat-Creme",
+            "QuantityPerUnit": "20 - 450 g glasses",
+            "UnitPrice": 14
+        },
+        {
+            "@odata.id": "http://localhost:3000/Products('578f2b8c12eaebabec4af255')",
+            "@odata.editLink": "http://localhost:3000/Products('578f2b8c12eaebabec4af255')",
+            "_id": "578f2b8c12eaebabec4af255",
+            "CategoryId": "578f2baa12eaebabec4af290",
+            "Discontinued": false,
+            "Name": "Gumbär Gummibärchen",
+            "QuantityPerUnit": "100 - 250 g bags",
+            "UnitPrice": 31.23
+        },
+        {
+            "@odata.id": "http://localhost:3000/Products('578f2b8c12eaebabec4af256')",
+            "@odata.editLink": "http://localhost:3000/Products('578f2b8c12eaebabec4af256')",
+            "_id": "578f2b8c12eaebabec4af256",
+            "CategoryId": "578f2baa12eaebabec4af28d",
+            "Discontinued": true,
+            "Name": "Nord-Ost Matjeshering",
+            "QuantityPerUnit": "10 - 200 g glasses",
+            "UnitPrice": 25.89
+        },
+        {
+            "@odata.id": "http://localhost:3000/Products('578f2b8c12eaebabec4af257')",
+            "@odata.editLink": "http://localhost:3000/Products('578f2b8c12eaebabec4af257')",
+            "_id": "578f2b8c12eaebabec4af257",
+            "CategoryId": "578f2baa12eaebabec4af28f",
+            "Discontinued": false,
+            "Name": "Gorgonzola Telino",
+            "QuantityPerUnit": "12 - 100 g pkgs",
+            "UnitPrice": 12.5
+        },
+        {
+            "@odata.id": "http://localhost:3000/Products('578f2b8c12eaebabec4af258')",
+            "@odata.editLink": "http://localhost:3000/Products('578f2b8c12eaebabec4af258')",
+            "_id": "578f2b8c12eaebabec4af258",
+            "CategoryId": "578f2baa12eaebabec4af28f",
+            "Discontinued": false,
+            "Name": "Mascarpone Fabioli",
+            "QuantityPerUnit": "24 - 200 g pkgs.",
+            "UnitPrice": 32
+        },
+        {
+            "@odata.id": "http://localhost:3000/Products('578f2b8c12eaebabec4af259')",
+            "@odata.editLink": "http://localhost:3000/Products('578f2b8c12eaebabec4af259')",
+            "_id": "578f2b8c12eaebabec4af259",
+            "CategoryId": "578f2baa12eaebabec4af28f",
+            "Discontinued": false,
+            "Name": "Geitost",
+            "QuantityPerUnit": "500 g",
+            "UnitPrice": 2.5
+        },
+        {
+            "@odata.id": "http://localhost:3000/Products('578f2b8c12eaebabec4af25a')",
+            "@odata.editLink": "http://localhost:3000/Products('578f2b8c12eaebabec4af25a')",
+            "_id": "578f2b8c12eaebabec4af25a",
+            "CategoryId": "578f2baa12eaebabec4af289",
+            "Discontinued": false,
+            "Name": "Sasquatch Ale",
+            "QuantityPerUnit": "24 - 12 oz bottles",
+            "UnitPrice": 14
+        },
+        {
+            "@odata.id": "http://localhost:3000/Products('578f2b8c12eaebabec4af25b')",
+            "@odata.editLink": "http://localhost:3000/Products('578f2b8c12eaebabec4af25b')",
+            "_id": "578f2b8c12eaebabec4af25b",
+            "CategoryId": "578f2baa12eaebabec4af289",
+            "Discontinued": false,
+            "Name": "Steeleye Stout",
+            "QuantityPerUnit": "24 - 12 oz bottles",
+            "UnitPrice": 18
+        },
+        {
+            "@odata.id": "http://localhost:3000/Products('578f2b8c12eaebabec4af25c')",
+            "@odata.editLink": "http://localhost:3000/Products('578f2b8c12eaebabec4af25c')",
+            "_id": "578f2b8c12eaebabec4af25c",
+            "CategoryId": "578f2baa12eaebabec4af28d",
+            "Discontinued": false,
+            "Name": "Inlagd Sill",
+            "QuantityPerUnit": "24 - 250 g  jars",
+            "UnitPrice": 19
+        },
+        {
+            "@odata.id": "http://localhost:3000/Products('578f2b8c12eaebabec4af25d')",
+            "@odata.editLink": "http://localhost:3000/Products('578f2b8c12eaebabec4af25d')",
+            "_id": "578f2b8c12eaebabec4af25d",
+            "CategoryId": "578f2baa12eaebabec4af28d",
+            "Discontinued": false,
+            "Name": "Gravad lax",
+            "QuantityPerUnit": "12 - 500 g pkgs.",
+            "UnitPrice": 26
+        },
+        {
+            "@odata.id": "http://localhost:3000/Products('578f2b8c12eaebabec4af25e')",
+            "@odata.editLink": "http://localhost:3000/Products('578f2b8c12eaebabec4af25e')",
+            "_id": "578f2b8c12eaebabec4af25e",
+            "CategoryId": "578f2baa12eaebabec4af289",
+            "Discontinued": false,
+            "Name": "Côte de Blaye",
+            "QuantityPerUnit": "12 - 75 cl bottles",
+            "UnitPrice": 263.5
+        },
+        {
+            "@odata.id": "http://localhost:3000/Products('578f2b8c12eaebabec4af25f')",
+            "@odata.editLink": "http://localhost:3000/Products('578f2b8c12eaebabec4af25f')",
+            "_id": "578f2b8c12eaebabec4af25f",
+            "CategoryId": "578f2baa12eaebabec4af289",
+            "Discontinued": false,
+            "Name": "Chartreuse verte",
+            "QuantityPerUnit": "750 cc per bottle",
+            "UnitPrice": 18
+        },
+        {
+            "@odata.id": "http://localhost:3000/Products('578f2b8c12eaebabec4af260')",
+            "@odata.editLink": "http://localhost:3000/Products('578f2b8c12eaebabec4af260')",
+            "_id": "578f2b8c12eaebabec4af260",
+            "CategoryId": "578f2baa12eaebabec4af28d",
+            "Discontinued": false,
+            "Name": "Boston Crab Meat",
+            "QuantityPerUnit": "24 - 4 oz tins",
+            "UnitPrice": 18.4
+        },
+        {
+            "@odata.id": "http://localhost:3000/Products('578f2b8c12eaebabec4af261')",
+            "@odata.editLink": "http://localhost:3000/Products('578f2b8c12eaebabec4af261')",
+            "_id": "578f2b8c12eaebabec4af261",
+            "CategoryId": "578f2baa12eaebabec4af28d",
+            "Discontinued": true,
+            "Name": "Jack's New England Clam Chowder",
+            "QuantityPerUnit": "12 - 12 oz cans",
+            "UnitPrice": 9.65
+        },
+        {
+            "@odata.id": "http://localhost:3000/Products('578f2b8c12eaebabec4af262')",
+            "@odata.editLink": "http://localhost:3000/Products('578f2b8c12eaebabec4af262')",
+            "_id": "578f2b8c12eaebabec4af262",
+            "CategoryId": "578f2baa12eaebabec4af28a",
+            "Discontinued": true,
+            "Name": "Singaporean Hokkien Fried Mee",
+            "QuantityPerUnit": "32 - 1 kg pkgs.",
+            "UnitPrice": 14
+        },
+        {
+            "@odata.id": "http://localhost:3000/Products('578f2b8c12eaebabec4af263')",
+            "@odata.editLink": "http://localhost:3000/Products('578f2b8c12eaebabec4af263')",
+            "_id": "578f2b8c12eaebabec4af263",
+            "CategoryId": "578f2baa12eaebabec4af289",
+            "Discontinued": false,
+            "Name": "Ipoh Coffee",
+            "QuantityPerUnit": "16 - 500 g tins",
+            "UnitPrice": 46
+        },
+        {
+            "@odata.id": "http://localhost:3000/Products('578f2b8c12eaebabec4af265')",
+            "@odata.editLink": "http://localhost:3000/Products('578f2b8c12eaebabec4af265')",
+            "_id": "578f2b8c12eaebabec4af265",
+            "CategoryId": "578f2baa12eaebabec4af28d",
+            "Discontinued": false,
+            "Name": "Rogede sild",
+            "QuantityPerUnit": "1k pkg.",
+            "UnitPrice": 9.5
+        },
+        {
+            "@odata.id": "http://localhost:3000/Products('578f2b8c12eaebabec4af266')",
+            "@odata.editLink": "http://localhost:3000/Products('578f2b8c12eaebabec4af266')",
+            "_id": "578f2b8c12eaebabec4af266",
+            "CategoryId": "578f2baa12eaebabec4af28d",
+            "Discontinued": false,
+            "Name": "Spegesild",
+            "QuantityPerUnit": "4 - 450 g glasses",
+            "UnitPrice": 12
+        },
+        {
+            "@odata.id": "http://localhost:3000/Products('578f2b8c12eaebabec4af267')",
+            "@odata.editLink": "http://localhost:3000/Products('578f2b8c12eaebabec4af267')",
+            "_id": "578f2b8c12eaebabec4af267",
+            "CategoryId": "578f2baa12eaebabec4af290",
+            "Discontinued": false,
+            "Name": "Zaanse koeken",
+            "QuantityPerUnit": "10 - 4 oz boxes",
+            "UnitPrice": 9.5
+        },
+        {
+            "@odata.id": "http://localhost:3000/Products('578f2b8c12eaebabec4af268')",
+            "@odata.editLink": "http://localhost:3000/Products('578f2b8c12eaebabec4af268')",
+            "_id": "578f2b8c12eaebabec4af268",
+            "CategoryId": "578f2baa12eaebabec4af290",
+            "Discontinued": false,
+            "Name": "Schoggi Schokolade",
+            "QuantityPerUnit": "100 - 100 g pieces",
+            "UnitPrice": 43.9
+        },
+        {
+            "@odata.id": "http://localhost:3000/Products('578f2b8c12eaebabec4af269')",
+            "@odata.editLink": "http://localhost:3000/Products('578f2b8c12eaebabec4af269')",
+            "_id": "578f2b8c12eaebabec4af269",
+            "CategoryId": "578f2baa12eaebabec4af28c",
+            "Discontinued": false,
+            "Name": "Rössle Sauerkraut",
+            "QuantityPerUnit": "25 - 825 g cans",
+            "UnitPrice": 45.6
+        },
+        {
+            "@odata.id": "http://localhost:3000/Products('578f2b8c12eaebabec4af26a')",
+            "@odata.editLink": "http://localhost:3000/Products('578f2b8c12eaebabec4af26a')",
+            "_id": "578f2b8c12eaebabec4af26a",
+            "CategoryId": "578f2baa12eaebabec4af28b",
+            "Discontinued": true,
+            "Name": "Thüringer Rostbratwurst",
+            "QuantityPerUnit": "50 bags x 30 sausgs.",
+            "UnitPrice": 123.79
+        },
+        {
+            "@odata.id": "http://localhost:3000/Products('578f2b8c12eaebabec4af26b')",
+            "@odata.editLink": "http://localhost:3000/Products('578f2b8c12eaebabec4af26b')",
+            "_id": "578f2b8c12eaebabec4af26b",
+            "CategoryId": "578f2baa12eaebabec4af290",
+            "Discontinued": false,
+            "Name": "Chocolade",
+            "QuantityPerUnit": "10 pkgs.",
+            "UnitPrice": 12.75
+        },
+        {
+            "@odata.id": "http://localhost:3000/Products('578f2b8c12eaebabec4af26c')",
+            "@odata.editLink": "http://localhost:3000/Products('578f2b8c12eaebabec4af26c')",
+            "_id": "578f2b8c12eaebabec4af26c",
+            "CategoryId": "578f2baa12eaebabec4af290",
+            "Discontinued": false,
+            "Name": "Maxilaku",
+            "QuantityPerUnit": "24 - 50 g pkgs.",
+            "UnitPrice": 20
+        },
+        {
+            "@odata.id": "http://localhost:3000/Products('578f2b8c12eaebabec4af26d')",
+            "@odata.editLink": "http://localhost:3000/Products('578f2b8c12eaebabec4af26d')",
+            "_id": "578f2b8c12eaebabec4af26d",
+            "CategoryId": "578f2baa12eaebabec4af290",
+            "Discontinued": true,
+            "Name": "Valkoinen suklaa",
+            "QuantityPerUnit": "12 - 100 g bars",
+            "UnitPrice": 16.25
+        },
+        {
+            "@odata.id": "http://localhost:3000/Products('578f2b8c12eaebabec4af26e')",
+            "@odata.editLink": "http://localhost:3000/Products('578f2b8c12eaebabec4af26e')",
+            "_id": "578f2b8c12eaebabec4af26e",
+            "CategoryId": "578f2baa12eaebabec4af28c",
+            "Discontinued": true,
+            "Name": "Manjimup Dried Apples",
+            "QuantityPerUnit": "50 - 300 g pkgs.",
+            "UnitPrice": 53
+        },
+        {
+            "@odata.id": "http://localhost:3000/Products('578f2b8c12eaebabec4af26f')",
+            "@odata.editLink": "http://localhost:3000/Products('578f2b8c12eaebabec4af26f')",
+            "_id": "578f2b8c12eaebabec4af26f",
+            "CategoryId": "578f2baa12eaebabec4af28a",
+            "Discontinued": false,
+            "Name": "Filo Mix",
+            "QuantityPerUnit": "16 - 2 kg boxes",
+            "UnitPrice": 7
+        },
+        {
+            "@odata.id": "http://localhost:3000/Products('578f2b8c12eaebabec4af270')",
+            "@odata.editLink": "http://localhost:3000/Products('578f2b8c12eaebabec4af270')",
+            "_id": "578f2b8c12eaebabec4af270",
+            "CategoryId": "578f2baa12eaebabec4af28a",
+            "Discontinued": true,
+            "Name": "Gnocchi di nonna Alice",
+            "QuantityPerUnit": "24 - 250 g pkgs.",
+            "UnitPrice": 38
+        },
+        {
+            "@odata.id": "http://localhost:3000/Products('578f2b8c12eaebabec4af271')",
+            "@odata.editLink": "http://localhost:3000/Products('578f2b8c12eaebabec4af271')",
+            "_id": "578f2b8c12eaebabec4af271",
+            "CategoryId": "578f2baa12eaebabec4af28a",
+            "Discontinued": false,
+            "Name": "Ravioli Angelo",
+            "QuantityPerUnit": "24 - 250 g pkgs.",
+            "UnitPrice": 19.5
+        },
+        {
+            "@odata.id": "http://localhost:3000/Products('578f2b8c12eaebabec4af272')",
+            "@odata.editLink": "http://localhost:3000/Products('578f2b8c12eaebabec4af272')",
+            "_id": "578f2b8c12eaebabec4af272",
+            "CategoryId": "578f2baa12eaebabec4af28d",
+            "Discontinued": false,
+            "Name": "Escargots de Bourgogne",
+            "QuantityPerUnit": "24 pieces",
+            "UnitPrice": 13.25
+        },
+        {
+            "@odata.id": "http://localhost:3000/Products('578f2b8c12eaebabec4af273')",
+            "@odata.editLink": "http://localhost:3000/Products('578f2b8c12eaebabec4af273')",
+            "_id": "578f2b8c12eaebabec4af273",
+            "CategoryId": "578f2baa12eaebabec4af28f",
+            "Discontinued": false,
+            "Name": "Raclette Courdavault",
+            "QuantityPerUnit": "5 kg pkg.",
+            "UnitPrice": 55
+        },
+        {
+            "@odata.id": "http://localhost:3000/Products('578f2b8c12eaebabec4af274')",
+            "@odata.editLink": "http://localhost:3000/Products('578f2b8c12eaebabec4af274')",
+            "_id": "578f2b8c12eaebabec4af274",
+            "CategoryId": "578f2baa12eaebabec4af28f",
+            "Discontinued": true,
+            "Name": "Camembert Pierrot",
+            "QuantityPerUnit": "15 - 300 g rounds",
+            "UnitPrice": 34
+        },
+        {
+            "@odata.id": "http://localhost:3000/Products('578f2b8c12eaebabec4af275')",
+            "@odata.editLink": "http://localhost:3000/Products('578f2b8c12eaebabec4af275')",
+            "_id": "578f2b8c12eaebabec4af275",
+            "CategoryId": "578f2baa12eaebabec4af28e",
+            "Discontinued": true,
+            "Name": "Sirop d'érable",
+            "QuantityPerUnit": "24 - 500 ml bottles",
+            "UnitPrice": 28.5
+        },
+        {
+            "@odata.id": "http://localhost:3000/Products('578f2b8c12eaebabec4af276')",
+            "@odata.editLink": "http://localhost:3000/Products('578f2b8c12eaebabec4af276')",
+            "_id": "578f2b8c12eaebabec4af276",
+            "CategoryId": "578f2baa12eaebabec4af290",
+            "Discontinued": false,
+            "Name": "Tarte au sucre",
+            "QuantityPerUnit": "48 pies",
+            "UnitPrice": 49.3
+        },
+        {
+            "@odata.id": "http://localhost:3000/Products('578f2b8c12eaebabec4af277')",
+            "@odata.editLink": "http://localhost:3000/Products('578f2b8c12eaebabec4af277')",
+            "_id": "578f2b8c12eaebabec4af277",
+            "CategoryId": "578f2baa12eaebabec4af28e",
+            "Discontinued": false,
+            "Name": "Vegie-spread",
+            "QuantityPerUnit": "15 - 625 g jars",
+            "UnitPrice": 43.9
+        },
+        {
+            "@odata.id": "http://localhost:3000/Products('578f2b8c12eaebabec4af278')",
+            "@odata.editLink": "http://localhost:3000/Products('578f2b8c12eaebabec4af278')",
+            "_id": "578f2b8c12eaebabec4af278",
+            "CategoryId": "578f2baa12eaebabec4af28a",
+            "Discontinued": true,
+            "Name": "Wimmers gute Semmelknödel",
+            "QuantityPerUnit": "20 bags x 4 pieces",
+            "UnitPrice": 33.25
+        },
+        {
+            "@odata.id": "http://localhost:3000/Products('578f2b8c12eaebabec4af279')",
+            "@odata.editLink": "http://localhost:3000/Products('578f2b8c12eaebabec4af279')",
+            "_id": "578f2b8c12eaebabec4af279",
+            "CategoryId": "578f2baa12eaebabec4af28e",
+            "Discontinued": true,
+            "Name": "Louisiana Fiery Hot Pepper Sauce",
+            "QuantityPerUnit": "32 - 8 oz bottles",
+            "UnitPrice": 21.05
+        },
+        {
+            "@odata.id": "http://localhost:3000/Products('578f2b8c12eaebabec4af27a')",
+            "@odata.editLink": "http://localhost:3000/Products('578f2b8c12eaebabec4af27a')",
+            "_id": "578f2b8c12eaebabec4af27a",
+            "CategoryId": "578f2baa12eaebabec4af28e",
+            "Discontinued": false,
+            "Name": "Louisiana Hot Spiced Okra",
+            "QuantityPerUnit": "24 - 8 oz jars",
+            "UnitPrice": 17
+        },
+        {
+            "@odata.id": "http://localhost:3000/Products('578f2b8c12eaebabec4af27b')",
+            "@odata.editLink": "http://localhost:3000/Products('578f2b8c12eaebabec4af27b')",
+            "_id": "578f2b8c12eaebabec4af27b",
+            "CategoryId": "578f2baa12eaebabec4af289",
+            "Discontinued": true,
+            "Name": "Laughing Lumberjack Lager",
+            "QuantityPerUnit": "24 - 12 oz bottles",
+            "UnitPrice": 14
+        },
+        {
+            "@odata.id": "http://localhost:3000/Products('578f2b8c12eaebabec4af27c')",
+            "@odata.editLink": "http://localhost:3000/Products('578f2b8c12eaebabec4af27c')",
+            "_id": "578f2b8c12eaebabec4af27c",
+            "CategoryId": "578f2baa12eaebabec4af290",
+            "Discontinued": false,
+            "Name": "Scottish Longbreads",
+            "QuantityPerUnit": "10 boxes x 8 pieces",
+            "UnitPrice": 12.5
+        },
+        {
+            "@odata.id": "http://localhost:3000/Products('578f2b8c12eaebabec4af27d')",
+            "@odata.editLink": "http://localhost:3000/Products('578f2b8c12eaebabec4af27d')",
+            "_id": "578f2b8c12eaebabec4af27d",
+            "CategoryId": "578f2baa12eaebabec4af28f",
+            "Discontinued": true,
+            "Name": "MyProduct",
+            "QuantityPerUnit": "Crate",
+            "UnitPrice": 666
+        },
+        {
+            "@odata.id": "http://localhost:3000/Products('578f2b8c12eaebabec4af27e')",
+            "@odata.editLink": "http://localhost:3000/Products('578f2b8c12eaebabec4af27e')",
+            "_id": "578f2b8c12eaebabec4af27e",
+            "CategoryId": "578f2baa12eaebabec4af289",
+            "Discontinued": false,
+            "Name": "Outback Lager",
+            "QuantityPerUnit": "24 - 355 ml bottles",
+            "UnitPrice": 15
+        },
+        {
+            "@odata.id": "http://localhost:3000/Products('578f2b8c12eaebabec4af27f')",
+            "@odata.editLink": "http://localhost:3000/Products('578f2b8c12eaebabec4af27f')",
+            "_id": "578f2b8c12eaebabec4af27f",
+            "CategoryId": "578f2baa12eaebabec4af28f",
+            "Discontinued": false,
+            "Name": "Flotemysost",
+            "QuantityPerUnit": "10 - 500 g pkgs.",
+            "UnitPrice": 21.5
+        },
+        {
+            "@odata.id": "http://localhost:3000/Products('578f2b8c12eaebabec4af280')",
+            "@odata.editLink": "http://localhost:3000/Products('578f2b8c12eaebabec4af280')",
+            "_id": "578f2b8c12eaebabec4af280",
+            "CategoryId": "578f2baa12eaebabec4af28f",
+            "Discontinued": false,
+            "Name": "Mozzarella di Giovanni",
+            "QuantityPerUnit": "24 - 200 g pkgs.",
+            "UnitPrice": 34.8
+        },
+        {
+            "@odata.id": "http://localhost:3000/Products('578f2b8c12eaebabec4af281')",
+            "@odata.editLink": "http://localhost:3000/Products('578f2b8c12eaebabec4af281')",
+            "_id": "578f2b8c12eaebabec4af281",
+            "CategoryId": "578f2baa12eaebabec4af28d",
+            "Discontinued": false,
+            "Name": "Röd Kaviar",
+            "QuantityPerUnit": "24 - 150 g jars",
+            "UnitPrice": 15
+        },
+        {
+            "@odata.id": "http://localhost:3000/Products('578f2b8c12eaebabec4af282')",
+            "@odata.editLink": "http://localhost:3000/Products('578f2b8c12eaebabec4af282')",
+            "_id": "578f2b8c12eaebabec4af282",
+            "CategoryId": "578f2baa12eaebabec4af28b",
+            "Discontinued": true,
+            "Name": "Perth Pasties",
+            "QuantityPerUnit": "48 pieces",
+            "UnitPrice": 32.8
+        },
+        {
+            "@odata.id": "http://localhost:3000/Products('578f2b8c12eaebabec4af283')",
+            "@odata.editLink": "http://localhost:3000/Products('578f2b8c12eaebabec4af283')",
+            "_id": "578f2b8c12eaebabec4af283",
+            "CategoryId": "578f2baa12eaebabec4af28b",
+            "Discontinued": true,
+            "Name": "Tourtière",
+            "QuantityPerUnit": "16 pies",
+            "UnitPrice": 7.45
+        },
+        {
+            "@odata.id": "http://localhost:3000/Products('578f2b8c12eaebabec4af284')",
+            "@odata.editLink": "http://localhost:3000/Products('578f2b8c12eaebabec4af284')",
+            "_id": "578f2b8c12eaebabec4af284",
+            "CategoryId": "578f2baa12eaebabec4af28b",
+            "Discontinued": true,
+            "Name": "Pâté chinois",
+            "QuantityPerUnit": "24 boxes x 2 pies",
+            "UnitPrice": 24
+        },
+        {
+            "@odata.id": "http://localhost:3000/Products('578f2b8c12eaebabec4af285')",
+            "@odata.editLink": "http://localhost:3000/Products('578f2b8c12eaebabec4af285')",
+            "_id": "578f2b8c12eaebabec4af285",
+            "CategoryId": "578f2baa12eaebabec4af28c",
+            "Discontinued": false,
+            "Name": "Longlife Tofu",
+            "QuantityPerUnit": "5 kg pkg.",
+            "UnitPrice": 10
+        },
+        {
+            "@odata.id": "http://localhost:3000/Products('578f2b8c12eaebabec4af286')",
+            "@odata.editLink": "http://localhost:3000/Products('578f2b8c12eaebabec4af286')",
+            "_id": "578f2b8c12eaebabec4af286",
+            "CategoryId": "578f2baa12eaebabec4af289",
+            "Discontinued": true,
+            "Name": "Rhönbräu Klosterbier",
+            "QuantityPerUnit": "24 - 0.5 l bottles",
+            "UnitPrice": 7.75
+        },
+        {
+            "@odata.id": "http://localhost:3000/Products('578f2b8c12eaebabec4af287')",
+            "@odata.editLink": "http://localhost:3000/Products('578f2b8c12eaebabec4af287')",
+            "_id": "578f2b8c12eaebabec4af287",
+            "CategoryId": "578f2baa12eaebabec4af289",
+            "Discontinued": false,
+            "Name": "Lakkalikööri",
+            "QuantityPerUnit": "500 ml",
+            "UnitPrice": 18
+        },
+        {
+            "@odata.id": "http://localhost:3000/Products('578f2b8c12eaebabec4af288')",
+            "@odata.editLink": "http://localhost:3000/Products('578f2b8c12eaebabec4af288')",
+            "_id": "578f2b8c12eaebabec4af288",
+            "CategoryId": "578f2baa12eaebabec4af28e",
+            "Discontinued": false,
+            "Name": "Original Frankfurter grüne Soße",
+            "QuantityPerUnit": "12 boxes",
+            "UnitPrice": 13
+        }
+    ]
+}

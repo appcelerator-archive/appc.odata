@@ -1,0 +1,15 @@
+node_modules
+logs
+.arrow
+*.tgz
+conf/local.js
+coverage
+cert
+web/app/*
+web/app/
+.vscode/
+.DS_Store
+.debug.js
+.jshintrc
+.nyc_output
+*.log
