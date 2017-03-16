@@ -28,14 +28,14 @@ test('### Start Arrow ###', function (t) {
 })
 
 test('### Should create OData factory ###', function (t) {
-  const factory = OData(null)
+  const factory = OData(null, { url: 'http://localhost' })
   t.ok(factory)
   t.type(factory, 'function')
   t.end()
 })
 
 test('### Should create OData instance ###', function (t) {
-  const inst = OData(null)('Categories')
+  const inst = OData(null, { url: 'http://localhost/Categories' })('Categories')
   t.ok(inst)
   t.type(inst, 'object')
   t.end()
@@ -52,7 +52,7 @@ test('### findAll Call - Error Case ###', function (t) {
 
   const o = oMocks({ skipSpy, getSpy, expandSpy }, { fail: true })
 
-  OData(o)('Categories').findAll()
+  OData(o, { url: 'http://localhost/Categories' })('Categories').findAll()
     .then(t.threw)
     .catch((err) => {
       t.ok(err)
@@ -82,7 +82,7 @@ test('### findAll Call - Ok Case ###', function (t) {
 
   const o = oMocks({ skipSpy, getSpy, expandSpy }, { getResult: { data: [{}, {}, {}] } })
 
-  OData(o)('Categories').findAll()
+  OData(o, { url: 'http://localhost/Categories' })('Categories').findAll()
     .then((result) => {
       t.ok(result)
       t.ok(result.data)
@@ -116,7 +116,7 @@ test('### findByID Call - Error Case ###', function (t) {
 
   const o = oMocks({ findSpy, getSpy, expandSpy }, { fail: true })
 
-  OData(o)('Categories').findByID(123)
+  OData(o, { url: 'http://localhost/Categories' })('Categories').findByID(123)
     .then(t.threw)
     .catch((err) => {
       t.ok(err)
@@ -152,7 +152,7 @@ test('### findByID Call - Ok Case ###', function (t) {
 
   const o = oMocks({ findSpy, getSpy, expandSpy }, { getResult: { data: {} } })
 
-  OData(o)('Categories').findByID(123)
+  OData(o, { url: 'http://localhost/Categories' })('Categories').findByID(123)
     .then((result) => {
       t.ok(result)
       t.ok(result.data)
@@ -193,7 +193,7 @@ test('### distinct Call - Error Case ###', function (t) {
 
   const o = oMocks({ getSpy, expandSpy, selectSpy }, { fail: true })
 
-  OData(o)('Categories').distinct({}, 'Name')
+  OData(o, { url: 'http://localhost/Categories' })('Categories').distinct({}, 'Name')
     .then(t.threw)
     .catch((err) => {
       t.ok(err)
@@ -235,7 +235,7 @@ test('### distinct Call - Ok Case ###', function (t) {
 
   const o = oMocks({ getSpy, expandSpy, selectSpy }, { getResult: { data: {} } })
 
-  OData(o)('Categories').distinct({}, 'Name')
+  OData(o, { url: 'http://localhost/Categories' })('Categories').distinct({}, 'Name')
     .then((result) => {
       t.ok(result)
 
@@ -270,7 +270,7 @@ test('### query Call - Error Case ###', function (t) {
 
   const o = oMocks({ getSpy, expandSpy }, { fail: true })
 
-  OData(o)('Categories').query({})
+  OData(o, { url: 'http://localhost/Categories' })('Categories').query({})
     .then(t.threw)
     .catch((err) => {
       t.ok(err)
@@ -304,7 +304,7 @@ test('### query Call - Ok Case ###', function (t) {
 
   const o = oMocks({ getSpy, expandSpy }, { getResult: { data: {} } })
 
-  OData(o)('Categories').query({})
+  OData(o, { url: 'http://localhost/Categories' })('Categories').query({})
     .then((result) => {
       t.ok(result)
 
@@ -361,7 +361,7 @@ test('### query Call - Ok Case with option $eq ###', function (t) {
     }
   }
 
-  OData(o)('Categories').query({}, options)
+  OData(o, { url: 'http://localhost/Categories' })('Categories').query({}, options)
     .then((result) => {
       t.ok(result)
 
@@ -428,7 +428,7 @@ test('### query Call - Ok Case with option $gt ###', function (t) {
     fields: []
   }
 
-  OData(o)('Categories').query(Model, options)
+  OData(o, { url: 'http://localhost/Categories' })('Categories').query(Model, options)
     .then((result) => {
       t.ok(result)
 
@@ -464,7 +464,7 @@ test('### deleteOne Call - Error Case ###', function (t) {
 
   const o = oMocks({ saveSpy, findSpy, removeSpy }, { fail: true })
 
-  OData(o)('Categories').deleteOne(123)
+  OData(o, { url: 'http://localhost/Categories' })('Categories').deleteOne(123)
     .then(t.threw)
     .catch((err) => {
       t.ok(err)
@@ -494,7 +494,7 @@ test('### deleteOne Call - Ok Case ###', function (t) {
 
   const o = oMocks({ saveSpy, findSpy, removeSpy }, { saveResult: { data: {} } })
 
-  OData(o)('Categories').deleteOne(123)
+  OData(o, { url: 'http://localhost/Categories' })('Categories').deleteOne(123)
     .then((result) => {
       t.ok(result)
       t.type(result.affectedRows, 'number')
@@ -522,7 +522,7 @@ test('### deleteAll Call - Error Case ###', function (t) {
 
   const o = oMocks({ getSpy }, { fail: true })
 
-  OData(o)('Categories').deleteAll()
+  OData(o, { url: 'http://localhost/Categories' })('Categories').deleteAll()
     .then(t.threw)
     .catch((err) => {
       t.ok(err)
@@ -559,7 +559,7 @@ test('### deleteAll Call - Ok Case ###', function (t) {
 
   const o = oMocks({ getSpy, findSpy, removeSpy, saveSpy }, { saveResult: { data: {} }, getResult: { data: [{}, {}, {}] } })
 
-  OData(o)('Categories').deleteAll()
+  OData(o, { url: 'http://localhost/Categories' })('Categories').deleteAll()
     .then((result) => {
       t.ok(result)
       t.type(result.affectedRows, 'number')
@@ -587,7 +587,7 @@ test('### execute Call - Error Case ###', function (t) {
 
   const o = oMocks({ getSpy }, { fail: true })
 
-  OData(o)('Categories').execute()
+  OData(o, { url: 'http://localhost/Categories' })('Categories').execute()
     .then(t.threw)
     .catch((err) => {
       t.ok(err)
@@ -605,7 +605,7 @@ test('### execute Call - Ok Case ###', function (t) {
 
   const o = oMocks({ getSpy }, { getResult: { data: {} } })
 
-  OData(o)('Categories').execute()
+  OData(o, { url: 'http://localhost/Categories' })('Categories').execute()
     .then((result) => {
       t.ok(result)
 
@@ -630,7 +630,7 @@ test('### create Call - Error Case ###', function (t) {
 
   const o = oMocks({ saveSpy, postSpy }, { fail: true })
 
-  OData(o)('Categories').create({})
+  OData(o, { url: 'http://localhost/Categories' })('Categories').create({})
     .then(t.threw)
     .catch((err) => {
       t.ok(err)
@@ -668,7 +668,7 @@ test('### create Call - Ok Case ###', function (t) {
 
   const o = oMocks({ saveSpy, postSpy }, { saveResult: { data: {} } })
 
-  OData(o)('Categories').create({})
+  OData(o, { url: 'http://localhost/Categories' })('Categories').create({})
     .then((result) => {
       t.ok(result)
       t.ok(result.data)
@@ -695,7 +695,7 @@ test('### count Call - Error Case ###', function (t) {
     return Promise.reject(new Error('Fail'))
   })
 
-  OData()('Categories').count()
+  OData(null, { url: 'http://localhost/Categories' })('Categories').count()
     .then(t.threw)
     .catch((err) => {
       t.ok(err)
@@ -715,7 +715,7 @@ test('### count Call - Ok Case ###', function (t) {
     return Promise.resolve(6)
   })
 
-  OData()('Categories').count()
+  OData(null, { url: 'http://localhost/Categories' })('Categories').count()
     .then((result) => {
       t.ok(result)
       t.type(result, 'number')
@@ -749,7 +749,7 @@ test('### update Call - Error Case ###', function (t) {
 
   const o = oMocks({ findSpy, putSpy, saveSpy }, { fail: true })
 
-  OData(o)('Categories').update({})
+  OData(o, { url: 'http://localhost/Categories' })('Categories').update({})
     .then(t.threw)
     .catch((err) => {
       t.ok(err)
@@ -817,7 +817,7 @@ test('### update Call - Ok Case ###', function (t) {
 
   const o = oMocks({}, { getResult: { data: {} }, saveResult: { data: {} } })
 
-  OData(o)('Products').update(changedFields.Category, changedFields, {})
+  OData(o, { url: 'http://localhost/Products' })('Products').update(changedFields.Category, changedFields, {})
     .then((result) => {
       t.ok(result)
       t.type(result.affectedRows, 'number')

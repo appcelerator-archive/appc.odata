@@ -2,15 +2,16 @@
 
 const R = require('ramda')
 const async = require('async')
-const config = require('../conf/default')
 const utils = require('./utils')
 const modelUtils = require('./modelUtils')
 const requestUtils = require('./requestUtils')
 const translateUtils = require('./translateWhereToQuery')
 
 var o
-module.exports = (sdk) => {
+var config
+module.exports = (sdk, connConfig) => {
   o = sdk
+  config = connConfig
   return (name) => new OData(name)
 }
 
@@ -21,7 +22,7 @@ module.exports = (sdk) => {
  * @returns
  */
 function OData (name) {
-  const url = config.connectors['appc.odata'].url
+  const url = config.url
   this.url = url[url.length - 1] === '/' ? url : `${url}/`
   this.name = name
 
