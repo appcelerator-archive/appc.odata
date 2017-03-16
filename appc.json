@@ -1,6 +1,10 @@
 {
 	"type":"connector",
 	"group":"arrow",
+	"access": "public",
+	"assets": {
+		"small_logo": "docs/logo.png"
+	},
 	"dependencies": {
 	}
 }

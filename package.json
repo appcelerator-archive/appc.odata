@@ -1,7 +1,7 @@
 {
   "name": "appc.odata",
-  "description": "OData Connector",
-  "version": "1.0.0",
+  "description": "OData connector",
+  "version": "1.0.2",
   "author": "Vladimir Trifonov",
   "license": "",
   "framework": "none",
@@ -12,7 +12,7 @@
   "repository": {},
   "private": true,
   "dependencies": {
-    "appc-connector-utils": "https://github.com/appcelerator/appc-connector-utils.git",
+    "appc-connector-utils": "0.0.9",
     "async": "2.1.5",
     "fast-xml-parser": "2.3.0",
     "joi": "10.2.2",
