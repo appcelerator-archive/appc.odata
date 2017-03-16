@@ -10,7 +10,6 @@ const server = require('../../server')
 const requestUtils = require('../../../utils/requestUtils')
 const modelUtils = require('../../../utils/modelUtils')
 const utils = require('../../../utils/utils')
-const translateWhereToQuery = require('../../../utils/translateWhereToQuery')
 var arrow
 
 const OData = require('../../../utils/OData')
@@ -339,7 +338,7 @@ test('### query Call - Ok Case with option $eq ###', function (t) {
     return true
   })
 
-  const translateWhereToQueryStub = sinon.stub(translateWhereToQuery, 'translateWhereToQuery', (where, str, key) => {
+  const translateWhereToQueryStub = sinon.stub(utils, 'translateWhereToQuery', (where, str, key) => {
     return `(${key} eq ${where[key].$eq})`
   })
 
@@ -403,7 +402,7 @@ test('### query Call - Ok Case with option $gt ###', function (t) {
     return true
   })
 
-  const translateWhereToQueryStub = sinon.stub(translateWhereToQuery, 'translateWhereToQuery', (where, str, key) => {
+  const translateWhereToQueryStub = sinon.stub(utils, 'translateWhereToQuery', (where, str, key) => {
     return `(${key} gt ${where[key].$gt})`
   })
 

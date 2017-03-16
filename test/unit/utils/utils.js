@@ -1,7 +1,7 @@
 'use strict'
 
 const test = require('tap').test
-
+const sinon = require('sinon')
 const utils = require('../../../utils/utils')
 
 test('### Should transform Object to array ###', function (t) {
@@ -48,5 +48,199 @@ test('### Should resolve number value ###', function (t) {
 
   t.ok(val)
   t.equal(val, '22')
+  t.end()
+})
+
+test('### Should returns string query ###', function (t) {
+  const resolveValueStub = sinon.stub(utils, 'resolveValue', (value) => {
+    return typeof value === 'string' ? `'${value}'` : `${value}`
+  })
+
+  const str = ''
+  const key = 'like'
+  const where = {
+    like: {
+      $like: 'TestLike'
+    }
+  }
+  const queryString = `(substringof('${(where['like'].$like)}', ${key})`
+
+  var resultQuery = utils.translateWhereToQuery(where, str, key)
+
+  t.equal(resultQuery, queryString)
+  t.ok(resolveValueStub.calledOnce)
+  resolveValueStub.restore()
+  t.end()
+})
+
+test('### Should returns string query ###', function (t) {
+  const resolveValueStub = sinon.stub(utils, 'resolveValue', (value) => {
+    return typeof value === 'string' ? `'${value}'` : `${value}`
+  })
+
+  const str = ''
+  const key = 'Value'
+  const where = {
+    Value: {
+      $lt: 'TestLt'
+    }
+  }
+  const queryString = `(${key} lt '${(where[key].$lt)}')`
+
+  var resultQuery = utils.translateWhereToQuery(where, str, key)
+
+  t.equal(resultQuery, queryString)
+  t.ok(resolveValueStub.calledOnce)
+  resolveValueStub.restore()
+  t.end()
+})
+
+test('### Should returns string query ###', function (t) {
+  const resolveValueStub = sinon.stub(utils, 'resolveValue', (value) => {
+    return typeof value === 'string' ? `'${value}'` : `${value}`
+  })
+
+  const str = ''
+  const key = 'Value'
+  const where = {
+    Value: {
+      $lte: 'TestLte'
+    }
+  }
+  const queryString = `(${key} le '${(where[key].$lte)}')`
+
+  var resultQuery = utils.translateWhereToQuery(where, str, key)
+
+  t.equal(resultQuery, queryString)
+  t.ok(resolveValueStub.calledOnce)
+  resolveValueStub.restore()
+  t.end()
+})
+
+test('### Should returns string query ###', function (t) {
+  const resolveValueStub = sinon.stub(utils, 'resolveValue', (value) => {
+    return typeof value === 'string' ? `'${value}'` : `${value}`
+  })
+
+  const str = ''
+  const key = 'Value'
+  const where = {
+    Value: {
+      $gt: 'TestGt'
+    }
+  }
+  const queryString = `(${key} gt '${(where[key].$gt)}')`
+
+  var resultQuery = utils.translateWhereToQuery(where, str, key)
+
+  t.equal(resultQuery, queryString)
+  t.ok(resolveValueStub.calledOnce)
+  resolveValueStub.restore()
+  t.end()
+})
+
+test('### Should returns string query ###', function (t) {
+  const resolveValueStub = sinon.stub(utils, 'resolveValue', (value) => {
+    return typeof value === 'string' ? `'${value}'` : `${value}`
+  })
+
+  const str = ''
+  const key = 'Value'
+  const where = {
+    Value: {
+      $gte: 'TestGte'
+    }
+  }
+  const queryString = `(${key} ge '${(where[key].$gte)}')`
+
+  var resultQuery = utils.translateWhereToQuery(where, str, key)
+
+  t.equal(resultQuery, queryString)
+  t.ok(resolveValueStub.calledOnce)
+  resolveValueStub.restore()
+  t.end()
+})
+
+test('### Should returns string query ###', function (t) {
+  const resolveValueStub = sinon.stub(utils, 'resolveValue', (value) => {
+    return typeof value === 'string' ? `'${value}'` : `${value}`
+  })
+
+  const str = ''
+  const key = 'Value'
+  const where = {
+    Value: {
+      $ne: 'TestNe'
+    }
+  }
+  const queryString = `(${key} ne '${(where[key].$ne)}')`
+
+  var resultQuery = utils.translateWhereToQuery(where, str, key)
+
+  t.equal(resultQuery, queryString)
+  t.ok(resolveValueStub.calledOnce)
+  resolveValueStub.restore()
+  t.end()
+})
+
+test('### Should returns string query ###', function (t) {
+  const resolveValueStub = sinon.stub(utils, 'resolveValue', (value) => {
+    return typeof value === 'string' ? `'${value}'` : `${value}`
+  })
+
+  const str = ''
+  const key = 'Value'
+  const where = {
+    Value: {
+      $eq: 'TestEq'
+    }
+  }
+  const queryString = `(${key} eq '${(where[key].$eq)}')`
+
+  var resultQuery = utils.translateWhereToQuery(where, str, key)
+
+  t.equal(resultQuery, queryString)
+  t.ok(resolveValueStub.calledOnce)
+  resolveValueStub.restore()
+  t.end()
+})
+
+test('### Should returns string query ###', function (t) {
+  const resolveValueStub = sinon.stub(utils, 'resolveValue', (value) => {
+    return typeof value === 'string' ? `'${value}'` : `${value}`
+  })
+
+  const str = ''
+  const key = 'Value'
+  const where = {
+    Value: 'TestString'
+  }
+  const queryString = `(${key} eq '${(where[key])}')`
+
+  var resultQuery = utils.translateWhereToQuery(where, str, key)
+
+  t.equal(resultQuery, queryString)
+  t.ok(resolveValueStub.calledOnce)
+  resolveValueStub.restore()
+  t.end()
+})
+
+test('### Should returns string query ###', function (t) {
+  const resolveValueStub = sinon.stub(utils, 'resolveValue', (value) => {
+    return typeof value === 'string' ? `'${value}'` : `${value}`
+  })
+
+  const str = 'nonEmptyString'
+  const key = 'Value'
+  const where = {
+    Value: 'TestString'
+  }
+  const queryString = `${str} and (${key} eq '${(where[key])}')`
+
+  var resultQuery = utils.translateWhereToQuery(where, str, key)
+
+  t.equal(resultQuery, queryString)
+  t.ok(resolveValueStub.calledOnce)
+  resolveValueStub.restore()
   t.end()
 })
