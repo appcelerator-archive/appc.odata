@@ -465,7 +465,7 @@ OData.prototype._getData = function (res) {
 }
 
 /**
- * Delte odata items by primary keys
+ * Delete odata items by primary keys
  *
  * @param {Array} ids
  * @returns {Promise}
