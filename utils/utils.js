@@ -63,3 +63,34 @@ module.exports.mixin = function (propName, src) {
 module.exports.resolveValue = function (value) {
   return typeof value === 'string' ? `'${value}'` : `${value}`
 }
+
+/**
+ * Translates a "where" object in to the relevant portion of a OData Query.
+ * @param {Object} where
+ * @param {string} str
+ * @param {string} key
+ * @returns {string}
+ */
+module.exports.translateWhereToQuery = function (where, str, key) {
+  str += str === '' ? '' : ' and '
+
+  if (where[key] && where[key].$like) {
+    str += `(substringof(${this.resolveValue(where[key].$like)}, ${key})`
+  } else if (where[key] && where[key].$lt) {
+    str += `(${key} lt ${this.resolveValue(where[key].$lt)})`
+  } else if (where[key] && where[key].$lte) {
+    str += `(${key} le ${this.resolveValue(where[key].$lte)})`
+  } else if (where[key] && where[key].$gt) {
+    str += `(${key} gt ${this.resolveValue(where[key].$gt)})`
+  } else if (where[key] && where[key].$gte) {
+    str += `(${key} ge ${this.resolveValue(where[key].$gte)})`
+  } else if (where[key] && where[key].$ne) {
+    str += `(${key} ne ${this.resolveValue(where[key].$ne)})`
+  } else if ((where[key] && where[key].$eq)) {
+    str += `(${key} eq ${this.resolveValue(where[key].$eq)})`
+  } else if (typeof where[key] === 'string') {
+    str += `(${key} eq ${this.resolveValue(where[key])})`
+  }
+  return str
+}
+
