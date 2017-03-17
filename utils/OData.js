@@ -5,7 +5,6 @@ const async = require('async')
 const utils = require('./utils')
 const modelUtils = require('./modelUtils')
 const requestUtils = require('./requestUtils')
-const translateUtils = require('./translateWhereToQuery')
 
 var o
 var config
@@ -560,7 +559,7 @@ OData.prototype._where = function (where, inst) {
   }
 
   var filter = Object.keys(where).reduce((str, key) => {
-    return translateUtils.translateWhereToQuery(where, str, key)
+    return utils.translateWhereToQuery(where, str, key)
   }, '')
 
   if (filter !== '') {
