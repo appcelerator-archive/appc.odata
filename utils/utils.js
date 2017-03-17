@@ -93,4 +93,3 @@ module.exports.translateWhereToQuery = function (where, str, key) {
   }
   return str
 }
-
