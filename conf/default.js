@@ -63,11 +63,7 @@ module.exports = {
     // set to true to allow the admin website to be accessed in production. however, you will still need a
     // login unless disableAuth is false. if you set this to false, the admin website will not be enabled
     // when in production (still respects enabled above)
-    enableAdminInProduction: false,
-    // set the email addresses you want to be able to log in to the admin website
-    validEmails: ['vtrifonov@axway.com'],
-    // set the organization ids you want to be able to log in to the admin website
-    validOrgs: [100094705]
+    enableAdminInProduction: false
   },
 
   // you can generally leave this as-is since it is generated for each new project you created.
