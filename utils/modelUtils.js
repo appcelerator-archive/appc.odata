@@ -149,19 +149,6 @@ const getRefFields = module.exports.getRefFields = function (modelName) {
 }
 
 /**
- * Returns the name of the primary key
- * of the model which is related to specified
- * navigation property by some other model
- *
- * @param {string} modelName
- * @param {string} refField
- * @returns {string}
- */
-module.exports.getModelKeyFieldName = function (modelName, refField) {
-  return getPKName()
-}
-
-/**
  * Returns model's field original type if exists
  *
  * @param {string} modelName

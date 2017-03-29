@@ -279,15 +279,6 @@ test('### Should returns the ref fields of a model ###', sinon.test(function (t)
 }))
 
 test('### Should returns ref pk field name ###', sinon.test(function (t) {
-  const pkName = modelUtils.getModelKeyFieldName()
-
-  t.ok(pkName)
-  t.equal(pkName, 'id')
-
-  t.end()
-}))
-
-test('### Should returns ref pk field name ###', sinon.test(function (t) {
   const getModelStub = this.stub()
   const modelStub = {
     fields: {

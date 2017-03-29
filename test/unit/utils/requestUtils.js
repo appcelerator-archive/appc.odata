@@ -49,10 +49,6 @@ test('### Should generate expand fields string ###', sinon.test(function (t) {
     return 'Person'
   })
 
-  this.stub(modelUtils, 'getModelKeyFieldName', (modelName, prop) => {
-    return `name`
-  })
-
   const getModelStub = this.stub()
   const modelStub = {
     fields: {
