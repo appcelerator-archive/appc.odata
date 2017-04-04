@@ -45,6 +45,10 @@ test('### findAll Call - Error Case ###', function (t) {
     return Promise.resolve(6)
   })
 
+  const hasRefFieldsStub = sinon.stub(modelUtils, 'hasRefFields', (modelName) => {
+    return false
+  })
+
   const skipSpy = sinon.spy()
   const getSpy = sinon.spy()
   const expandSpy = sinon.spy()
@@ -60,11 +64,13 @@ test('### findAll Call - Error Case ###', function (t) {
 
       t.ok(skipSpy.calledOnce)
       t.ok(getSpy.calledOnce)
-      t.ok(expandSpy.calledOnce)
+      t.ok(expandSpy.notCalled)
 
       t.ok(generateCountRequestStub.calledOnce)
+      t.ok(hasRefFieldsStub.calledOnce)
 
       generateCountRequestStub.restore()
+      hasRefFieldsStub.restore()
 
       t.end()
     })
@@ -74,6 +80,11 @@ test('### findAll Call - Ok Case ###', function (t) {
   const skipSpy = sinon.spy()
   const getSpy = sinon.spy()
   const expandSpy = sinon.spy()
+
+  const hasRefFieldsStub = sinon.stub(modelUtils, 'hasRefFields', (modelName) => {
+    const Model = arrow.getModel(modelName)
+    return Model.metadata && Model.metadata['appc.odata'] ? Model.metadata['appc.odata'].refFields : false
+  })
 
   const generateCountRequestStub = sinon.stub(requestUtils, 'generateCountRequest', (url, modelName) => {
     return Promise.resolve(6)
@@ -89,10 +100,12 @@ test('### findAll Call - Ok Case ###', function (t) {
 
       t.ok(skipSpy.calledTwice)
       t.ok(getSpy.calledTwice)
-      t.ok(expandSpy.calledTwice)
+      t.ok(expandSpy.notCalled)
 
       t.ok(generateCountRequestStub.calledOnce)
+      t.ok(hasRefFieldsStub.calledTwice)
 
+      hasRefFieldsStub.restore()
       generateCountRequestStub.restore()
 
       t.end()
@@ -113,6 +126,10 @@ test('### findByID Call - Error Case ###', function (t) {
     return true
   })
 
+  const resolveKeyStub = sinon.stub(modelUtils, 'resolveKey', (name, key) => {
+    return `${key}`
+  })
+
   const o = oMocks({ findSpy, getSpy, expandSpy }, { fail: true })
 
   OData(o, { url: 'http://localhost/Categories' })('Categories').findByID(123)
@@ -128,8 +145,10 @@ test('### findByID Call - Error Case ###', function (t) {
 
       t.ok(generateExpandFieldsStringStub.calledOnce)
       t.ok(hasRefFieldslStub.calledOnce)
+      t.ok(resolveKeyStub.calledOnce)
 
       generateExpandFieldsStringStub.restore()
+      resolveKeyStub.restore()
       hasRefFieldslStub.restore()
 
       t.end()
@@ -149,6 +168,10 @@ test('### findByID Call - Ok Case ###', function (t) {
     return true
   })
 
+  const resolveKeyStub = sinon.stub(modelUtils, 'resolveKey', (name, key) => {
+    return `${key}`
+  })
+
   const o = oMocks({ findSpy, getSpy, expandSpy }, { getResult: { data: {} } })
 
   OData(o, { url: 'http://localhost/Categories' })('Categories').findByID(123)
@@ -164,8 +187,10 @@ test('### findByID Call - Ok Case ###', function (t) {
 
       t.ok(generateExpandFieldsStringStub.calledOnce)
       t.ok(hasRefFieldslStub.calledOnce)
+      t.ok(resolveKeyStub.calledOnce)
 
       generateExpandFieldsStringStub.restore()
+      resolveKeyStub.restore()
       hasRefFieldslStub.restore()
 
       t.end()
@@ -186,7 +211,7 @@ test('### distinct Call - Error Case ###', function (t) {
     return true
   })
 
-  const getPKNameStub = sinon.stub(modelUtils, 'getPKName', (name, key) => {
+  const getPKNameStub = sinon.stub(modelUtils, 'getPKName', (name) => {
     return `id`
   })
 
@@ -228,7 +253,7 @@ test('### distinct Call - Ok Case ###', function (t) {
     return true
   })
 
-  const getPKNameStub = sinon.stub(modelUtils, 'getPKName', (name, key) => {
+  const getPKNameStub = sinon.stub(modelUtils, 'getPKName', (name) => {
     return `id`
   })
 
@@ -342,6 +367,10 @@ test('### query Call - Ok Case with option $eq ###', function (t) {
     return `(${key} eq ${where[key].$eq})`
   })
 
+  const getPKNameStub = sinon.stub(modelUtils, 'getPKName', (name) => {
+    return 'id'
+  })
+
   const o = oMocks({ getSpy, expandSpy, filterSpy, orderBySpy, selectSpy, skipSpy, takeSpy }, { getResult: { data: {} } })
 
   const options = {
@@ -374,10 +403,12 @@ test('### query Call - Ok Case with option $eq ###', function (t) {
 
       t.ok(generateExpandFieldsStringStub.calledOnce)
       t.ok(hasRefFieldslStub.calledOnce)
+      t.ok(getPKNameStub.calledOnce)
       t.ok(translateWhereToQueryStub.calledOnce)
 
       generateExpandFieldsStringStub.restore()
       hasRefFieldslStub.restore()
+      getPKNameStub.restore()
       translateWhereToQueryStub.restore()
 
       t.end()
@@ -404,6 +435,10 @@ test('### query Call - Ok Case with option $gt ###', function (t) {
 
   const translateWhereToQueryStub = sinon.stub(utils, 'translateWhereToQuery', (where, str, key) => {
     return `(${key} gt ${where[key].$gt})`
+  })
+
+  const getPKNameStub = sinon.stub(modelUtils, 'getPKName', (name) => {
+    return 'id'
   })
 
   const o = oMocks({ getSpy, expandSpy, filterSpy, orderBySpy, selectSpy, skipSpy, takeSpy }, { getResult: { data: {} } })
@@ -441,10 +476,12 @@ test('### query Call - Ok Case with option $gt ###', function (t) {
 
       t.ok(generateExpandFieldsStringStub.calledOnce)
       t.ok(hasRefFieldslStub.calledOnce)
+      t.ok(getPKNameStub.calledOnce)
       t.ok(translateWhereToQueryStub.calledOnce)
 
       generateExpandFieldsStringStub.restore()
       hasRefFieldslStub.restore()
+      getPKNameStub.restore()
       translateWhereToQueryStub.restore()
 
       t.end()
@@ -798,10 +835,6 @@ test('### update Call - Ok Case ###', function (t) {
     return [`${obj}`]
   })
 
-  const getRefModelStub = sinon.stub(modelUtils, 'getRefModel', (name, refField) => {
-    return 'Categories'
-  })
-
   const getPKStub = sinon.stub(modelUtils, 'getPK', (name, key) => {
     return `${key}`
   })
@@ -814,6 +847,11 @@ test('### update Call - Ok Case ###', function (t) {
     return {}
   })
 
+  const hasRefFieldsStub = sinon.stub(modelUtils, 'hasRefFields', (modelName) => {
+    const Model = arrow.getModel(modelName)
+    return Model.metadata && Model.metadata['appc.odata'] ? Model.metadata['appc.odata'].refFields : false
+  })
+
   const o = oMocks({}, { getResult: { data: {} }, saveResult: { data: {} } })
 
   OData(o, { url: 'http://localhost/Products' })('Products').update(changedFields.Category, changedFields, {})
@@ -824,17 +862,17 @@ test('### update Call - Ok Case ###', function (t) {
       t.ok(getMainFieldsStub.calledOnce)
       t.ok(getRefFieldsStub.calledTwice)
       t.ok(resolveKeyStub.calledTwice)
-      t.ok(getRefModelStub.calledTwice)
       t.ok(getPKStub.calledTwice)
       t.equal(objectToArrayStub.callCount, 4)
       t.ok(generateAddRefRequestStub.calledOnce)
       t.ok(generateRemoveRefRequestStub.calledOnce)
+      t.ok(hasRefFieldsStub.calledOnce)
 
       getMainFieldsStub.restore()
       getRefFieldsStub.restore()
       resolveKeyStub.restore()
-      getRefModelStub.restore()
       getPKStub.restore()
+      hasRefFieldsStub.restore()
       objectToArrayStub.restore()
       generateAddRefRequestStub.restore()
       generateRemoveRefRequestStub.restore()
