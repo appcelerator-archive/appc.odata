@@ -60,7 +60,8 @@ module.exports.hasRefFields = function (modelName) {
  * @returns {string}
  */
 const getPKName = module.exports.getPKName = function (name) {
-  return 'id'
+  const Model = Arrow.getModel(name)
+  return Model.metadata && Model.metadata.primarykey ? Model.metadata.primarykey : 'id'
 }
 
 /**

@@ -9,8 +9,13 @@ const modelUtils = require('../../../utils/modelUtils')
 test('### Should create model from payload ###', sinon.test(function (t) {
   const Model = {
     instance: this.stub(),
-    name: 'test'
+    name: 'test',
+    metadata: {}
   }
+  const getModelStub = this.stub()
+  getModelStub.returns(Model)
+
+  this.stub(Arrow, 'getModel', getModelStub)
   const itemStub = {
     id: 1,
     setPrimaryKey: this.spy()
@@ -58,8 +63,13 @@ test('### Should get proper super model for models ###', sinon.test(function (t)
 test('### Should create collection from payload ###', sinon.test(function (t) {
   const Model = {
     instance: this.stub(),
-    name: 'test'
+    name: 'test',
+    metadata: {}
   }
+  const getModelStub = this.stub()
+  getModelStub.returns(Model)
+  this.stub(Arrow, 'getModel', getModelStub)
+
   const setPrimaryKeyStub = this.spy()
   const itemsStub = [{
     id: 1,
@@ -131,7 +141,18 @@ test('### Should returns false if the model hasn\'t navigation properties ###', 
 }))
 
 test('### Should returns pk field name ###', sinon.test(function (t) {
-  const pkName = modelUtils.getPKName()
+  const getModelStub = this.stub()
+  const modelStub = {
+    name: 'test',
+    metadata: {
+      primaryKey: 'id'
+    }
+  }
+  getModelStub.returns(modelStub)
+
+  this.stub(Arrow, 'getModel', getModelStub)
+
+  const pkName = modelUtils.getPKName(modelStub.name)
 
   t.ok(pkName)
   t.equal(pkName, 'id')
@@ -140,7 +161,18 @@ test('### Should returns pk field name ###', sinon.test(function (t) {
 }))
 
 test('### Should returns true if has pk column ###', sinon.test(function (t) {
-  const hasPKColumn = modelUtils.hasPKColumn()
+  const getModelStub = this.stub()
+  const modelStub = {
+    name: 'test',
+    metadata: {
+      primaryKey: 'id'
+    }
+  }
+  getModelStub.returns(modelStub)
+
+  this.stub(Arrow, 'getModel', getModelStub)
+
+  const hasPKColumn = modelUtils.hasPKColumn(modelStub.name)
 
   t.ok(hasPKColumn)
 
@@ -152,6 +184,16 @@ test('### Should returns true if the pk of the item is being updated ###', sinon
     getChangedFields: sinon.stub()
   }
   item.getChangedFields.returns({ id: 5 })
+  const getModelStub = this.stub()
+  const modelStub = {
+    name: 'test',
+    metadata: {
+      primaryKey: 'id'
+    }
+  }
+  getModelStub.returns(modelStub)
+
+  this.stub(Arrow, 'getModel', getModelStub)
 
   const isPKUpdated = modelUtils.isPKUpdated('test', item)
 
@@ -164,6 +206,17 @@ test('### Should return false if the pk of the item is not updated and getChange
   var item = {
     getChangedFields: sinon.stub()
   }
+  const getModelStub = this.stub()
+  const modelStub = {
+    name: 'test',
+    metadata: {
+      primaryKey: 'id'
+    }
+  }
+  getModelStub.returns(modelStub)
+
+  this.stub(Arrow, 'getModel', getModelStub)
+
   item.getChangedFields.returns()
 
   const isPKUpdated = modelUtils.isPKUpdated('test', item)
@@ -177,6 +230,16 @@ test('### Should return pk of the item when getChangedFields is not a function #
   var item = {
     id: 50
   }
+  const getModelStub = this.stub()
+  const modelStub = {
+    name: 'test',
+    metadata: {
+      primaryKey: 'id'
+    }
+  }
+  getModelStub.returns(modelStub)
+
+  this.stub(Arrow, 'getModel', getModelStub)
 
   const isPKUpdated = modelUtils.isPKUpdated('test', item)
 
@@ -191,6 +254,16 @@ test('### Should returns true if the pk of the item is not being updated ###', s
     getChangedFields: sinon.stub()
   }
   item.getChangedFields.returns({ count: 5 })
+  const getModelStub = this.stub()
+  const modelStub = {
+    name: 'test',
+    metadata: {
+      primaryKey: 'id'
+    }
+  }
+  getModelStub.returns(modelStub)
+
+  this.stub(Arrow, 'getModel', getModelStub)
 
   const isPKUpdated = modelUtils.isPKUpdated('test', item)
 
@@ -203,6 +276,16 @@ test('### Should returns pk value ###', sinon.test(function (t) {
   var item = {
     id: 4
   }
+  const getModelStub = this.stub()
+  const modelStub = {
+    name: 'test',
+    metadata: {
+      primaryKey: 'id'
+    }
+  }
+  getModelStub.returns(modelStub)
+
+  this.stub(Arrow, 'getModel', getModelStub)
 
   const pk = modelUtils.getPK('test', item)
 
@@ -214,6 +297,16 @@ test('### Should returns pk value ###', sinon.test(function (t) {
 
 test('### Should returns pk value ###', sinon.test(function (t) {
   var item = 4
+  const getModelStub = this.stub()
+  const modelStub = {
+    name: 'test',
+    metadata: {
+      primaryKey: 'id'
+    }
+  }
+  getModelStub.returns(modelStub)
+
+  this.stub(Arrow, 'getModel', getModelStub)
 
   const pk = modelUtils.getPK('test', item)
 
