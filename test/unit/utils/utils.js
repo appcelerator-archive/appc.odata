@@ -244,3 +244,24 @@ test('### Should returns string query ###', function (t) {
   resolveValueStub.restore()
   t.end()
 })
+
+test('### getMainUrl should return correct string ###', function (t) {
+  const url = 'service/$metadata'
+  var mainUrl = utils.getMainUrl(url)
+  t.equals(mainUrl, 'service/')
+  t.end()
+})
+
+test('### getMainUrl should return correct string ###', function (t) {
+  const url = 'service/'
+  var mainUrl = utils.getMainUrl(url)
+  t.equals(mainUrl, 'service/')
+  t.end()
+})
+
+test('### getMainUrl should return correct string ###', function (t) {
+  const url = 'service'
+  var mainUrl = utils.getMainUrl(url)
+  t.equals(mainUrl, 'service/')
+  t.end()
+})
