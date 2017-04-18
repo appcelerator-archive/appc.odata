@@ -22,7 +22,7 @@ module.exports = (sdk, connConfig) => {
  */
 function OData (name) {
   const url = config.url
-  this.url = url[url.length - 1] === '/' ? url : `${url}/`
+  this.url = utils.getMainUrl(url)
   this.name = name
 
   return this

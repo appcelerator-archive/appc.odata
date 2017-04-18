@@ -7,6 +7,11 @@ const fastXmlParser = require('fast-xml-parser')
 
 const txtSchemaXML = require('../../../txtSchemaXML')
 const fetchSchema = require('../../../../lib/schema/fetchSchema').fetchSchema
+const utils = require('../../../../utils/utils')
+
+const getMainUrlStub = sinon.stub(utils, 'getMainUrl', (url) => {
+  return 'localhost'
+})
 
 test('### Should returns no schema ###', sinon.test(function (t) {
   const cbSpy = this.spy()
@@ -22,6 +27,9 @@ test('### Should returns no schema ###', sinon.test(function (t) {
   }, cbSpy)
 
   t.notOk(schema)
+  t.ok(getMainUrlStub.calledOnce)
+
+  getMainUrlStub.reset()
   t.end()
 }))
 
@@ -43,6 +51,9 @@ test('### Should returns schema ###', sinon.test(function (t) {
   }, cbSpy)
 
   t.ok(cbSpy.calledOnce)
+  t.ok(getMainUrlStub.calledOnce)
+
+  getMainUrlStub.reset()
   t.end()
 }))
 
@@ -61,6 +72,9 @@ test('### Should returns schema ###', sinon.test(function (t) {
 
   t.ok(cbErrorSpy.calledOnce)
   t.ok(cbErrorSpy.calledWith('Error'))
+  t.ok(getMainUrlStub.calledOnce)
+
+  getMainUrlStub.reset()
   t.end()
 }))
 
@@ -80,6 +94,9 @@ test('### Should returns error ###', sinon.test(function (t) {
 
   t.ok(cbSpy.calledOnce)
   t.ok(cbSpy.calledWith({ message: 'Fail' }))
+  t.ok(getMainUrlStub.calledOnce)
+
+  getMainUrlStub.reset()
   t.end()
 }))
 
@@ -103,5 +120,8 @@ test('### Should returns error ###', sinon.test(function (t) {
 
   t.ok(cbSpy.calledOnce)
   t.ok(cbSpy.calledWith(errObj))
+  t.ok(getMainUrlStub.calledOnce)
+
+  getMainUrlStub.reset()
   t.end()
 }))

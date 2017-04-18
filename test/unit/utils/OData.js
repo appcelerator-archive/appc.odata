@@ -14,6 +14,10 @@ var arrow
 
 const OData = require('../../../utils/OData')
 
+const getMainUrlStub = sinon.stub(utils, 'getMainUrl', (url) => {
+  return 'http://localhost/'
+})
+
 test('### Start Arrow ###', function (t) {
   server()
     .then((inst) => {
@@ -30,6 +34,9 @@ test('### Should create OData factory ###', function (t) {
   const factory = OData(null, { url: 'http://localhost' })
   t.ok(factory)
   t.type(factory, 'function')
+  t.ok(getMainUrlStub.notCalled)
+
+  getMainUrlStub.reset()
   t.end()
 })
 
@@ -37,6 +44,9 @@ test('### Should create OData instance ###', function (t) {
   const inst = OData(null, { url: 'http://localhost/Categories' })('Categories')
   t.ok(inst)
   t.type(inst, 'object')
+  t.ok(getMainUrlStub.calledOnce)
+
+  getMainUrlStub.reset()
   t.end()
 })
 
@@ -50,6 +60,10 @@ test('### findAll Call - Error Case ###', function (t) {
   const expandSpy = sinon.spy()
 
   const o = oMocks({ skipSpy, getSpy, expandSpy }, { fail: true })
+  const hasRefFieldsStub = sinon.stub(modelUtils, 'hasRefFields', (modelName) => {
+    const Model = arrow.getModel(modelName)
+    return Model.metadata && Model.metadata['appc.odata'] ? Model.metadata['appc.odata'].refFields : false
+  })
 
   OData(o, { url: 'http://localhost/Categories' })('Categories').findAll()
     .then(t.threw)
@@ -60,10 +74,14 @@ test('### findAll Call - Error Case ###', function (t) {
 
       t.ok(skipSpy.calledOnce)
       t.ok(getSpy.calledOnce)
-      t.ok(expandSpy.calledOnce)
+      t.ok(expandSpy.notCalled)
 
       t.ok(generateCountRequestStub.calledOnce)
+      t.ok(hasRefFieldsStub.calledOnce)
+      t.ok(getMainUrlStub.calledOnce)
 
+      hasRefFieldsStub.restore()
+      getMainUrlStub.reset()
       generateCountRequestStub.restore()
 
       t.end()
@@ -78,6 +96,10 @@ test('### findAll Call - Ok Case ###', function (t) {
   const generateCountRequestStub = sinon.stub(requestUtils, 'generateCountRequest', (url, modelName) => {
     return Promise.resolve(6)
   })
+  const hasRefFieldsStub = sinon.stub(modelUtils, 'hasRefFields', (modelName) => {
+    const Model = arrow.getModel(modelName)
+    return Model.metadata && Model.metadata['appc.odata'] ? Model.metadata['appc.odata'].refFields : false
+  })
 
   const o = oMocks({ skipSpy, getSpy, expandSpy }, { getResult: { data: [{}, {}, {}] } })
 
@@ -89,10 +111,14 @@ test('### findAll Call - Ok Case ###', function (t) {
 
       t.ok(skipSpy.calledTwice)
       t.ok(getSpy.calledTwice)
-      t.ok(expandSpy.calledTwice)
+      t.ok(expandSpy.notCalled)
 
       t.ok(generateCountRequestStub.calledOnce)
+      t.ok(hasRefFieldsStub.calledTwice)
+      t.ok(getMainUrlStub.calledOnce)
 
+      getMainUrlStub.reset()
+      hasRefFieldsStub.restore()
       generateCountRequestStub.restore()
 
       t.end()
@@ -112,6 +138,9 @@ test('### findByID Call - Error Case ###', function (t) {
   const hasRefFieldslStub = sinon.stub(modelUtils, 'hasRefFields', (modelName, select) => {
     return true
   })
+  const resolveKeyStub = sinon.stub(modelUtils, 'resolveKey', (name, key) => {
+    return `${key}`
+  })
 
   const o = oMocks({ findSpy, getSpy, expandSpy }, { fail: true })
 
@@ -128,7 +157,11 @@ test('### findByID Call - Error Case ###', function (t) {
 
       t.ok(generateExpandFieldsStringStub.calledOnce)
       t.ok(hasRefFieldslStub.calledOnce)
+      t.ok(resolveKeyStub.calledOnce)
+      t.ok(getMainUrlStub.calledOnce)
 
+      getMainUrlStub.reset()
+      resolveKeyStub.restore()
       generateExpandFieldsStringStub.restore()
       hasRefFieldslStub.restore()
 
@@ -148,6 +181,9 @@ test('### findByID Call - Ok Case ###', function (t) {
   const hasRefFieldslStub = sinon.stub(modelUtils, 'hasRefFields', (modelName, select) => {
     return true
   })
+  const resolveKeyStub = sinon.stub(modelUtils, 'resolveKey', (name, key) => {
+    return `${key}`
+  })
 
   const o = oMocks({ findSpy, getSpy, expandSpy }, { getResult: { data: {} } })
 
@@ -164,7 +200,11 @@ test('### findByID Call - Ok Case ###', function (t) {
 
       t.ok(generateExpandFieldsStringStub.calledOnce)
       t.ok(hasRefFieldslStub.calledOnce)
+      t.ok(resolveKeyStub.calledOnce)
+      t.ok(getMainUrlStub.calledOnce)
 
+      getMainUrlStub.reset()
+      resolveKeyStub.restore()
       generateExpandFieldsStringStub.restore()
       hasRefFieldslStub.restore()
 
@@ -206,7 +246,9 @@ test('### distinct Call - Error Case ###', function (t) {
       t.ok(generateExpandFieldsStringStub.calledOnce)
       t.ok(hasRefFieldslStub.calledOnce)
       t.ok(getPKNameStub.calledOnce)
+      t.ok(getMainUrlStub.calledOnce)
 
+      getMainUrlStub.reset()
       generateExpandFieldsStringStub.restore()
       hasRefFieldslStub.restore()
       getPKNameStub.restore()
@@ -245,7 +287,9 @@ test('### distinct Call - Ok Case ###', function (t) {
       t.ok(generateExpandFieldsStringStub.calledOnce)
       t.ok(hasRefFieldslStub.calledOnce)
       t.ok(getPKNameStub.calledOnce)
+      t.ok(getMainUrlStub.calledOnce)
 
+      getMainUrlStub.reset()
       generateExpandFieldsStringStub.restore()
       hasRefFieldslStub.restore()
       getPKNameStub.restore()
@@ -281,7 +325,9 @@ test('### query Call - Error Case ###', function (t) {
 
       t.ok(generateExpandFieldsStringStub.calledOnce)
       t.ok(hasRefFieldslStub.calledOnce)
+      t.ok(getMainUrlStub.calledOnce)
 
+      getMainUrlStub.reset()
       generateExpandFieldsStringStub.restore()
       hasRefFieldslStub.restore()
 
@@ -312,7 +358,9 @@ test('### query Call - Ok Case ###', function (t) {
 
       t.ok(generateExpandFieldsStringStub.calledOnce)
       t.ok(hasRefFieldslStub.calledOnce)
+      t.ok(getMainUrlStub.calledOnce)
 
+      getMainUrlStub.reset()
       generateExpandFieldsStringStub.restore()
       hasRefFieldslStub.restore()
 
@@ -375,7 +423,9 @@ test('### query Call - Ok Case with option $eq ###', function (t) {
       t.ok(generateExpandFieldsStringStub.calledOnce)
       t.ok(hasRefFieldslStub.calledOnce)
       t.ok(translateWhereToQueryStub.calledOnce)
+      t.ok(getMainUrlStub.calledOnce)
 
+      getMainUrlStub.reset()
       generateExpandFieldsStringStub.restore()
       hasRefFieldslStub.restore()
       translateWhereToQueryStub.restore()
@@ -442,7 +492,9 @@ test('### query Call - Ok Case with option $gt ###', function (t) {
       t.ok(generateExpandFieldsStringStub.calledOnce)
       t.ok(hasRefFieldslStub.calledOnce)
       t.ok(translateWhereToQueryStub.calledOnce)
+      t.ok(getMainUrlStub.calledOnce)
 
+      getMainUrlStub.reset()
       generateExpandFieldsStringStub.restore()
       hasRefFieldslStub.restore()
       translateWhereToQueryStub.restore()
@@ -475,7 +527,10 @@ test('### deleteOne Call - Error Case ###', function (t) {
       t.ok(removeSpy.calledOnce)
 
       t.ok(resolveKeyStub.calledOnce)
+      t.ok(getMainUrlStub.calledOnce)
 
+      getMainUrlStub.reset()
+      resolveKeyStub.restore()
       resolveKeyStub.restore()
 
       t.end()
@@ -504,7 +559,10 @@ test('### deleteOne Call - Ok Case ###', function (t) {
       t.ok(removeSpy.calledOnce)
 
       t.ok(resolveKeyStub.calledOnce)
+      t.ok(getMainUrlStub.calledOnce)
 
+      getMainUrlStub.reset()
+      resolveKeyStub.restore()
       resolveKeyStub.restore()
 
       t.end()
@@ -531,7 +589,9 @@ test('### deleteAll Call - Error Case ###', function (t) {
       t.ok(getSpy.calledOnce)
 
       t.ok(generateCountRequestStub.calledOnce)
+      t.ok(getMainUrlStub.calledOnce)
 
+      getMainUrlStub.reset()
       generateCountRequestStub.restore()
 
       t.end()
@@ -571,7 +631,9 @@ test('### deleteAll Call - Ok Case ###', function (t) {
       t.ok(generateCountRequestStub.calledOnce)
       t.ok(getPKStub.calledTwice)
       t.equal(resolveKeyStub.callCount, 6)
+      t.ok(getMainUrlStub.calledOnce)
 
+      getMainUrlStub.reset()
       generateCountRequestStub.restore()
       getPKStub.restore()
       resolveKeyStub.restore()
@@ -594,7 +656,9 @@ test('### execute Call - Error Case ###', function (t) {
       t.equal(err.message, 'Fail')
 
       t.ok(getSpy.calledOnce)
+      t.ok(getMainUrlStub.calledOnce)
 
+      getMainUrlStub.reset()
       t.end()
     })
 })
@@ -609,7 +673,9 @@ test('### execute Call - Ok Case ###', function (t) {
       t.ok(result)
 
       t.ok(getSpy.calledOnce)
+      t.ok(getMainUrlStub.calledOnce)
 
+      getMainUrlStub.reset()
       t.end()
     })
     .catch(t.threw)
@@ -641,7 +707,9 @@ test('### create Call - Error Case ###', function (t) {
 
       t.ok(getMainFieldsStub.calledOnce)
       t.ok(pickRefDataStub.calledOnce)
+      t.ok(getMainUrlStub.calledOnce)
 
+      getMainUrlStub.reset()
       getMainFieldsStub.restore()
       pickRefDataStub.restore()
 
@@ -679,7 +747,9 @@ test('### create Call - Ok Case ###', function (t) {
       t.ok(getMainFieldsStub.calledOnce)
       t.ok(pickRefDataStub.calledOnce)
       t.ok(getPKStub.calledOnce)
+      t.ok(getMainUrlStub.calledOnce)
 
+      getMainUrlStub.reset()
       getMainFieldsStub.restore()
       pickRefDataStub.restore()
       getPKStub.restore()
@@ -702,7 +772,9 @@ test('### count Call - Error Case ###', function (t) {
       t.equal(err.message, 'Fail')
 
       t.ok(generateCountRequestStub.calledOnce)
+      t.ok(getMainUrlStub.calledOnce)
 
+      getMainUrlStub.reset()
       generateCountRequestStub.restore()
 
       t.end()
@@ -721,7 +793,9 @@ test('### count Call - Ok Case ###', function (t) {
       t.equal(result, 6)
 
       t.ok(generateCountRequestStub.calledOnce)
+      t.ok(getMainUrlStub.calledOnce)
 
+      getMainUrlStub.reset()
       generateCountRequestStub.restore()
 
       t.end()
@@ -762,7 +836,9 @@ test('### update Call - Error Case ###', function (t) {
       t.ok(getMainFieldsStub.calledOnce)
       t.ok(getRefFieldsStub.calledOnce)
       t.ok(resolveKeyStub.calledOnce)
+      t.ok(getMainUrlStub.calledOnce)
 
+      getMainUrlStub.reset()
       getRefFieldsStub.restore()
       getMainFieldsStub.restore()
       resolveKeyStub.restore()
@@ -813,6 +889,10 @@ test('### update Call - Ok Case ###', function (t) {
   const generateRemoveRefRequestStub = sinon.stub(requestUtils, 'generateRemoveRefRequest', (url, modelName, key, refModel, refField, refKey) => {
     return {}
   })
+  const hasRefFieldsStub = sinon.stub(modelUtils, 'hasRefFields', (modelName) => {
+    const Model = arrow.getModel(modelName)
+    return Model.metadata && Model.metadata['appc.odata'] ? Model.metadata['appc.odata'].refFields : false
+  })
 
   const o = oMocks({}, { getResult: { data: {} }, saveResult: { data: {} } })
 
@@ -829,7 +909,10 @@ test('### update Call - Ok Case ###', function (t) {
       t.equal(objectToArrayStub.callCount, 4)
       t.ok(generateAddRefRequestStub.calledOnce)
       t.ok(generateRemoveRefRequestStub.calledOnce)
+      t.ok(hasRefFieldsStub.calledOnce)
+      t.ok(getMainUrlStub.calledOnce)
 
+      getMainUrlStub.reset()
       getMainFieldsStub.restore()
       getRefFieldsStub.restore()
       resolveKeyStub.restore()
