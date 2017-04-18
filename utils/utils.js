@@ -93,3 +93,13 @@ module.exports.translateWhereToQuery = function (where, str, key) {
   }
   return str
 }
+
+/**
+ * Gets the right url from the config
+ * @param {string} url
+ * @returns {string}
+ */
+module.exports.getMainUrl = function (url) {
+  const mainUrl = url.split('/').pop() === '$metadata' ? url.replace('$metadata', '') : url
+  return mainUrl[mainUrl.length - 1] === '/' ? mainUrl : `${mainUrl}/`
+}
