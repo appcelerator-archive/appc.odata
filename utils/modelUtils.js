@@ -60,7 +60,8 @@ module.exports.hasRefFields = function (modelName) {
  * @returns {string}
  */
 const getPKName = module.exports.getPKName = function (name) {
-  return 'id'
+  const Model = Arrow.getModel(name)
+  return Model.metadata && Model.metadata.primarykey ? Model.metadata.primarykey : 'id'
 }
 
 /**
@@ -146,19 +147,6 @@ const getRefFields = module.exports.getRefFields = function (modelName) {
   return Object.keys(Model.fields).filter(function (prop) {
     return Model.fields[prop].model
   })
-}
-
-/**
- * Returns the name of the primary key
- * of the model which is related to specified
- * navigation property by some other model
- *
- * @param {string} modelName
- * @param {string} refField
- * @returns {string}
- */
-module.exports.getModelKeyFieldName = function (modelName, refField) {
-  return getPKName()
 }
 
 /**
