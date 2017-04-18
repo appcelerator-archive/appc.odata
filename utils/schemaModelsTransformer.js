@@ -140,18 +140,26 @@ const modelTransform = R.curry(function (ns, connector, src, options, obj) {
     ? obj
     : getResource(['entityTypes', obj.EntityType || obj.Type], src)
 
+  // Basic immutable model's schema
+  var modelSchema = {
+    name: obj.Name,
+    connector,
+    metadata: {}
+  }
+
+  // check if the key has StoreGeneratedPattern
+  if (!checkPkGeneration(model)) {
+    modelSchema = addDublicate(modelSchema, model)
+  }
+
   // Arrow model's fields
   const fields = R.compose(
     R.map(generateField(src, { isForeign: false })),
     R.filter((prop) => { return prop.Name !== getPrimaryKeyName(model) })
   )(arrayToObject({ key: 'Name' }, model.Property))
 
-  // Basic immutable model's schema
-  var modelSchema = {
-    name: obj.Name,
-    connector,
-    fields
-  }
+  // Add fields to the model schema
+  modelSchema = R.assocPath(['fields'], fields, modelSchema)
 
   // Set model allowed CRUD operations
   if (actions) {
@@ -313,4 +321,39 @@ function resolveArrowModelName (src, type) {
   var matches = pattern.exec(type).filter((match) => match !== undefined)
 
   return R.prop('Name', entityTypes[matches[matches.length - 1]])
+}
+
+/**
+ * Checks if the primary key has a StoreGeneratedPattern
+ * @param {Object} model
+ *
+ */
+function checkPkGeneration (model) {
+  const pkName = getPrimaryKeyName(model)
+  const pkKeyProp = model.Property.filter(function (prop) {
+    return prop.Name === pkName
+  })
+  return R.has('StoreGeneratedPattern', pkKeyProp)
+}
+
+/**
+ * Add dublicate field for the primary key
+ * @param {Object} Model schema
+ * @param {Object} Model
+ */
+function addDublicate (modelSchema, model) {
+  const pkName = getPrimaryKeyName(model)
+  const pkKeyProp = model.Property.filter(function (prop) {
+    return prop.Name === pkName
+  })
+  const field = {
+    Name: pkName + 'ID',
+    Type: pkKeyProp[0].Type,
+    required: false
+  }
+
+  model.Property.push(field)
+  modelSchema = R.assocPath(['metadata', 'appc.odata', 'primarykey'], field.Name, modelSchema)
+
+  return modelSchema
 }

@@ -95,6 +95,11 @@ OData.prototype.distinct = function (Model, field, options) {
     options = options || {}
     const fieldSel = {}
     fieldSel[field] = 1
+    const dublicate = modelUtils.checkDublicate(this.name)
+    // check if the Model has any dublicate fields for the primary key
+    if (field === dublicate) {
+      field = modelUtils.getPKName(this.name)
+    }
     options.sel = fieldSel
 
     this.query(Model, options)
@@ -275,7 +280,8 @@ OData.prototype.count = function () {
 OData.prototype.update = function (key, changedFields, payload) {
   return new Promise((resolve, reject) => {
     const refData = this._getRefData(changedFields)
-    const promises = [this._put(key, payload)]
+    const data = this._getPayload(payload, this.name)
+    const promises = [this._put(key, data)]
 
     if (key && Object.keys(refData).length) {
       promises.push(this._updateRefs(key, refData))
@@ -301,6 +307,9 @@ OData.prototype._post = function (data) {
   return new Promise((resolve, reject) => {
     const mainFields = modelUtils.getMainFields(this.name)
     data = R.pick(mainFields, data)
+    if (modelUtils.checkDublicate(this.name)) {
+      data = this._getPayload(data, this.name)
+    }
 
     o(this._resolveUrl())
       .post(data)
@@ -590,11 +599,14 @@ OData.prototype._order = function (order, inst) {
  */
 OData.prototype._sel = function (sel, inst) {
   const pkName = modelUtils.getPKName(this.name)
-  const selFieldsNames = Object.keys(sel)
-    .filter((field) => {
-      return sel[field] === 1
-    })
-
+  var selFieldsNames = []
+  const dublicate = modelUtils.checkDublicate(this.name)
+  if (!R.has(dublicate, sel)) {
+    selFieldsNames = Object.keys(sel)
+      .filter((field) => {
+        return sel[field] === 1
+      })
+  }
   if (!R.contains(pkName, selFieldsNames)) {
     selFieldsNames.push(pkName)
   }
@@ -769,4 +781,20 @@ OData.prototype._handleNotFoundError = function (resolve, reject, notFoundRes, r
   } else {
     reject(res)
   }
+}
+
+/**
+ * Get the real data from the dublicates
+ * @param {Object} data
+ * @param {string} modelName
+ */
+OData.prototype._getPayload = function (data, modelName) {
+  // getPK
+  const pkName = modelUtils.getPKName(modelName)
+  const dublicate = modelUtils.checkDublicate(modelName)
+  if (dublicate) {
+    data[pkName] = data[dublicate]
+    delete data[dublicate]
+  }
+  return data
 }

@@ -106,9 +106,6 @@ test('### Save Call - Error Case ###', function (t) {
   const isPKUpdatedStub = sinon.stub(modelUtils, 'isPKUpdated', (modelName, values) => {
     return false
   })
-  const getPKStub = sinon.stub(modelUtils, 'getPK', (modelName, instance) => {
-    return '58b7f3c8e1674727aaf2ebf0'
-  })
 
   // create instance
   const data = {
@@ -152,14 +149,12 @@ test('### Save Call - Error Case ###', function (t) {
   t.ok(isPKUpdatedStub.calledWith('Categories'))
   t.ok(getNameStub.calledOnce)
   t.ok(getNameStub.calledWith(Model))
-  t.ok(getPKStub.calledOnce)
   t.ok(cbErrorSpy.calledOnce)
   t.ok(cbErrorSpy.calledWith(error))
 
   hasPKColumnStub.restore()
   isPKUpdatedStub.restore()
   getNameStub.restore()
-  getPKStub.restore()
   t.end()
 })
 
@@ -172,9 +167,6 @@ test('### Save Call - Ok Case ###', function (t) {
   })
   const isPKUpdatedStub = sinon.stub(modelUtils, 'isPKUpdated', (modelName, values) => {
     return false
-  })
-  const getPKStub = sinon.stub(modelUtils, 'getPK', (modelName, instance) => {
-    return data.id
   })
 
   // create instance
@@ -218,7 +210,6 @@ test('### Save Call - Ok Case ###', function (t) {
   t.ok(getODataMethodsSpy.calledOnce)
   t.ok(getODataMethodsSpy.calledWith('Categories'))
   t.ok(saveSpy.calledOnce)
-  t.ok(getPKStub.calledOnce)
   t.ok(saveSpy.calledWith(data.id, instance.getChangedFields(), instance.toJSON()))
   t.ok(cbOkSpy.calledOnce)
   t.ok(cbOkSpy.calledWith(null, instance))
@@ -226,7 +217,6 @@ test('### Save Call - Ok Case ###', function (t) {
   hasPKColumnStub.restore()
   isPKUpdatedStub.restore()
   getNameStub.restore()
-  getPKStub.restore()
   t.end()
 })
 
@@ -239,9 +229,6 @@ test('### Save Call - Ok Case with empty response ###', function (t) {
   })
   const isPKUpdatedStub = sinon.stub(modelUtils, 'isPKUpdated', (modelName, values) => {
     return false
-  })
-  const getPKStub = sinon.stub(modelUtils, 'getPK', (modelName, instance) => {
-    return data.id
   })
 
   // create instance
@@ -285,7 +272,6 @@ test('### Save Call - Ok Case with empty response ###', function (t) {
   t.ok(getODataMethodsSpy.calledOnce)
   t.ok(getODataMethodsSpy.calledWith('Categories'))
   t.ok(saveSpy.calledOnce)
-  t.ok(getPKStub.calledOnce)
   t.ok(saveSpy.calledWith(data.id, instance.getChangedFields(), instance.toJSON()))
   t.ok(cbOkSpy.calledOnce)
   t.ok(cbOkSpy.calledWith())
@@ -293,7 +279,6 @@ test('### Save Call - Ok Case with empty response ###', function (t) {
   hasPKColumnStub.restore()
   isPKUpdatedStub.restore()
   getNameStub.restore()
-  getPKStub.restore()
   t.end()
 })
 
