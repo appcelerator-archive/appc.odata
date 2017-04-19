@@ -135,19 +135,9 @@ const getPKFieldType = module.exports.getPKFieldType = function (name, key) {
  */
 module.exports.getMainFields = function (modelName) {
   const Model = Arrow.getModel(modelName)
-  const dublicate = this.checkDublicate(modelName)
-  var fields
-  if (dublicate) {
-    fields = Object.keys(Model.fields).filter(function (prop) {
-      return !Model.fields[prop].model && prop !== dublicate
-    })
-    fields.push(getPKName(Model.name))
-    return fields
-  } else {
-    return Object.keys(Model.fields).filter(function (prop) {
-      return !Model.fields[prop].model
-    })
-  }
+  return Object.keys(Model.fields).filter(function (prop) {
+    return !Model.fields[prop].model
+  })
 }
 
 /**

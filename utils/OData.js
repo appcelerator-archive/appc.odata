@@ -305,14 +305,13 @@ OData.prototype.update = function (key, changedFields, payload) {
  */
 OData.prototype._post = function (data) {
   return new Promise((resolve, reject) => {
-    const mainFields = modelUtils.getMainFields(this.name)
-    data = R.pick(mainFields, data)
+    var postData = R.pick(modelUtils.getMainFields(this.name), data)
     if (modelUtils.checkDublicate(this.name)) {
-      data = this._getPayload(data, this.name)
+      postData = this._getPayload(data, this.name)
     }
 
     o(this._resolveUrl())
-      .post(data)
+      .post(postData)
       .save((res) => {
         resolve({
           data: this._getData(res)

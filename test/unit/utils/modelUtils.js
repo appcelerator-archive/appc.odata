@@ -434,7 +434,7 @@ test('### Should returns the main fields of a model with dublicates ###', sinon.
   t.ok(mainFields)
   t.equal(mainFields.length, 2)
   t.equal(mainFields[0], 'Age')
-  t.equal(mainFields[1], 'Name')
+  t.equal(mainFields[1], 'NameID')
 
   t.end()
 }))
