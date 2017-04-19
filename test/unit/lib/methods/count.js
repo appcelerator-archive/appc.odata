@@ -39,7 +39,7 @@ test('### count Call - Error Case without options ###', function (t) {
   const Model = arrow.getModel('Categories')
 
   const error = { message: 'Cannot find' }
-  const options = { }
+  const options = {}
 
   const cbErrorSpy = sinon.spy((errorMessage, data) => { })
   const promise = sinon.stub().returnsPromise()
@@ -153,7 +153,7 @@ test('### count Call - Error Case with options ###', function (t) {
 test('### count Call - OK Case without options ###', function (t) {
   const Model = arrow.getModel('Categories')
 
-  const options = { }
+  const options = {}
   const result = 23
 
   const cbOkSpy = sinon.spy((errorMessage, data) => { })
@@ -298,6 +298,73 @@ test('### count Call - Ok Case with options and without data ###', function (t) 
   t.ok(querySpy.calledWith(Model, options))
   t.ok(cbOkSpy.calledOnce)
   t.ok(cbOkSpy.calledWith(null, 0))
+
+  validateQueryStub.restore()
+  t.end()
+})
+
+test('### count Call - Ok Case with string where ###', function (t) {
+  const Model = arrow.getModel('Categories')
+
+  const error = null
+  const options = {
+    limit: '2',
+    skip: '3',
+    where: '{"Description":{"$eq":"Drinks cat."}}'
+  }
+  const result = {
+    data: [
+      {
+        id: '58b7f3c8e1674727aaf2ebf0',
+        Description: 'Drinks cat. 1',
+        Name: 'Cat. 0',
+        Products: []
+      },
+      {
+        id: '68b7f3c8e1674727aaf2ebf0',
+        Description: 'Drinks cat. 2',
+        Name: 'Cat. 1',
+        Products: []
+      }
+    ]
+  }
+
+  const validateQueryStub = sinon.stub(
+    validationUtils,
+    'validateQuery',
+    (options) => {
+      return error
+    }
+  )
+
+  const cbOkSpy = sinon.spy((errorMessage, data) => { })
+  const promise = sinon.stub().returnsPromise()
+  promise.resolves(result)
+
+  const ODataMethods = {
+    query: (Model, options) => {
+      return promise()
+    }
+  }
+
+  const querySpy = sinon.spy(ODataMethods, 'query')
+
+  var getODataMethodsSpy = sinon.spy()
+  getODataMethodsStub = function (modelName) {
+    getODataMethodsSpy(modelName)
+    return ODataMethods
+  }
+
+  countMethod.bind(connector, Model, options, cbOkSpy)()
+
+  t.ok(validateQueryStub.calledOnce)
+  t.ok(validateQueryStub.calledWith(options))
+  t.ok(getODataMethodsSpy.calledOnce)
+  t.ok(getODataMethodsSpy.calledWith('Categories'))
+  t.ok(querySpy.calledOnce)
+  t.ok(querySpy.calledWith(Model, options))
+  t.ok(cbOkSpy.calledOnce)
+  t.ok(cbOkSpy.calledWith(null, result.data.length))
 
   validateQueryStub.restore()
   t.end()
