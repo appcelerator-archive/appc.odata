@@ -13,6 +13,10 @@ const R = require('ramda')
 const createModelFromPayload = module.exports.createModelFromPayload = function (Model, item) {
   const instance = Model.instance(item, true)
   instance.setPrimaryKey(this.getPK(getName(Model), item))
+  const dublicate = this.checkDublicate(Model.name)
+  if (dublicate) {
+    instance[dublicate] = instance.getPrimaryKey()
+  }
 
   return instance
 }
@@ -196,4 +200,13 @@ module.exports.pickRefData = function (modelName, item) {
  */
 module.exports.resolveKey = function (name, key) {
   return getPKFieldType(name, key) === 'string' ? `'${key}'` : `${key}`
+}
+
+/**
+ * Check if model has dublicate field for the primary key
+ * @param {object} modelName
+ */
+module.exports.checkDublicate = function (modelName) {
+  const Model = Arrow.getModel(modelName)
+  return Model.metadata && Model.metadata['appc.odata'] ? Model.metadata['appc.odata'].primarykey : false
 }

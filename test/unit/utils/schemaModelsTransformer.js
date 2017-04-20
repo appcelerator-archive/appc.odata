@@ -14,12 +14,14 @@ test('### Should transforms shema to models ###', sinon.test(function (t) {
   t.ok(schema.Airlines.connector)
   t.ok(schema.Airlines.fields)
   t.ok(schema.Airlines.metadata)
+  t.ok(schema.Airlines.metadata['appc.odata'].primarykey)
   t.ok(schema.Airlines.name)
 
   t.ok(schema.Airports)
   t.ok(schema.Airports.connector)
   t.ok(schema.Airports.fields)
   t.ok(schema.Airports.metadata)
+  t.ok(schema.Airports.metadata['appc.odata'].primarykey)
   t.ok(schema.Airports.name)
 
   t.ok(schema.Me)
@@ -38,6 +40,7 @@ test('### Should transforms shema to models ###', sinon.test(function (t) {
   t.ok(schema.People.connector)
   t.ok(schema.People.fields)
   t.ok(schema.People.metadata)
+  t.ok(schema.People.metadata['appc.odata'].primarykey)
   t.ok(schema.People.name)
 
   t.end()

@@ -7,6 +7,8 @@ An Arrow connector to OData.
 - [Installation](#installation)
 - [Configuration](#configuration)
 - [Usage](#usage)
+- [Auto generated keys and user defined ones](#keys)
+- [Where clause](#Where) 
 - [Service Compatibility](#service-coverage)
 - [Changelog](#changelog)
 - [Development](#development)
@@ -48,6 +50,31 @@ appc run
 ```
 
 Then open the admin ui pannel usually at http://localhost:8080/arrow to play with the available models and exposed endpoints.
+
+## Auto generated keys and user defined ones
+
+The connector handles data sources with auto generated ids and user defined ones. If your service has auto generated ids you'll see the Key of every entity as 'id'. Otherwise you'll also have a dublicate of the id. For example if your Key is 'UserName' the dublicate will be visible as 'UserNameID' and will have the same value as 'id'.  
+You can create a new record by entering the value for the Key as the dublicate. For example if we enter data: 
+```sh
+{'UserNameID': 'johndoe',
+  'Age' : 30
+}
+```
+and we have Key for the table 'UserName' this will create a record with 'UserName' johndoe and 'Age' 30. 
+
+## Where clause
+
+The connector supports queries. You can use the following: '{"Name": {"$eq": "Tom"}}' to get the record with 'Name' equal to 'Tom'.
+Full list of all supported operators :
+| Operator | Meaning              |
+|:--------:|:--------------------:|
+| $lt      | less than            |
+| $lte     | less than or equal   |
+| $gt      | greater than         |
+| $gte     | greater than or equal|
+| $ne      | not equal            |
+| $eq      | equal                |
+
 
 # Service Compatibility
 [Please read this for more information on connector versions, sdk versions and coverage](./COMPATIBILITY.md)

@@ -32,6 +32,45 @@ test('### Should create model from payload ###', sinon.test(function (t) {
   t.end()
 }))
 
+test('### Should create model from payload if there is a dublicate ###', sinon.test(function (t) {
+  const Model = {
+    instance: this.stub(),
+    name: 'test',
+    fields: {
+      Age: {},
+      NameID: {}
+    },
+    metadata: {
+      primarykey: 'Name',
+      'appc.odata': {
+        primarykey: 'NameID'
+      }
+    }
+  }
+  const getModelStub = this.stub()
+  getModelStub.returns(Model)
+
+  this.stub(Arrow, 'getModel', getModelStub)
+  const itemStub = {
+    Name: 1,
+    Age: 45,
+    setPrimaryKey: this.spy(),
+    getPrimaryKey: this.stub().returns(1)
+  }
+  Model.instance.returns(itemStub)
+
+  const instance = modelUtils.createModelFromPayload(Model, itemStub)
+
+  t.ok(instance)
+  t.ok(Model.instance.calledOnce)
+  t.ok(Model.instance.calledWith(itemStub, true))
+  t.ok(instance.setPrimaryKey.calledOnce)
+  t.ok(instance.setPrimaryKey.calledWith(1))
+  t.ok(instance.getPrimaryKey.calledOnce)
+
+  t.end()
+}))
+
 test('### Should get proper parent model for models that have _parent ###', sinon.test(function (t) {
   const Model = {
     instance: this.stub(),
@@ -202,6 +241,28 @@ test('### Should returns true if the pk of the item is being updated ###', sinon
   t.end()
 }))
 
+test('### Should returns false if the instance is not specified ###', sinon.test(function (t) {
+  var item = {
+    getChangedFields: sinon.stub()
+  }
+  item.getChangedFields.returns({ id: 5 })
+  const getModelStub = this.stub()
+  const modelStub = {
+    name: 'test',
+    metadata: {
+    }
+  }
+  getModelStub.returns(modelStub)
+
+  this.stub(Arrow, 'getModel', getModelStub)
+
+  const isPKUpdated = modelUtils.isPKUpdated('test')
+
+  t.notOk(isPKUpdated)
+
+  t.end()
+}))
+
 test('### Should return false if the pk of the item is not updated and getChangedFields is a function ###', sinon.test(function (t) {
   var item = {
     getChangedFields: sinon.stub()
@@ -348,6 +409,36 @@ test('### Should returns the main fields of a model ###', sinon.test(function (t
   t.end()
 }))
 
+test('### Should returns the main fields of a model with dublicates ###', sinon.test(function (t) {
+  const getModelStub = this.stub()
+  const modelStub = {
+    instance: this.stub(),
+    name: 'test',
+    fields: {
+      Age: {},
+      NameID: {}
+    },
+    metadata: {
+      primarykey: 'Name',
+      'appc.odata': {
+        primarykey: 'NameID'
+      }
+    }
+  }
+  getModelStub.returns(modelStub)
+
+  this.stub(Arrow, 'getModel', getModelStub)
+
+  const mainFields = modelUtils.getMainFields('test')
+
+  t.ok(mainFields)
+  t.equal(mainFields.length, 2)
+  t.equal(mainFields[0], 'Age')
+  t.equal(mainFields[1], 'NameID')
+
+  t.end()
+}))
+
 test('### Should returns the ref fields of a model ###', sinon.test(function (t) {
   const getModelStub = this.stub()
   const modelStub = {
@@ -448,5 +539,51 @@ test('### Should resolve key ###', sinon.test(function (t) {
   t.ok(resolved)
   t.equal(resolved, '5')
 
+  t.end()
+}))
+
+test('### Should check if the model has dublicate keys or not ###', sinon.test(function (t) {
+  const getModelStub = this.stub()
+  const modelStub = {
+    name: 'test',
+    fields: {
+      Age: {},
+      NameID: {}
+    },
+    metadata: {
+      primarykey: 'Name'
+    }
+  }
+  getModelStub.returns(modelStub)
+
+  this.stub(Arrow, 'getModel', getModelStub)
+  const dublicate = modelUtils.checkDublicate('test')
+
+  t.notOk(dublicate)
+  t.end()
+}))
+
+test('### Should check if the model has dublicate keys or not ###', sinon.test(function (t) {
+  const getModelStub = this.stub()
+  const modelStub = {
+    name: 'test',
+    fields: {
+      Age: {},
+      NameID: {}
+    },
+    metadata: {
+      primarykey: 'Name',
+      'appc.odata': {
+        primarykey: 'NameID'
+      }
+    }
+  }
+  getModelStub.returns(modelStub)
+
+  this.stub(Arrow, 'getModel', getModelStub)
+  const dublicate = modelUtils.checkDublicate('test')
+
+  t.ok(dublicate)
+  t.equals(dublicate, 'NameID')
   t.end()
 }))
