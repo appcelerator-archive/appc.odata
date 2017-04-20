@@ -8,7 +8,7 @@ An Arrow connector to OData.
 - [Configuration](#configuration)
 - [Usage](#usage)
 - [Auto generated keys and user defined ones](#keys)
-- [Where clouse](#Where) 
+- [Where clause](#Where) 
 - [Service Compatibility](#service-coverage)
 - [Changelog](#changelog)
 - [Development](#development)
@@ -62,7 +62,7 @@ You can create a new record by entering the value for the Key as the dublicate. 
 ```
 and we have Key for the table 'UserName' this will create a record with 'UserName' johndoe and 'Age' 30. 
 
-## Where clouse
+## Where clause
 
 The connector supports queries. You can use the following: '{"Name": {"$eq": "Tom"}}' to get the record with 'Name' equal to 'Tom'.
 Full list of all supported operators :
