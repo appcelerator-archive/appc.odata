@@ -17,7 +17,7 @@ An Arrow connector to OData.
 # Installation
 The connector works in the context of Arrow application.
 
-So first [create your Arrow application](http://docs.appcelerator.com/platform/latest/#!/guide/API_Builder_Getting_Started). 
+So first [create your Arrow application](http://docs.appcelerator.com/platform/latest/#!/guide/API_Builder_Getting_Started_Guide). 
 
 In the terminal from the root of your app install the connector with:
 
@@ -64,10 +64,15 @@ and we have Key for the table 'UserName' this will create a record with 'UserNam
 
 ## Where clause
 
-The connector supports queries. You can use the following: '{"Name": {"$eq": "Tom"}}' to get the record with 'Name' equal to 'Tom'.
+The connector supports queries. You can use the following: 
+```sh
+'{"Name": {"$eq": "Tom"}}' 
+```
+to get the record with 'Name' equal to 'Tom'.
+
 Full list of all supported operators :
 | Operator | Meaning              |
-|:--------:|:--------------------:|
+| :---:    | :---:                |
 | $lt      | less than            |
 | $lte     | less than or equal   |
 | $gt      | greater than         |
