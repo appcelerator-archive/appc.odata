@@ -89,9 +89,9 @@ module.exports = (spies, options) => {
               fail: (cb) => {
                 if (options.fail) {
                   setImmediate(() => {
-                    cb({
-                      message: 'Fail'
-                    })
+                    cb(
+                      new Error('Fail')
+                    )
                   })
                 }
               }
@@ -111,9 +111,9 @@ module.exports = (spies, options) => {
           })
         } else {
           setImmediate(() => {
-            errorCallback(500, {
-              message: 'Fail'
-            })
+            errorCallback(500,
+              new Error('Fail')
+            )
           })
         }
       })

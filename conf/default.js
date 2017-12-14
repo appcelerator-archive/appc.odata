@@ -63,7 +63,10 @@ module.exports = {
     // set to true to allow the admin website to be accessed in production. however, you will still need a
     // login unless disableAuth is false. if you set this to false, the admin website will not be enabled
     // when in production (still respects enabled above)
-    enableAdminInProduction: false
+    enableAdminInProduction: false,
+    validEmails: [
+      'mamarinov@axway.com'
+    ]
   },
 
   // you can generally leave this as-is since it is generated for each new project you created.
@@ -84,13 +87,14 @@ module.exports = {
   connectors: {
     'appc.odata': {
       // oData service url.
-      url: '',
+      url: 'http://services.odata.org/V4/(S(5a3c3m5gigvrtldqkli1sqyp))/TripPinServiceRW/',
 
       // Create models based on your schema that can be used in your API.
       generateModelsFromSchema: true,
 
       // Whether or not to generate APIs based on the methods in generated models.
-      modelAutogen: false
+      modelAutogen: true,
+      skipModelNamespace: true
     }
   },
 
