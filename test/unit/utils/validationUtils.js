@@ -7,7 +7,7 @@ const Joi = require('joi')
 
 test('### ValidationUtils test ###', function (t) {
   const data = ''
-  const joiStub = sinon.stub(Joi, 'validate', (data, schema) => {
+  const joiStub = sinon.stub(Joi, 'validate').callsFake((data, schema) => {
     var test = {
       error: 'test'
     }

@@ -2,12 +2,14 @@
 
 const test = require('tap').test
 const sinon = require('sinon')
+const sinonTest = require('sinon-test')
+const testWrap = sinonTest(sinon)
 
 const executeFn = require('../../../lib/methods/executeFn')
 const txtSchemaJSON = require('../../txtSchemaJSON')
 
-test('### Should transforms shema to endpoints ###', sinon.test(function (t) {
-  const executeFnStub = this.stub(executeFn, 'executeFn', function (Model, params, options, callback) {
+test('### Should transforms shema to endpoints ###', testWrap(function (t) {
+  const executeFnStub = this.stub(executeFn, 'executeFn').callsFake(function (Model, params, options, callback) {
     callback()
   })
 

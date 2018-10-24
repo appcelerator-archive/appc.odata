@@ -44,21 +44,13 @@ test('### query Call - Error Case ###', function (t) {
 
   const options = {}
 
-  const cbErrorSpy = sinon.spy((errorMessage, data) => { })
-  const promise = sinon.stub().returnsPromise()
-  promise.rejects(error)
-
-  const validateQueryStub = sinon.stub(
-    validationUtils,
-    'validateQuery',
-    (options) => {
-      return validateError
-    }
-  )
+  const validateQueryStub = sinon.stub(validationUtils, 'validateQuery').callsFake((options) => {
+    return validateError
+  })
 
   const ODataMethods = {
     query: (Model, options) => {
-      return promise()
+      return Promise.reject(error)
     }
   }
 
@@ -70,19 +62,18 @@ test('### query Call - Error Case ###', function (t) {
     return ODataMethods
   }
 
-  queryMethod.bind(connector, Model, options, cbErrorSpy)()
+  queryMethod.call(connector, Model, options, (err) => {
+    t.ok(validateQueryStub.calledOnce)
+    t.ok(validateQueryStub.calledWith(options))
+    t.ok(getODataMethodsSpy.calledOnce)
+    t.ok(getODataMethodsSpy.calledWith('Categories'))
+    t.ok(querySpy.calledOnce)
+    t.ok(querySpy.calledWith(Model, options))
+    t.equals(err, error)
 
-  t.ok(validateQueryStub.calledOnce)
-  t.ok(validateQueryStub.calledWith(options))
-  t.ok(getODataMethodsSpy.calledOnce)
-  t.ok(getODataMethodsSpy.calledWith('Categories'))
-  t.ok(querySpy.calledOnce)
-  t.ok(querySpy.calledWith(Model, options))
-  t.ok(cbErrorSpy.calledOnce)
-  t.ok(cbErrorSpy.calledWith(error))
-
-  validateQueryStub.restore()
-  t.end()
+    validateQueryStub.restore()
+    t.end()
+  })
 })
 
 test('### query Call - Error Case with invalid options ###', function (t) {
@@ -92,21 +83,13 @@ test('### query Call - Error Case with invalid options ###', function (t) {
   const options = {}
   const result = {}
 
-  const cbErrorSpy = sinon.spy((errorMessage, data) => { })
-  const promise = sinon.stub().returnsPromise()
-  promise.resolves(result)
-
-  const validateQueryStub = sinon.stub(
-    validationUtils,
-    'validateQuery',
-    (options) => {
-      return error
-    }
-  )
+  const validateQueryStub = sinon.stub(validationUtils, 'validateQuery').callsFake((options) => {
+    return error
+  })
 
   const ODataMethods = {
     query: (Model, options) => {
-      return promise()
+      return Promise.resolve(result)
     }
   }
 
@@ -118,18 +101,18 @@ test('### query Call - Error Case with invalid options ###', function (t) {
     return ODataMethods
   }
 
-  queryMethod.bind(connector, Model, options, cbErrorSpy)()
+  queryMethod.call(connector, Model, options, (err) => {
+    t.ok(validateQueryStub.calledOnce)
+    t.ok(validateQueryStub.calledWith(options))
+    t.notOk(getODataMethodsSpy.calledOnce)
+    t.notOk(getODataMethodsSpy.calledWith('Categories'))
+    t.notOk(querySpy.calledOnce)
+    t.notOk(querySpy.calledWith(Model, options))
+    t.deepEquals(err, error)
 
-  t.ok(validateQueryStub.calledOnce)
-  t.ok(validateQueryStub.calledWith(options))
-  t.ok(cbErrorSpy.calledOnce)
-  t.notOk(getODataMethodsSpy.calledOnce)
-  t.notOk(getODataMethodsSpy.calledWith('Categories'))
-  t.notOk(querySpy.calledOnce)
-  t.notOk(querySpy.calledWith(Model, options))
-
-  validateQueryStub.restore()
-  t.end()
+    validateQueryStub.restore()
+    t.end()
+  })
 })
 
 test('### query Call - Ok Case ###', function (t) {
@@ -161,29 +144,17 @@ test('### query Call - Ok Case ###', function (t) {
     return instance
   })
 
-  const cbOkSpy = sinon.spy((errorMessage, data) => { })
-  const promise = sinon.stub().returnsPromise()
-  promise.resolves(result)
+  const collectionUtilsStub = sinon.stub(modelUtils, 'createCollectionFromPayload').callsFake((Model, items) => {
+    return collectionsWithInstances
+  })
 
-  const collectionUtilsStub = sinon.stub(
-    modelUtils,
-    'createCollectionFromPayload',
-    (Model, items) => {
-      return collectionsWithInstances
-    }
-  )
-
-  const validateQueryStub = sinon.stub(
-    validationUtils,
-    'validateQuery',
-    (options) => {
-      return validateError
-    }
-  )
+  const validateQueryStub = sinon.stub(validationUtils, 'validateQuery').callsFake((options) => {
+    return validateError
+  })
 
   const ODataMethods = {
     query: (Model, options) => {
-      return promise()
+      return Promise.resolve(result)
     }
   }
 
@@ -195,24 +166,24 @@ test('### query Call - Ok Case ###', function (t) {
     return ODataMethods
   }
 
-  queryMethod.bind(connector, Model, options, cbOkSpy)()
+  queryMethod.call(connector, Model, options, (err, arg) => {
+    t.ok(validateQueryStub.calledOnce)
+    t.ok(validateQueryStub.calledWith(options))
+    t.equal(collectionUtilsStub.firstCall.args[0], Model)
+    t.equal(collectionUtilsStub.firstCall.args[1], result.data)
+    t.ok(getODataMethodsSpy.calledOnce)
+    t.ok(getODataMethodsSpy.calledWith('Categories'))
+    t.ok(querySpy.calledOnce)
+    t.ok(querySpy.calledWith(Model, options))
+    t.ok(collectionUtilsStub.calledOnce)
+    t.ok(collectionUtilsStub.calledWith(Model, result.data))
+    t.equals(err, null)
+    t.equals(arg, collectionsWithInstances)
 
-  t.ok(validateQueryStub.calledOnce)
-  t.ok(validateQueryStub.calledWith(options))
-  t.equal(collectionUtilsStub.firstCall.args[0], Model)
-  t.equal(collectionUtilsStub.firstCall.args[1], result.data)
-  t.ok(getODataMethodsSpy.calledOnce)
-  t.ok(getODataMethodsSpy.calledWith('Categories'))
-  t.ok(querySpy.calledOnce)
-  t.ok(querySpy.calledWith(Model, options))
-  t.ok(collectionUtilsStub.calledOnce)
-  t.ok(collectionUtilsStub.calledWith(Model, result.data))
-  t.ok(cbOkSpy.calledOnce)
-  t.ok(cbOkSpy.calledWith(null, collectionsWithInstances))
-
-  validateQueryStub.restore()
-  collectionUtilsStub.restore()
-  t.end()
+    validateQueryStub.restore()
+    collectionUtilsStub.restore()
+    t.end()
+  })
 })
 
 test('### query Call - Ok Case with empty callback ###', function (t) {
@@ -222,21 +193,13 @@ test('### query Call - Ok Case with empty callback ###', function (t) {
   const result = {}
   const options = {}
 
-  const cbOkSpy = sinon.spy((errorMessage, data) => { })
-  const promise = sinon.stub().returnsPromise()
-  promise.resolves(result)
-
-  const validateQueryStub = sinon.stub(
-    validationUtils,
-    'validateQuery',
-    (options) => {
-      return validateError
-    }
-  )
+  const validateQueryStub = sinon.stub(validationUtils, 'validateQuery').callsFake((options) => {
+    return validateError
+  })
 
   const ODataMethods = {
     query: (Model, options) => {
-      return promise()
+      return Promise.resolve(result)
     }
   }
 
@@ -248,19 +211,19 @@ test('### query Call - Ok Case with empty callback ###', function (t) {
     return ODataMethods
   }
 
-  queryMethod.bind(connector, Model, options, cbOkSpy)()
+  queryMethod.call(connector, Model, options, (err, arg) => {
+    t.ok(validateQueryStub.calledOnce)
+    t.ok(validateQueryStub.calledWith(options))
+    t.ok(getODataMethodsSpy.calledOnce)
+    t.ok(getODataMethodsSpy.calledWith('Categories'))
+    t.ok(querySpy.calledOnce)
+    t.ok(querySpy.calledWith(Model, options))
+    t.equals(err, undefined)
+    t.equals(arg, undefined)
 
-  t.ok(validateQueryStub.calledOnce)
-  t.ok(validateQueryStub.calledWith(options))
-  t.ok(getODataMethodsSpy.calledOnce)
-  t.ok(getODataMethodsSpy.calledWith('Categories'))
-  t.ok(querySpy.calledOnce)
-  t.ok(querySpy.calledWith(Model, options))
-  t.ok(cbOkSpy.calledOnce)
-  t.ok(cbOkSpy.calledWith())
-
-  validateQueryStub.restore()
-  t.end()
+    validateQueryStub.restore()
+    t.end()
+  })
 })
 
 test('### Stop Arrow ###', function (t) {

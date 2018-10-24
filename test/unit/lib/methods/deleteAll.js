@@ -38,13 +38,10 @@ test('### deleteAll Call - Error Case ###', function (t) {
   const Model = arrow.getModel('Categories')
 
   const error = { message: 'Cannot delete' }
-  const cbErrorSpy = sinon.spy((errorMessage, data) => { })
-  const promise = sinon.stub().returnsPromise()
-  promise.rejects(error)
 
   const ODataMethods = {
     deleteAll: (key) => {
-      return promise()
+      return Promise.reject(error)
     }
   }
 
@@ -56,6 +53,15 @@ test('### deleteAll Call - Error Case ###', function (t) {
     return ODataMethods
   }
 
+  deleteAllMethod.call(connector, Model, () => {
+    t.ok(getODataMethodsSpy.calledOnce)
+    t.ok(getODataMethodsSpy.calledWith('Categories'))
+    t.ok(deleteAllSpy.calledOnce)
+    t.ok(deleteAllSpy.calledWith())
+
+    t.end()
+  })
+  /*
   deleteAllMethod.bind(connector, Model, cbErrorSpy)()
 
   t.ok(getODataMethodsSpy.calledOnce)
@@ -65,6 +71,7 @@ test('### deleteAll Call - Error Case ###', function (t) {
   t.ok(cbErrorSpy.calledOnce)
 
   t.end()
+  */
 })
 
 test('### deleteAll Call - Ok Case ###', function (t) {
@@ -74,13 +81,9 @@ test('### deleteAll Call - Ok Case ###', function (t) {
     affectedRows: 5
   }
 
-  const cbOkSpy = sinon.spy((errorMessage, data) => { })
-  const promise = sinon.stub().returnsPromise()
-  promise.resolves(result)
-
   const ODataMethods = {
     deleteAll: (key) => {
-      return promise()
+      return Promise.resolve(result)
     }
   }
 
@@ -92,16 +95,14 @@ test('### deleteAll Call - Ok Case ###', function (t) {
     return ODataMethods
   }
 
-  deleteAllMethod.bind(connector, Model, cbOkSpy)()
+  deleteAllMethod.call(connector, Model, () => {
+    t.ok(getODataMethodsSpy.calledOnce)
+    t.ok(getODataMethodsSpy.calledWith('Categories'))
+    t.ok(deleteAllSpy.calledOnce)
+    t.ok(deleteAllSpy.calledWith())
 
-  t.ok(getODataMethodsSpy.calledOnce)
-  t.ok(getODataMethodsSpy.calledWith('Categories'))
-  t.ok(deleteAllSpy.calledOnce)
-  t.ok(deleteAllSpy.calledWith())
-  t.ok(cbOkSpy.calledOnce)
-  t.ok(cbOkSpy.calledWith(null, result.affectedRows))
-
-  t.end()
+    t.end()
+  })
 })
 
 test('### deleteAll Call - Ok Case with empty result ###', function (t) {
@@ -109,13 +110,9 @@ test('### deleteAll Call - Ok Case with empty result ###', function (t) {
 
   const result = { }
 
-  const cbOkSpy = sinon.spy((errorMessage, data) => { })
-  const promise = sinon.stub().returnsPromise()
-  promise.resolves(result)
-
   const ODataMethods = {
     deleteAll: (key) => {
-      return promise()
+      return Promise.resolve(result)
     }
   }
 
@@ -127,16 +124,14 @@ test('### deleteAll Call - Ok Case with empty result ###', function (t) {
     return ODataMethods
   }
 
-  deleteAllMethod.bind(connector, Model, cbOkSpy)()
+  deleteAllMethod.call(connector, Model, () => {
+    t.ok(getODataMethodsSpy.calledOnce)
+    t.ok(getODataMethodsSpy.calledWith('Categories'))
+    t.ok(deleteAllSpy.calledOnce)
+    t.ok(deleteAllSpy.calledWith())
 
-  t.ok(getODataMethodsSpy.calledOnce)
-  t.ok(getODataMethodsSpy.calledWith('Categories'))
-  t.ok(deleteAllSpy.calledOnce)
-  t.ok(deleteAllSpy.calledWith())
-  t.ok(cbOkSpy.calledOnce)
-  t.ok(cbOkSpy.calledWith(null, 0))
-
-  t.end()
+    t.end()
+  })
 })
 
 test('### Stop Arrow ###', function (t) {

@@ -2,11 +2,13 @@
 
 const test = require('tap').test
 const sinon = require('sinon')
+const sinonTest = require('sinon-test')
+const testWrap = sinonTest(sinon)
 const Arrow = require('arrow')
 
 const modelUtils = require('../../../utils/modelUtils')
 
-test('### Should create model from payload ###', sinon.test(function (t) {
+test('### Should create model from payload ###', testWrap(function (t) {
   const Model = {
     instance: this.stub(),
     name: 'test',
@@ -15,7 +17,7 @@ test('### Should create model from payload ###', sinon.test(function (t) {
   const getModelStub = this.stub()
   getModelStub.returns(Model)
 
-  this.stub(Arrow, 'getModel', getModelStub)
+  this.stub(Arrow, 'getModel').callsFake(getModelStub)
   const itemStub = {
     id: 1,
     setPrimaryKey: this.spy()
@@ -32,7 +34,7 @@ test('### Should create model from payload ###', sinon.test(function (t) {
   t.end()
 }))
 
-test('### Should create model from payload if there is a dublicate ###', sinon.test(function (t) {
+test('### Should create model from payload if there is a dublicate ###', testWrap(function (t) {
   const Model = {
     instance: this.stub(),
     name: 'test',
@@ -50,7 +52,7 @@ test('### Should create model from payload if there is a dublicate ###', sinon.t
   const getModelStub = this.stub()
   getModelStub.returns(Model)
 
-  this.stub(Arrow, 'getModel', getModelStub)
+  this.stub(Arrow, 'getModel').callsFake(getModelStub)
   const itemStub = {
     Name: 1,
     Age: 45,
@@ -71,7 +73,7 @@ test('### Should create model from payload if there is a dublicate ###', sinon.t
   t.end()
 }))
 
-test('### Should get proper parent model for models that have _parent ###', sinon.test(function (t) {
+test('### Should get proper parent model for models that have _parent ###', testWrap(function (t) {
   const Model = {
     instance: this.stub(),
     name: 'test',
@@ -88,7 +90,7 @@ test('### Should get proper parent model for models that have _parent ###', sino
   t.end()
 }))
 
-test('### Should get proper super model for models ###', sinon.test(function (t) {
+test('### Should get proper super model for models ###', testWrap(function (t) {
   const Model = {
     instance: this.stub(),
     _supermodel: 'supermodel'
@@ -99,7 +101,7 @@ test('### Should get proper super model for models ###', sinon.test(function (t)
   t.end()
 }))
 
-test('### Should create collection from payload ###', sinon.test(function (t) {
+test('### Should create collection from payload ###', testWrap(function (t) {
   const Model = {
     instance: this.stub(),
     name: 'test',
@@ -107,7 +109,7 @@ test('### Should create collection from payload ###', sinon.test(function (t) {
   }
   const getModelStub = this.stub()
   getModelStub.returns(Model)
-  this.stub(Arrow, 'getModel', getModelStub)
+  this.stub(Arrow, 'getModel').callsFake(getModelStub)
 
   const setPrimaryKeyStub = this.spy()
   const itemsStub = [{
@@ -129,7 +131,7 @@ test('### Should create collection from payload ###', sinon.test(function (t) {
     return sinon.createStubInstance(ArrowCollectionMock)
   })
 
-  this.stub(Arrow, 'Collection', arrowCollectionSpy)
+  this.stub(Arrow, 'Collection').callsFake(arrowCollectionSpy)
 
   const instance = modelUtils.createCollectionFromPayload(Model, itemsStub)
 
@@ -141,7 +143,7 @@ test('### Should create collection from payload ###', sinon.test(function (t) {
   t.end()
 }))
 
-test('### Should returns true if the model has navigation properties ###', sinon.test(function (t) {
+test('### Should returns true if the model has navigation properties ###', testWrap(function (t) {
   const getModelStub = this.stub()
   const modelStub = {
     fields: {
@@ -152,7 +154,7 @@ test('### Should returns true if the model has navigation properties ###', sinon
   }
   getModelStub.returns(modelStub)
 
-  this.stub(Arrow, 'getModel', getModelStub)
+  this.stub(Arrow, 'getModel').callsFake(getModelStub)
 
   const hasRefFields = modelUtils.hasRefFields('test')
 
@@ -161,7 +163,7 @@ test('### Should returns true if the model has navigation properties ###', sinon
   t.end()
 }))
 
-test('### Should returns false if the model hasn\'t navigation properties ###', sinon.test(function (t) {
+test('### Should returns false if the model hasn\'t navigation properties ###', testWrap(function (t) {
   const getModelStub = this.stub()
   const modelStub = {
     fields: {
@@ -170,7 +172,7 @@ test('### Should returns false if the model hasn\'t navigation properties ###', 
   }
   getModelStub.returns(modelStub)
 
-  this.stub(Arrow, 'getModel', getModelStub)
+  this.stub(Arrow, 'getModel').callsFake(getModelStub)
 
   const hasRefFields = modelUtils.hasRefFields('test')
 
@@ -179,7 +181,7 @@ test('### Should returns false if the model hasn\'t navigation properties ###', 
   t.end()
 }))
 
-test('### Should returns pk field name ###', sinon.test(function (t) {
+test('### Should returns pk field name ###', testWrap(function (t) {
   const getModelStub = this.stub()
   const modelStub = {
     name: 'test',
@@ -189,7 +191,7 @@ test('### Should returns pk field name ###', sinon.test(function (t) {
   }
   getModelStub.returns(modelStub)
 
-  this.stub(Arrow, 'getModel', getModelStub)
+  this.stub(Arrow, 'getModel').callsFake(getModelStub)
 
   const pkName = modelUtils.getPKName(modelStub.name)
 
@@ -199,7 +201,7 @@ test('### Should returns pk field name ###', sinon.test(function (t) {
   t.end()
 }))
 
-test('### Should returns true if has pk column ###', sinon.test(function (t) {
+test('### Should returns true if has pk column ###', testWrap(function (t) {
   const getModelStub = this.stub()
   const modelStub = {
     name: 'test',
@@ -209,7 +211,7 @@ test('### Should returns true if has pk column ###', sinon.test(function (t) {
   }
   getModelStub.returns(modelStub)
 
-  this.stub(Arrow, 'getModel', getModelStub)
+  this.stub(Arrow, 'getModel').callsFake(getModelStub)
 
   const hasPKColumn = modelUtils.hasPKColumn(modelStub.name)
 
@@ -218,7 +220,7 @@ test('### Should returns true if has pk column ###', sinon.test(function (t) {
   t.end()
 }))
 
-test('### Should returns true if the pk of the item is being updated ###', sinon.test(function (t) {
+test('### Should returns true if the pk of the item is being updated ###', testWrap(function (t) {
   var item = {
     getChangedFields: sinon.stub()
   }
@@ -232,7 +234,7 @@ test('### Should returns true if the pk of the item is being updated ###', sinon
   }
   getModelStub.returns(modelStub)
 
-  this.stub(Arrow, 'getModel', getModelStub)
+  this.stub(Arrow, 'getModel').callsFake(getModelStub)
 
   const isPKUpdated = modelUtils.isPKUpdated('test', item)
 
@@ -241,7 +243,7 @@ test('### Should returns true if the pk of the item is being updated ###', sinon
   t.end()
 }))
 
-test('### Should returns false if the instance is not specified ###', sinon.test(function (t) {
+test('### Should returns false if the instance is not specified ###', testWrap(function (t) {
   var item = {
     getChangedFields: sinon.stub()
   }
@@ -254,7 +256,7 @@ test('### Should returns false if the instance is not specified ###', sinon.test
   }
   getModelStub.returns(modelStub)
 
-  this.stub(Arrow, 'getModel', getModelStub)
+  this.stub(Arrow, 'getModel').callsFake(getModelStub)
 
   const isPKUpdated = modelUtils.isPKUpdated('test')
 
@@ -263,7 +265,7 @@ test('### Should returns false if the instance is not specified ###', sinon.test
   t.end()
 }))
 
-test('### Should return false if the pk of the item is not updated and getChangedFields is a function ###', sinon.test(function (t) {
+test('### Should return false if the pk of the item is not updated and getChangedFields is a function ###', testWrap(function (t) {
   var item = {
     getChangedFields: sinon.stub()
   }
@@ -276,7 +278,7 @@ test('### Should return false if the pk of the item is not updated and getChange
   }
   getModelStub.returns(modelStub)
 
-  this.stub(Arrow, 'getModel', getModelStub)
+  this.stub(Arrow, 'getModel').callsFake(getModelStub)
 
   item.getChangedFields.returns()
 
@@ -287,7 +289,7 @@ test('### Should return false if the pk of the item is not updated and getChange
   t.end()
 }))
 
-test('### Should return pk of the item when getChangedFields is not a function ###', sinon.test(function (t) {
+test('### Should return pk of the item when getChangedFields is not a function ###', testWrap(function (t) {
   var item = {
     id: 50
   }
@@ -300,7 +302,7 @@ test('### Should return pk of the item when getChangedFields is not a function #
   }
   getModelStub.returns(modelStub)
 
-  this.stub(Arrow, 'getModel', getModelStub)
+  this.stub(Arrow, 'getModel').callsFake(getModelStub)
 
   const isPKUpdated = modelUtils.isPKUpdated('test', item)
 
@@ -310,7 +312,7 @@ test('### Should return pk of the item when getChangedFields is not a function #
   t.end()
 }))
 
-test('### Should returns true if the pk of the item is not being updated ###', sinon.test(function (t) {
+test('### Should returns true if the pk of the item is not being updated ###', testWrap(function (t) {
   var item = {
     getChangedFields: sinon.stub()
   }
@@ -324,7 +326,7 @@ test('### Should returns true if the pk of the item is not being updated ###', s
   }
   getModelStub.returns(modelStub)
 
-  this.stub(Arrow, 'getModel', getModelStub)
+  this.stub(Arrow, 'getModel').callsFake(getModelStub)
 
   const isPKUpdated = modelUtils.isPKUpdated('test', item)
 
@@ -333,7 +335,7 @@ test('### Should returns true if the pk of the item is not being updated ###', s
   t.end()
 }))
 
-test('### Should returns pk value ###', sinon.test(function (t) {
+test('### Should returns pk value ###', testWrap(function (t) {
   var item = {
     id: 4
   }
@@ -346,7 +348,7 @@ test('### Should returns pk value ###', sinon.test(function (t) {
   }
   getModelStub.returns(modelStub)
 
-  this.stub(Arrow, 'getModel', getModelStub)
+  this.stub(Arrow, 'getModel').callsFake(getModelStub)
 
   const pk = modelUtils.getPK('test', item)
 
@@ -356,7 +358,7 @@ test('### Should returns pk value ###', sinon.test(function (t) {
   t.end()
 }))
 
-test('### Should returns pk value ###', sinon.test(function (t) {
+test('### Should returns pk value ###', testWrap(function (t) {
   var item = 4
   const getModelStub = this.stub()
   const modelStub = {
@@ -367,7 +369,7 @@ test('### Should returns pk value ###', sinon.test(function (t) {
   }
   getModelStub.returns(modelStub)
 
-  this.stub(Arrow, 'getModel', getModelStub)
+  this.stub(Arrow, 'getModel').callsFake(getModelStub)
 
   const pk = modelUtils.getPK('test', item)
 
@@ -377,7 +379,7 @@ test('### Should returns pk value ###', sinon.test(function (t) {
   t.end()
 }))
 
-test('### Should returns the pk field type by value ###', sinon.test(function (t) {
+test('### Should returns the pk field type by value ###', testWrap(function (t) {
   const pkFieldType = modelUtils.getPKFieldType('test', 5)
 
   t.ok(pkFieldType)
@@ -386,7 +388,7 @@ test('### Should returns the pk field type by value ###', sinon.test(function (t
   t.end()
 }))
 
-test('### Should returns the main fields of a model ###', sinon.test(function (t) {
+test('### Should returns the main fields of a model ###', testWrap(function (t) {
   const getModelStub = this.stub()
   const modelStub = {
     fields: {
@@ -398,7 +400,7 @@ test('### Should returns the main fields of a model ###', sinon.test(function (t
   }
   getModelStub.returns(modelStub)
 
-  this.stub(Arrow, 'getModel', getModelStub)
+  this.stub(Arrow, 'getModel').callsFake(getModelStub)
 
   const mainFields = modelUtils.getMainFields('test')
 
@@ -409,7 +411,7 @@ test('### Should returns the main fields of a model ###', sinon.test(function (t
   t.end()
 }))
 
-test('### Should returns the main fields of a model with dublicates ###', sinon.test(function (t) {
+test('### Should returns the main fields of a model with dublicates ###', testWrap(function (t) {
   const getModelStub = this.stub()
   const modelStub = {
     instance: this.stub(),
@@ -427,7 +429,7 @@ test('### Should returns the main fields of a model with dublicates ###', sinon.
   }
   getModelStub.returns(modelStub)
 
-  this.stub(Arrow, 'getModel', getModelStub)
+  this.stub(Arrow, 'getModel').callsFake(getModelStub)
 
   const mainFields = modelUtils.getMainFields('test')
 
@@ -439,7 +441,7 @@ test('### Should returns the main fields of a model with dublicates ###', sinon.
   t.end()
 }))
 
-test('### Should returns the ref fields of a model ###', sinon.test(function (t) {
+test('### Should returns the ref fields of a model ###', testWrap(function (t) {
   const getModelStub = this.stub()
   const modelStub = {
     fields: {
@@ -451,7 +453,7 @@ test('### Should returns the ref fields of a model ###', sinon.test(function (t)
   }
   getModelStub.returns(modelStub)
 
-  this.stub(Arrow, 'getModel', getModelStub)
+  this.stub(Arrow, 'getModel').callsFake(getModelStub)
 
   const mainFields = modelUtils.getRefFields('test')
 
@@ -462,7 +464,7 @@ test('### Should returns the ref fields of a model ###', sinon.test(function (t)
   t.end()
 }))
 
-test('### Should returns ref pk field name ###', sinon.test(function (t) {
+test('### Should returns ref pk field name ###', testWrap(function (t) {
   const getModelStub = this.stub()
   const modelStub = {
     fields: {
@@ -473,7 +475,7 @@ test('### Should returns ref pk field name ###', sinon.test(function (t) {
   }
   getModelStub.returns(modelStub)
 
-  this.stub(Arrow, 'getModel', getModelStub)
+  this.stub(Arrow, 'getModel').callsFake(getModelStub)
 
   const modelName = modelUtils.getFieldModelName('test', 'person')
 
@@ -483,7 +485,7 @@ test('### Should returns ref pk field name ###', sinon.test(function (t) {
   t.end()
 }))
 
-test('### Should returns ref model name pluralized ###', sinon.test(function (t) {
+test('### Should returns ref model name pluralized ###', testWrap(function (t) {
   const getModelStub = this.stub()
   const modelStub = {
     fields: {
@@ -494,7 +496,7 @@ test('### Should returns ref model name pluralized ###', sinon.test(function (t)
   }
   getModelStub.returns(modelStub)
 
-  this.stub(Arrow, 'getModel', getModelStub)
+  this.stub(Arrow, 'getModel').callsFake(getModelStub)
 
   const modelName = modelUtils.getRefModel('test', 'person')
 
@@ -504,7 +506,7 @@ test('### Should returns ref model name pluralized ###', sinon.test(function (t)
   t.end()
 }))
 
-test('### Should returns only the ref props from item ###', sinon.test(function (t) {
+test('### Should returns only the ref props from item ###', testWrap(function (t) {
   const getModelStub = this.stub()
   const modelStub = {
     fields: {
@@ -516,7 +518,7 @@ test('### Should returns only the ref props from item ###', sinon.test(function 
   }
   getModelStub.returns(modelStub)
 
-  this.stub(Arrow, 'getModel', getModelStub)
+  this.stub(Arrow, 'getModel').callsFake(getModelStub)
 
   const refFields = modelUtils.pickRefData('test', {
     name: 'xxx',
@@ -533,7 +535,7 @@ test('### Should returns only the ref props from item ###', sinon.test(function 
   t.end()
 }))
 
-test('### Should resolve key ###', sinon.test(function (t) {
+test('### Should resolve key ###', testWrap(function (t) {
   const resolved = modelUtils.resolveKey('test', 5)
 
   t.ok(resolved)
@@ -542,7 +544,7 @@ test('### Should resolve key ###', sinon.test(function (t) {
   t.end()
 }))
 
-test('### Should check if the model has dublicate keys or not ###', sinon.test(function (t) {
+test('### Should check if the model has dublicate keys or not ###', testWrap(function (t) {
   const getModelStub = this.stub()
   const modelStub = {
     name: 'test',
@@ -556,14 +558,14 @@ test('### Should check if the model has dublicate keys or not ###', sinon.test(f
   }
   getModelStub.returns(modelStub)
 
-  this.stub(Arrow, 'getModel', getModelStub)
+  this.stub(Arrow, 'getModel').callsFake(getModelStub)
   const dublicate = modelUtils.checkDublicate('test')
 
   t.notOk(dublicate)
   t.end()
 }))
 
-test('### Should check if the model has dublicate keys or not ###', sinon.test(function (t) {
+test('### Should check if the model has dublicate keys or not ###', testWrap(function (t) {
   const getModelStub = this.stub()
   const modelStub = {
     name: 'test',
@@ -580,7 +582,7 @@ test('### Should check if the model has dublicate keys or not ###', sinon.test(f
   }
   getModelStub.returns(modelStub)
 
-  this.stub(Arrow, 'getModel', getModelStub)
+  this.stub(Arrow, 'getModel').callsFake(getModelStub)
   const dublicate = modelUtils.checkDublicate('test')
 
   t.ok(dublicate)

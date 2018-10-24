@@ -14,67 +14,67 @@ module.exports = (spies, options) => {
     }
 
     sinon
-      .stub(instance, 'skip', (skipAmount) => {
+      .stub(instance, 'skip').callsFake((skipAmount) => {
         spies.skipSpy && spies.skipSpy(skipAmount)
         return instance
       })
 
     sinon
-      .stub(instance, 'take', (takeAmount) => {
+      .stub(instance, 'take').callsFake((takeAmount) => {
         spies.takeSpy && spies.takeSpy(takeAmount)
         return instance
       })
 
     sinon
-      .stub(instance, 'expand', (expandStr) => {
+      .stub(instance, 'expand').callsFake((expandStr) => {
         spies.expandSpy && spies.expandSpy(expandStr)
         return instance
       })
 
     sinon
-      .stub(instance, 'select', (selectStr) => {
+      .stub(instance, 'select').callsFake((selectStr) => {
         spies.selectSpy && spies.selectSpy(selectStr)
         return instance
       })
 
     sinon
-      .stub(instance, 'filter', (filterStr) => {
+      .stub(instance, 'filter').callsFake((filterStr) => {
         spies.filterSpy && spies.filterSpy(filterStr)
         return instance
       })
 
     sinon
-      .stub(instance, 'orderBy', (orderStr, direction) => {
+      .stub(instance, 'orderBy').callsFake((orderStr, direction) => {
         spies.orderBySpy && spies.orderBySpy(orderStr, direction)
         return instance
       })
 
     sinon
-      .stub(instance, 'remove', (res) => {
+      .stub(instance, 'remove').callsFake((res) => {
         spies.removeSpy && spies.removeSpy(res)
         return instance
       })
 
     sinon
-      .stub(instance, 'find', (getId) => {
+      .stub(instance, 'find').callsFake((getId) => {
         spies.findSpy && spies.findSpy(getId)
         return instance
       })
 
     sinon
-      .stub(instance, 'post', (data, res) => {
+      .stub(instance, 'post').callsFake((data, res) => {
         spies.postSpy && spies.postSpy(data, res)
         return instance
       })
 
     sinon
-      .stub(instance, 'put', (data, res) => {
+      .stub(instance, 'put').callsFake((data, res) => {
         spies.putSpy && spies.putSpy(data, res)
         return instance
       })
 
     sinon
-      .stub(instance, 'get', (callback, errorCallback) => {
+      .stub(instance, 'get').callsFake((callback, errorCallback) => {
         spies.getSpy && spies.getSpy(callback, errorCallback)
 
         // Handle response
@@ -101,7 +101,7 @@ module.exports = (spies, options) => {
       })
 
     sinon
-      .stub(instance, 'save', (callback, errorCallback) => {
+      .stub(instance, 'save').callsFake((callback, errorCallback) => {
         spies.saveSpy && spies.saveSpy(callback, errorCallback)
 
         // Handle response

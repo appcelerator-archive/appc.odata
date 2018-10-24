@@ -2,9 +2,11 @@
 
 const test = require('tap').test
 const sinon = require('sinon')
+const sinonTest = require('sinon-test')
+const testWrap = sinonTest(sinon)
 const createConnector = require('../../../lib/').create
 
-test('### Should returns connector capabilities ###', sinon.test(function (t) {
+test('### Should returns connector capabilities ###', testWrap(function (t) {
   const connectorExtendSpy = this.spy()
   const ArrowMock = {
     Connector: {
@@ -33,21 +35,21 @@ test('### Should returns connector capabilities ###', sinon.test(function (t) {
   t.end()
 }))
 
-test('### Should throw error if Arrow version is not > 1.7.0 ###', sinon.test(function (t) {
+test('### Should throw error if Arrow version is not > 1.7.0 ###', testWrap(function (t) {
   const ArrowMock = {
     Version: '1.6.0'
   }
   t.throws(function () {
     createConnector(ArrowMock)
-  }, {message: 'This connector requires at least version 1.7.0 of Arrow; please run `appc use latest`.'}, { skip: false })
+  }, { message: 'This connector requires at least version 1.7.0 of Arrow; please run `appc use latest`.' }, { skip: false })
   t.end()
 }))
 
-test('### Should throw error if Arrow version is not there ###', sinon.test(function (t) {
+test('### Should throw error if Arrow version is not there ###', testWrap(function (t) {
   const ArrowMock = {
   }
   t.throws(function () {
     createConnector(ArrowMock)
-  }, {message: 'This connector requires at least version 1.7.0 of Arrow; please run `appc use latest`.'}, { skip: false })
+  }, { message: 'This connector requires at least version 1.7.0 of Arrow; please run `appc use latest`.' }, { skip: false })
   t.end()
 }))

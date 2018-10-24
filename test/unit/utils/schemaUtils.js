@@ -2,10 +2,12 @@
 
 const test = require('tap').test
 const sinon = require('sinon')
+const sinonTest = require('sinon-test')
+const testWrap = sinonTest(sinon)
 
 const schemaUtils = require('../../../utils/schemaUtils')
 
-test('### Should transform array to object ###', sinon.test(function (t) {
+test('### Should transform array to object ###', testWrap(function (t) {
   const transformed = schemaUtils.arrayToObject({ key: 'name' }, [{
     name: 't1'
   }, {
@@ -22,7 +24,7 @@ test('### Should transform array to object ###', sinon.test(function (t) {
   t.end()
 }))
 
-test('### Should resolve name ###', sinon.test(function (t) {
+test('### Should resolve name ###', testWrap(function (t) {
   const resolved = schemaUtils.resolveName('test', 'post')
 
   t.ok(resolved)
@@ -30,7 +32,7 @@ test('### Should resolve name ###', sinon.test(function (t) {
   t.end()
 }))
 
-test('### Should resolve odata type to js type ###', sinon.test(function (t) {
+test('### Should resolve odata type to js type ###', testWrap(function (t) {
   const type = schemaUtils.resolveType({
     entityTypes: [],
     complexTypes: [],
@@ -44,7 +46,7 @@ test('### Should resolve odata type to js type ###', sinon.test(function (t) {
   t.end()
 }))
 
-test('### Should pick partial object if nested property with key exists ###', sinon.test(function (t) {
+test('### Should pick partial object if nested property with key exists ###', testWrap(function (t) {
   const res = schemaUtils.getResource(['entityTypes'], {
     resources: {
       entityTypes: []
@@ -55,7 +57,7 @@ test('### Should pick partial object if nested property with key exists ###', si
   t.end()
 }))
 
-test('### Should returns undefined if nested property with key not exists ###', sinon.test(function (t) {
+test('### Should returns undefined if nested property with key not exists ###', testWrap(function (t) {
   const res = schemaUtils.getResource(['entityTypes'], {
     resources: {}
   })
@@ -64,7 +66,7 @@ test('### Should returns undefined if nested property with key not exists ###', 
   t.end()
 }))
 
-test('### Should returns true if property with key exists ###', sinon.test(function (t) {
+test('### Should returns true if property with key exists ###', testWrap(function (t) {
   const res = schemaUtils.hasResource(['entityTypes'], {
     resources: {
       entityTypes: []
@@ -75,7 +77,7 @@ test('### Should returns true if property with key exists ###', sinon.test(funct
   t.end()
 }))
 
-test('### Should returns false if nested property with key not exists ###', sinon.test(function (t) {
+test('### Should returns false if nested property with key not exists ###', testWrap(function (t) {
   const res = schemaUtils.hasResource(['entityTypes'], {
     resources: {}
   })

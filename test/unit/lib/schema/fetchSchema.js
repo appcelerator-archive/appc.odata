@@ -2,6 +2,8 @@
 
 const test = require('tap').test
 const sinon = require('sinon')
+const sinonTest = require('sinon-test')
+const testWrap = sinonTest(sinon)
 const request = require('request')
 const fastXmlParser = require('fast-xml-parser')
 
@@ -9,14 +11,14 @@ const txtSchemaXML = require('../../../txtSchemaXML')
 const fetchSchema = require('../../../../lib/schema/fetchSchema').fetchSchema
 const utils = require('../../../../utils/utils')
 
-const getMainUrlStub = sinon.stub(utils, 'getMainUrl', (url) => {
+const getMainUrlStub = sinon.stub(utils, 'getMainUrl').callsFake((url) => {
   return 'localhost'
 })
 
-test('### Should returns no schema ###', sinon.test(function (t) {
+test('### Should returns no schema ###', testWrap(function (t) {
   const cbSpy = this.spy()
 
-  this.stub(request, 'get', (url, cb) => {
+  this.stub(request, 'get').callsFake((url, cb) => {
     cb()
   })
 
@@ -33,14 +35,14 @@ test('### Should returns no schema ###', sinon.test(function (t) {
   t.end()
 }))
 
-test('### Should returns schema ###', sinon.test(function (t) {
+test('### Should returns schema ###', testWrap(function (t) {
   const cbSpy = this.spy()
 
-  this.stub(fastXmlParser, 'parse', (data, options) => {
+  this.stub(fastXmlParser, 'parse').callsFake((data, options) => {
     return {}
   })
 
-  this.stub(request, 'get', (url, cb) => {
+  this.stub(request, 'get').callsFake((url, cb) => {
     cb(null, { body: txtSchemaXML })
   })
 
@@ -57,10 +59,10 @@ test('### Should returns schema ###', sinon.test(function (t) {
   t.end()
 }))
 
-test('### Should returns schema ###', sinon.test(function (t) {
+test('### Should returns schema ###', testWrap(function (t) {
   const cbErrorSpy = this.spy()
 
-  this.stub(request, 'get', (url, cb) => {
+  this.stub(request, 'get').callsFake((url, cb) => {
     cb(null, { error: 'Error' })
   })
 
@@ -78,11 +80,11 @@ test('### Should returns schema ###', sinon.test(function (t) {
   t.end()
 }))
 
-test('### Should returns error ###', sinon.test(function (t) {
+test('### Should returns error ###', testWrap(function (t) {
   const cbSpy = this.spy()
   const errMsg = { message: 'Fail' }
 
-  this.stub(request, 'get', (url, cb) => {
+  this.stub(request, 'get').callsFake((url, cb) => {
     cb(errMsg)
   })
 
@@ -100,15 +102,15 @@ test('### Should returns error ###', sinon.test(function (t) {
   t.end()
 }))
 
-test('### Should returns error ###', sinon.test(function (t) {
+test('### Should returns error ###', testWrap(function (t) {
   const cbSpy = this.spy()
   const errObj = new Error('Fail')
 
-  this.stub(fastXmlParser, 'parse', (data, options) => {
+  this.stub(fastXmlParser, 'parse').callsFake((data, options) => {
     throw errObj
   })
 
-  this.stub(request, 'get', (url, cb) => {
+  this.stub(request, 'get').callsFake((url, cb) => {
     cb(null, { body: txtSchemaXML })
   })
 

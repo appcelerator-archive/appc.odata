@@ -2,6 +2,8 @@
 
 const test = require('tap').test
 const sinon = require('sinon')
+const sinonTest = require('sinon-test')
+const testWrap = sinonTest(sinon)
 const mockery = require('mockery')
 const Arrow = require('arrow')
 
@@ -20,8 +22,8 @@ mockery.enable({
 
 const requestUtils = require('../../../utils/requestUtils')
 
-test('### Should returns promise ###', sinon.test(function (t) {
-  this.stub(modelUtils, 'resolveKey', (name, key) => {
+test('### Should returns promise ###', testWrap(function (t) {
+  this.stub(modelUtils, 'resolveKey').callsFake((name, key) => {
     return `${key}`
   })
 
@@ -32,8 +34,8 @@ test('### Should returns promise ###', sinon.test(function (t) {
   t.end()
 }))
 
-test('### Should returns promise ###', sinon.test(function (t) {
-  this.stub(modelUtils, 'resolveKey', (name, key) => {
+test('### Should returns promise ###', testWrap(function (t) {
+  this.stub(modelUtils, 'resolveKey').callsFake((name, key) => {
     return `${key}`
   })
 
@@ -44,8 +46,8 @@ test('### Should returns promise ###', sinon.test(function (t) {
   t.end()
 }))
 
-test('### Should generate expand fields string ###', sinon.test(function (t) {
-  this.stub(modelUtils, 'getFieldModelName', (modelName, prop) => {
+test('### Should generate expand fields string ###', testWrap(function (t) {
+  this.stub(modelUtils, 'getFieldModelName').callsFake((modelName, prop) => {
     return 'Person'
   })
 
@@ -62,7 +64,7 @@ test('### Should generate expand fields string ###', sinon.test(function (t) {
   }
   getModelStub.returns(modelStub)
 
-  this.stub(Arrow, 'getModel', getModelStub)
+  this.stub(Arrow, 'getModel').callsFake(getModelStub)
 
   const refUrl = requestUtils.generateExpandFieldsString('test')
   const refUrlWithSelect = requestUtils.generateExpandFieldsString('test', ['student'])
@@ -76,8 +78,8 @@ test('### Should generate expand fields string ###', sinon.test(function (t) {
   t.end()
 }))
 
-test('### Should returns promise ###', sinon.test(function (t) {
-  this.stub(modelUtils, 'resolveKey', (name, key) => {
+test('### Should returns promise ###', testWrap(function (t) {
+  this.stub(modelUtils, 'resolveKey').callsFake((name, key) => {
     return `${key}`
   })
 
@@ -90,8 +92,8 @@ test('### Should returns promise ###', sinon.test(function (t) {
   t.end()
 }))
 
-test('### Should returns error ###', sinon.test(function (t) {
-  this.stub(modelUtils, 'resolveKey', (name, key) => {
+test('### Should returns error ###', testWrap(function (t) {
+  this.stub(modelUtils, 'resolveKey').callsFake((name, key) => {
     return `${key}`
   })
   const error = { message: 'Some error' }
@@ -107,8 +109,8 @@ test('### Should returns error ###', sinon.test(function (t) {
     })
 }))
 
-test('### Should returns error ###', sinon.test(function (t) {
-  this.stub(modelUtils, 'resolveKey', (name, key) => {
+test('### Should returns error ###', testWrap(function (t) {
+  this.stub(modelUtils, 'resolveKey').callsFake((name, key) => {
     return `${key}`
   })
 

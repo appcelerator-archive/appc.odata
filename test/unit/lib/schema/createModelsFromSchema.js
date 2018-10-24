@@ -42,7 +42,7 @@ test('### Should create models and endpoints from schema ###', function (t) {
   // const arrowAPIExtendStub = sinon.stub(Arrow.API, 'extend').returns(() => { })
 
   schemaModelsTransformerMock.returns({})
- // schemaEndpointsTransformerMock.returns([{}])
+  // schemaEndpointsTransformerMock.returns([{}])
 
   // Test call
   createModelsFromSchema.call({ schema: null })
@@ -58,15 +58,15 @@ test('### Should create models and endpoints from schema ###', function (t) {
   //   arrowGetGlobalStub.restore()
   //   arrowAPIExtendStub.restore()
 
-  //   schemaModelsTransformerMock.reset()
-  //   schemaEndpointsTransformerMock.reset()
+  //   schemaModelsTransformerMock.resetHistory()
+  //   schemaEndpointsTransformerMock.resetHistory()
 
-  //   createModelsSpy.reset()
+  //   createModelsSpy.resetHistory()
 
   //   t.end()
   // })
-  schemaModelsTransformerMock.reset()
-  createModelsSpy.reset()
+  schemaModelsTransformerMock.resetHistory()
+  createModelsSpy.resetHistory()
   t.end()
 })
 

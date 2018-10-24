@@ -52,12 +52,10 @@ test('## Create Many - Error case', function (t) {
   const Model = arrow.getModel('Categories')
 
   const error = 'Cannot find'
-  const promise = sinon.stub().returnsPromise()
-  promise.rejects(error)
 
   const ODataMethods = {
     create: (data) => {
-      return promise()
+      return Promise.reject(error)
     }
   }
 
@@ -83,20 +81,16 @@ test('## Create Many - Error case', function (t) {
 })
 
 test('## Create Many - Ok case', function (t) {
-  var createCollectionFromPayloadStub = sinon.stub(modelUtils, 'createCollectionFromPayload', (Model, items) => {
+  var createCollectionFromPayloadStub = sinon.stub(modelUtils, 'createCollectionFromPayload').callsFake((Model, items) => {
     var instance = Model.instance(result.data, true)
     instance.setPrimaryKey(result.data.id)
     return instance
   })
   const Model = arrow.getModel('Categories')
 
-  // const cbErrorSpy = sinon.spy()
-  const promise = sinon.stub().returnsPromise()
-  promise.resolves(result)
-
   const ODataMethods = {
     create: (data) => {
-      return promise()
+      return Promise.resolve(result)
     }
   }
 
@@ -118,7 +112,7 @@ test('## Create Many - Ok case', function (t) {
       t.ok(getODataMethodsSpy.calledOnce)
 
       createCollectionFromPayloadStub.restore()
-      getODataMethodsSpy.reset()
+      getODataMethodsSpy.resetHistory()
 
       t.end()
     })
@@ -131,20 +125,16 @@ test('## Create Many - Empty responce', function (t) {
     Description: 'Drinks cat. 1',
     Name: 'Cat. 2'
   }]
-  var createCollectionFromPayloadStub = sinon.stub(modelUtils, 'createCollectionFromPayload', (Model, items) => {
+  var createCollectionFromPayloadStub = sinon.stub(modelUtils, 'createCollectionFromPayload').callsFake((Model, items) => {
     var instance = Model.instance(data, true)
     instance.setPrimaryKey(data.id)
     return instance
   })
   const Model = arrow.getModel('Categories')
 
-  // const cbErrorSpy = sinon.spy()
-  const promise = sinon.stub().returnsPromise()
-  promise.resolves(result)
-
   const ODataMethods = {
     create: (data) => {
-      return promise()
+      return Promise.resolve(result)
     }
   }
 
@@ -165,7 +155,7 @@ test('## Create Many - Empty responce', function (t) {
       t.ok(getODataMethodsSpy.calledOnce)
 
       createCollectionFromPayloadStub.restore()
-      getODataMethodsSpy.reset()
+      getODataMethodsSpy.resetHistory()
 
       t.end()
     })

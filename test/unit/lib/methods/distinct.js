@@ -44,21 +44,13 @@ test('### distinct Call - Error Case ###', function (t) {
 
   const options = { }
 
-  const cbErrorSpy = sinon.spy((errorMessage, data) => { })
-  const promise = sinon.stub().returnsPromise()
-  promise.rejects(error)
-
-  const validateQueryStub = sinon.stub(
-    validationUtils,
-    'validateQuery',
-    (options) => {
-      return validateError
-    }
- )
+  const validateQueryStub = sinon.stub(validationUtils, 'validateQuery').callsFake((options) => {
+    return validateError
+  })
 
   const ODataMethods = {
     distinct: (Model, field, options) => {
-      return promise()
+      return Promise.reject(error)
     }
   }
 
@@ -70,19 +62,17 @@ test('### distinct Call - Error Case ###', function (t) {
     return ODataMethods
   }
 
-  distinctMethod.bind(connector, Model, field, options, cbErrorSpy)()
+  distinctMethod.call(connector, Model, field, options, () => {
+    t.ok(validateQueryStub.calledOnce)
+    t.ok(validateQueryStub.calledWith(options))
+    t.ok(getODataMethodsSpy.calledOnce)
+    t.ok(getODataMethodsSpy.calledWith('Categories'))
+    t.ok(distinctSpy.calledOnce)
+    t.ok(distinctSpy.calledWith(Model, field, options))
 
-  t.ok(validateQueryStub.calledOnce)
-  t.ok(validateQueryStub.calledWith(options))
-  t.ok(getODataMethodsSpy.calledOnce)
-  t.ok(getODataMethodsSpy.calledWith('Categories'))
-  t.ok(distinctSpy.calledOnce)
-  t.ok(distinctSpy.calledWith(Model, field, options))
-  t.ok(cbErrorSpy.calledOnce)
-  t.ok(cbErrorSpy.calledWith(error))
-
-  validateQueryStub.restore()
-  t.end()
+    validateQueryStub.restore()
+    t.end()
+  })
 })
 
 test('### distinct Call - Error Case with invalid options ###', function (t) {
@@ -93,21 +83,13 @@ test('### distinct Call - Error Case with invalid options ###', function (t) {
   const result = { }
   const field = 'Name'
 
-  const cbErrorSpy = sinon.spy((errorMessage, data) => { })
-  const promise = sinon.stub().returnsPromise()
-  promise.resolves(result)
-
-  const validateQueryStub = sinon.stub(
-    validationUtils,
-    'validateQuery',
-    (options) => {
-      return error
-    }
-  )
+  const validateQueryStub = sinon.stub(validationUtils, 'validateQuery').callsFake((options) => {
+    return error
+  })
 
   const ODataMethods = {
     distinct: (Model, field, options) => {
-      return promise()
+      return Promise.resolve(result)
     }
   }
 
@@ -119,18 +101,17 @@ test('### distinct Call - Error Case with invalid options ###', function (t) {
     return ODataMethods
   }
 
-  distinctMethod.bind(connector, Model, field, options, cbErrorSpy)()
+  distinctMethod.call(connector, Model, field, options, () => {
+    t.ok(validateQueryStub.calledOnce)
+    t.ok(validateQueryStub.calledWith(options))
+    t.notOk(getODataMethodsSpy.calledOnce)
+    t.notOk(getODataMethodsSpy.calledWith('Categories'))
+    t.notOk(distinctSpy.calledOnce)
+    t.notOk(distinctSpy.calledWith(Model, options))
 
-  t.ok(validateQueryStub.calledOnce)
-  t.ok(validateQueryStub.calledWith(options))
-  t.ok(cbErrorSpy.calledOnce)
-  t.notOk(getODataMethodsSpy.calledOnce)
-  t.notOk(getODataMethodsSpy.calledWith('Categories'))
-  t.notOk(distinctSpy.calledOnce)
-  t.notOk(distinctSpy.calledWith(Model, options))
-
-  validateQueryStub.restore()
-  t.end()
+    validateQueryStub.restore()
+    t.end()
+  })
 })
 
 test('### distinct Call - Ok Case ###', function (t) {
@@ -142,21 +123,13 @@ test('### distinct Call - Ok Case ###', function (t) {
 
   const options = {}
 
-  const cbOkSpy = sinon.spy((errorMessage, data) => { })
-  const promise = sinon.stub().returnsPromise()
-  promise.resolves(result)
-
-  const validateQueryStub = sinon.stub(
-    validationUtils,
-    'validateQuery',
-    (options) => {
-      return validateError
-    }
- )
+  const validateQueryStub = sinon.stub(validationUtils, 'validateQuery').callsFake((options) => {
+    return validateError
+  })
 
   const ODataMethods = {
     distinct: (Model, field, options) => {
-      return promise()
+      return Promise.resolve(result)
     }
   }
 
@@ -168,19 +141,17 @@ test('### distinct Call - Ok Case ###', function (t) {
     return ODataMethods
   }
 
-  distinctMethod.bind(connector, Model, field, options, cbOkSpy)()
+  distinctMethod.call(connector, Model, field, options, () => {
+    t.ok(validateQueryStub.calledOnce)
+    t.ok(validateQueryStub.calledWith(options))
+    t.ok(getODataMethodsSpy.calledOnce)
+    t.ok(getODataMethodsSpy.calledWith('Categories'))
+    t.ok(distinctSpy.calledOnce)
+    t.ok(distinctSpy.calledWith(Model, field, options))
 
-  t.ok(validateQueryStub.calledOnce)
-  t.ok(validateQueryStub.calledWith(options))
-  t.ok(getODataMethodsSpy.calledOnce)
-  t.ok(getODataMethodsSpy.calledWith('Categories'))
-  t.ok(distinctSpy.calledOnce)
-  t.ok(distinctSpy.calledWith(Model, field, options))
-  t.ok(cbOkSpy.calledOnce)
-  t.ok(cbOkSpy.calledWith(null, result))
-
-  validateQueryStub.restore()
-  t.end()
+    validateQueryStub.restore()
+    t.end()
+  })
 })
 
 test('### Stop Arrow ###', function (t) {

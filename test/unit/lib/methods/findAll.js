@@ -39,13 +39,10 @@ test('### findAll Call - Error Case ###', function (t) {
   const Model = arrow.getModel('Categories')
 
   const error = { message: 'Cannot find' }
-  const cbErrorSpy = sinon.spy((errorMessage, data) => { })
-  const promise = sinon.stub().returnsPromise()
-  promise.rejects(error)
 
   const ODataMethods = {
     findAll: (key) => {
-      return promise()
+      return Promise.reject(error)
     }
   }
   const findAllSpy = sinon.spy(ODataMethods, 'findAll')
@@ -56,16 +53,15 @@ test('### findAll Call - Error Case ###', function (t) {
     return ODataMethods
   }
 
-  findAllMethod.bind(connector, Model, cbErrorSpy)()
+  findAllMethod.call(connector, Model, (err) => {
+    t.ok(getODataMethodsSpy.calledOnce)
+    t.ok(getODataMethodsSpy.calledWith('Categories'))
+    t.ok(findAllSpy.calledOnce)
+    t.ok(findAllSpy.calledWith(1000))
+    t.equals(err, error)
 
-  t.ok(getODataMethodsSpy.calledOnce)
-  t.ok(getODataMethodsSpy.calledWith('Categories'))
-  t.ok(findAllSpy.calledOnce)
-  t.ok(findAllSpy.calledWith(1000))
-  t.ok(cbErrorSpy.calledOnce)
-  t.ok(cbErrorSpy.calledWith(error))
-
-  t.end()
+    t.end()
+  })
 })
 
 test('### findAll Call - Ok Case ###', function (t) {
@@ -93,9 +89,6 @@ test('### findAll Call - Ok Case ###', function (t) {
       }
     ]
   }
-  const cbOkSpy = sinon.spy((errorMessage, data) => { })
-  const promise = sinon.stub().returnsPromise()
-  promise.resolves(result)
 
   var collectionsWithInstances = result.data.map((item) => {
     const instance = Model.instance(item, true)
@@ -104,17 +97,13 @@ test('### findAll Call - Ok Case ###', function (t) {
     return instance
   })
 
-  const collectionUtilsStub = sinon.stub(
-    modelUtils,
-    'createCollectionFromPayload',
-    (Model, items) => {
-      return collectionsWithInstances
-    }
-  )
+  const collectionUtilsStub = sinon.stub(modelUtils, 'createCollectionFromPayload').callsFake((Model, items) => {
+    return collectionsWithInstances
+  })
 
   const ODataMethods = {
     findAll: (key) => {
-      return promise()
+      return Promise.resolve(result)
     }
   }
   const findAllSpy = sinon.spy(ODataMethods, 'findAll')
@@ -125,21 +114,21 @@ test('### findAll Call - Ok Case ###', function (t) {
     return ODataMethods
   }
 
-  findAllMethod.bind(connector, Model, cbOkSpy)()
+  findAllMethod.call(connector, Model, (err, arg) => {
+    t.equal(collectionUtilsStub.firstCall.args[0], Model)
+    t.equal(collectionUtilsStub.firstCall.args[1], result.data)
+    t.ok(getODataMethodsSpy.calledOnce)
+    t.ok(getODataMethodsSpy.calledWith('Categories'))
+    t.ok(findAllSpy.calledOnce)
+    t.ok(findAllSpy.calledWith(1000))
+    t.ok(collectionUtilsStub.calledOnce)
+    t.ok(collectionUtilsStub.calledWith(Model, result.data))
+    t.equals(err, null)
+    t.equals(arg, collectionsWithInstances)
 
-  t.equal(collectionUtilsStub.firstCall.args[0], Model)
-  t.equal(collectionUtilsStub.firstCall.args[1], result.data)
-  t.ok(getODataMethodsSpy.calledOnce)
-  t.ok(getODataMethodsSpy.calledWith('Categories'))
-  t.ok(findAllSpy.calledOnce)
-  t.ok(findAllSpy.calledWith(1000))
-  t.ok(collectionUtilsStub.calledOnce)
-  t.ok(collectionUtilsStub.calledWith(Model, result.data))
-  t.ok(cbOkSpy.calledOnce)
-  t.ok(cbOkSpy.calledWith(null, collectionsWithInstances))
-
-  collectionUtilsStub.restore()
-  t.end()
+    collectionUtilsStub.restore()
+    t.end()
+  })
 })
 
 test('### Stop Arrow ###', function (t) {

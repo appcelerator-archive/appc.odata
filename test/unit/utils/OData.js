@@ -14,7 +14,7 @@ var arrow
 
 const OData = require('../../../utils/OData')
 
-const getMainUrlStub = sinon.stub(utils, 'getMainUrl', (url) => {
+const getMainUrlStub = sinon.stub(utils, 'getMainUrl').callsFake((url) => {
   return 'http://localhost/'
 })
 
@@ -36,7 +36,7 @@ test('### Should create OData factory ###', function (t) {
   t.type(factory, 'function')
   t.ok(getMainUrlStub.notCalled)
 
-  getMainUrlStub.reset()
+  getMainUrlStub.resetHistory()
   t.end()
 })
 
@@ -46,16 +46,16 @@ test('### Should create OData instance ###', function (t) {
   t.type(inst, 'object')
   t.ok(getMainUrlStub.calledOnce)
 
-  getMainUrlStub.reset()
+  getMainUrlStub.resetHistory()
   t.end()
 })
 
 test('### findAll Call - Error Case ###', function (t) {
-  const generateCountRequestStub = sinon.stub(requestUtils, 'generateCountRequest', (url, modelName) => {
+  const generateCountRequestStub = sinon.stub(requestUtils, 'generateCountRequest').callsFake((url, modelName) => {
     return Promise.resolve(6)
   })
 
-  const hasRefFieldsStub = sinon.stub(modelUtils, 'hasRefFields', (modelName) => {
+  const hasRefFieldsStub = sinon.stub(modelUtils, 'hasRefFields').callsFake((modelName) => {
     return false
   })
 
@@ -81,7 +81,7 @@ test('### findAll Call - Error Case ###', function (t) {
       t.ok(getMainUrlStub.calledOnce)
 
       hasRefFieldsStub.restore()
-      getMainUrlStub.reset()
+      getMainUrlStub.resetHistory()
       generateCountRequestStub.restore()
       hasRefFieldsStub.restore()
 
@@ -94,12 +94,12 @@ test('### findAll Call - Ok Case ###', function (t) {
   const getSpy = sinon.spy()
   const expandSpy = sinon.spy()
 
-  const hasRefFieldsStub = sinon.stub(modelUtils, 'hasRefFields', (modelName) => {
+  const hasRefFieldsStub = sinon.stub(modelUtils, 'hasRefFields').callsFake((modelName) => {
     const Model = arrow.getModel(modelName)
     return Model.metadata && Model.metadata['appc.odata'] ? Model.metadata['appc.odata'].refFields : false
   })
 
-  const generateCountRequestStub = sinon.stub(requestUtils, 'generateCountRequest', (url, modelName) => {
+  const generateCountRequestStub = sinon.stub(requestUtils, 'generateCountRequest').callsFake((url, modelName) => {
     return Promise.resolve(6)
   })
 
@@ -119,7 +119,7 @@ test('### findAll Call - Ok Case ###', function (t) {
       t.ok(hasRefFieldsStub.calledTwice)
       t.ok(getMainUrlStub.calledOnce)
 
-      getMainUrlStub.reset()
+      getMainUrlStub.resetHistory()
       hasRefFieldsStub.restore()
       generateCountRequestStub.restore()
 
@@ -133,15 +133,15 @@ test('### findByID Call - Error Case ###', function (t) {
   const findSpy = sinon.spy()
   const getSpy = sinon.spy()
 
-  const generateExpandFieldsStringStub = sinon.stub(requestUtils, 'generateExpandFieldsString', (modelName, select) => {
+  const generateExpandFieldsStringStub = sinon.stub(requestUtils, 'generateExpandFieldsString').callsFake((modelName, select) => {
     return 'Categories'
   })
 
-  const hasRefFieldslStub = sinon.stub(modelUtils, 'hasRefFields', (modelName, select) => {
+  const hasRefFieldslStub = sinon.stub(modelUtils, 'hasRefFields').callsFake((modelName, select) => {
     return true
   })
 
-  const resolveKeyStub = sinon.stub(modelUtils, 'resolveKey', (name, key) => {
+  const resolveKeyStub = sinon.stub(modelUtils, 'resolveKey').callsFake((name, key) => {
     return `${key}`
   })
 
@@ -163,7 +163,7 @@ test('### findByID Call - Error Case ###', function (t) {
       t.ok(resolveKeyStub.calledOnce)
       t.ok(getMainUrlStub.calledOnce)
 
-      getMainUrlStub.reset()
+      getMainUrlStub.resetHistory()
       resolveKeyStub.restore()
       generateExpandFieldsStringStub.restore()
       resolveKeyStub.restore()
@@ -178,15 +178,15 @@ test('### findByID Call - Ok Case ###', function (t) {
   const getSpy = sinon.spy()
   const expandSpy = sinon.spy()
 
-  const generateExpandFieldsStringStub = sinon.stub(requestUtils, 'generateExpandFieldsString', (modelName, select) => {
+  const generateExpandFieldsStringStub = sinon.stub(requestUtils, 'generateExpandFieldsString').callsFake((modelName, select) => {
     return 'Categories'
   })
 
-  const hasRefFieldslStub = sinon.stub(modelUtils, 'hasRefFields', (modelName, select) => {
+  const hasRefFieldslStub = sinon.stub(modelUtils, 'hasRefFields').callsFake((modelName, select) => {
     return true
   })
 
-  const resolveKeyStub = sinon.stub(modelUtils, 'resolveKey', (name, key) => {
+  const resolveKeyStub = sinon.stub(modelUtils, 'resolveKey').callsFake((name, key) => {
     return `${key}`
   })
 
@@ -208,7 +208,7 @@ test('### findByID Call - Ok Case ###', function (t) {
       t.ok(resolveKeyStub.calledOnce)
       t.ok(getMainUrlStub.calledOnce)
 
-      getMainUrlStub.reset()
+      getMainUrlStub.resetHistory()
       resolveKeyStub.restore()
       generateExpandFieldsStringStub.restore()
       resolveKeyStub.restore()
@@ -224,19 +224,19 @@ test('### distinct Call - Error Case ###', function (t) {
   const expandSpy = sinon.spy()
   const selectSpy = sinon.spy()
 
-  const generateExpandFieldsStringStub = sinon.stub(requestUtils, 'generateExpandFieldsString', (modelName, select) => {
+  const generateExpandFieldsStringStub = sinon.stub(requestUtils, 'generateExpandFieldsString').callsFake((modelName, select) => {
     return 'Categories'
   })
 
-  const hasRefFieldslStub = sinon.stub(modelUtils, 'hasRefFields', (modelName, select) => {
+  const hasRefFieldslStub = sinon.stub(modelUtils, 'hasRefFields').callsFake((modelName, select) => {
     return true
   })
 
-  const getPKNameStub = sinon.stub(modelUtils, 'getPKName', (name) => {
+  const getPKNameStub = sinon.stub(modelUtils, 'getPKName').callsFake((name) => {
     return `id`
   })
 
-  const checkDublicateStub = sinon.stub(modelUtils, 'checkDublicate', (modelName) => {
+  const checkDublicateStub = sinon.stub(modelUtils, 'checkDublicate').callsFake((modelName) => {
     return false
   })
 
@@ -259,7 +259,7 @@ test('### distinct Call - Error Case ###', function (t) {
       t.ok(getMainUrlStub.calledOnce)
       t.ok(checkDublicateStub.calledTwice)
 
-      getMainUrlStub.reset()
+      getMainUrlStub.resetHistory()
       checkDublicateStub.restore()
       generateExpandFieldsStringStub.restore()
       hasRefFieldslStub.restore()
@@ -274,19 +274,19 @@ test('### distinct Call - Ok Case ###', function (t) {
   const expandSpy = sinon.spy()
   const selectSpy = sinon.spy()
 
-  const generateExpandFieldsStringStub = sinon.stub(requestUtils, 'generateExpandFieldsString', (modelName, select) => {
+  const generateExpandFieldsStringStub = sinon.stub(requestUtils, 'generateExpandFieldsString').callsFake((modelName, select) => {
     return 'Categories'
   })
 
-  const hasRefFieldslStub = sinon.stub(modelUtils, 'hasRefFields', (modelName, select) => {
+  const hasRefFieldslStub = sinon.stub(modelUtils, 'hasRefFields').callsFake((modelName, select) => {
     return true
   })
 
-  const getPKNameStub = sinon.stub(modelUtils, 'getPKName', (name) => {
+  const getPKNameStub = sinon.stub(modelUtils, 'getPKName').callsFake((name) => {
     return `id`
   })
 
-  const checkDublicateStub = sinon.stub(modelUtils, 'checkDublicate', (modelName) => {
+  const checkDublicateStub = sinon.stub(modelUtils, 'checkDublicate').callsFake((modelName) => {
     return 'NameID'
   })
 
@@ -307,7 +307,7 @@ test('### distinct Call - Ok Case ###', function (t) {
       t.ok(getMainUrlStub.calledOnce)
       t.ok(checkDublicateStub.calledTwice)
 
-      getMainUrlStub.reset()
+      getMainUrlStub.resetHistory()
       checkDublicateStub.restore()
       generateExpandFieldsStringStub.restore()
       hasRefFieldslStub.restore()
@@ -323,19 +323,19 @@ test('### distinct Call - Ok Case ###', function (t) {
   const expandSpy = sinon.spy()
   const selectSpy = sinon.spy()
 
-  const generateExpandFieldsStringStub = sinon.stub(requestUtils, 'generateExpandFieldsString', (modelName, select) => {
+  const generateExpandFieldsStringStub = sinon.stub(requestUtils, 'generateExpandFieldsString').callsFake((modelName, select) => {
     return 'Categories'
   })
 
-  const hasRefFieldslStub = sinon.stub(modelUtils, 'hasRefFields', (modelName, select) => {
+  const hasRefFieldslStub = sinon.stub(modelUtils, 'hasRefFields').callsFake((modelName, select) => {
     return true
   })
 
-  const getPKNameStub = sinon.stub(modelUtils, 'getPKName', (name) => {
+  const getPKNameStub = sinon.stub(modelUtils, 'getPKName').callsFake((name) => {
     return `Name`
   })
 
-  const checkDublicateStub = sinon.stub(modelUtils, 'checkDublicate', (modelName) => {
+  const checkDublicateStub = sinon.stub(modelUtils, 'checkDublicate').callsFake((modelName) => {
     return 'NameID'
   })
 
@@ -369,11 +369,11 @@ test('### query Call - Error Case ###', function (t) {
   const getSpy = sinon.spy()
   const expandSpy = sinon.spy()
 
-  const generateExpandFieldsStringStub = sinon.stub(requestUtils, 'generateExpandFieldsString', (modelName, select) => {
+  const generateExpandFieldsStringStub = sinon.stub(requestUtils, 'generateExpandFieldsString').callsFake((modelName, select) => {
     return 'Categories'
   })
 
-  const hasRefFieldslStub = sinon.stub(modelUtils, 'hasRefFields', (modelName, select) => {
+  const hasRefFieldslStub = sinon.stub(modelUtils, 'hasRefFields').callsFake((modelName, select) => {
     return true
   })
 
@@ -393,7 +393,7 @@ test('### query Call - Error Case ###', function (t) {
       t.ok(hasRefFieldslStub.calledOnce)
       t.ok(getMainUrlStub.calledTwice)
 
-      getMainUrlStub.reset()
+      getMainUrlStub.resetHistory()
       generateExpandFieldsStringStub.restore()
       hasRefFieldslStub.restore()
 
@@ -405,11 +405,11 @@ test('### query Call - Ok Case ###', function (t) {
   const getSpy = sinon.spy()
   const expandSpy = sinon.spy()
 
-  const generateExpandFieldsStringStub = sinon.stub(requestUtils, 'generateExpandFieldsString', (modelName, select) => {
+  const generateExpandFieldsStringStub = sinon.stub(requestUtils, 'generateExpandFieldsString').callsFake((modelName, select) => {
     return 'Categories'
   })
 
-  const hasRefFieldslStub = sinon.stub(modelUtils, 'hasRefFields', (modelName, select) => {
+  const hasRefFieldslStub = sinon.stub(modelUtils, 'hasRefFields').callsFake((modelName, select) => {
     return true
   })
 
@@ -426,7 +426,7 @@ test('### query Call - Ok Case ###', function (t) {
       t.ok(hasRefFieldslStub.calledOnce)
       t.ok(getMainUrlStub.calledOnce)
 
-      getMainUrlStub.reset()
+      getMainUrlStub.resetHistory()
       generateExpandFieldsStringStub.restore()
       hasRefFieldslStub.restore()
 
@@ -444,22 +444,22 @@ test('### query Call - Ok Case with option $eq ###', function (t) {
   const skipSpy = sinon.spy()
   const takeSpy = sinon.spy()
 
-  const generateExpandFieldsStringStub = sinon.stub(requestUtils, 'generateExpandFieldsString', (modelName, select) => {
+  const generateExpandFieldsStringStub = sinon.stub(requestUtils, 'generateExpandFieldsString').callsFake((modelName, select) => {
     return 'Categories'
   })
 
-  const hasRefFieldslStub = sinon.stub(modelUtils, 'hasRefFields', (modelName, select) => {
+  const hasRefFieldslStub = sinon.stub(modelUtils, 'hasRefFields').callsFake((modelName, select) => {
     return true
   })
 
-  const translateWhereToQueryStub = sinon.stub(utils, 'translateWhereToQuery', (where, str, key) => {
+  const translateWhereToQueryStub = sinon.stub(utils, 'translateWhereToQuery').callsFake((where, str, key) => {
     return `(${key} eq ${where[key].$eq})`
   })
-  const checkDublicateStub = sinon.stub(modelUtils, 'checkDublicate', (modelName) => {
+  const checkDublicateStub = sinon.stub(modelUtils, 'checkDublicate').callsFake((modelName) => {
     return false
   })
 
-  const getPKNameStub = sinon.stub(modelUtils, 'getPKName', (name) => {
+  const getPKNameStub = sinon.stub(modelUtils, 'getPKName').callsFake((name) => {
     return 'id'
   })
 
@@ -500,7 +500,7 @@ test('### query Call - Ok Case with option $eq ###', function (t) {
       t.ok(getMainUrlStub.calledOnce)
       t.ok(checkDublicateStub.calledOnce)
 
-      getMainUrlStub.reset()
+      getMainUrlStub.resetHistory()
       checkDublicateStub.restore()
       generateExpandFieldsStringStub.restore()
       hasRefFieldslStub.restore()
@@ -521,19 +521,19 @@ test('### query Call - Ok Case with option $gt ###', function (t) {
   const skipSpy = sinon.spy()
   const takeSpy = sinon.spy()
 
-  const generateExpandFieldsStringStub = sinon.stub(requestUtils, 'generateExpandFieldsString', (modelName, select) => {
+  const generateExpandFieldsStringStub = sinon.stub(requestUtils, 'generateExpandFieldsString').callsFake((modelName, select) => {
     return 'Categories'
   })
 
-  const hasRefFieldslStub = sinon.stub(modelUtils, 'hasRefFields', (modelName, select) => {
+  const hasRefFieldslStub = sinon.stub(modelUtils, 'hasRefFields').callsFake((modelName, select) => {
     return true
   })
 
-  const translateWhereToQueryStub = sinon.stub(utils, 'translateWhereToQuery', (where, str, key) => {
+  const translateWhereToQueryStub = sinon.stub(utils, 'translateWhereToQuery').callsFake((where, str, key) => {
     return `(${key} gt ${where[key].$gt})`
   })
 
-  const getPKNameStub = sinon.stub(modelUtils, 'getPKName', (name) => {
+  const getPKNameStub = sinon.stub(modelUtils, 'getPKName').callsFake((name) => {
     return 'id'
   })
 
@@ -576,7 +576,7 @@ test('### query Call - Ok Case with option $gt ###', function (t) {
       t.ok(translateWhereToQueryStub.calledOnce)
       t.ok(getMainUrlStub.calledOnce)
 
-      getMainUrlStub.reset()
+      getMainUrlStub.resetHistory()
       generateExpandFieldsStringStub.restore()
       hasRefFieldslStub.restore()
       getPKNameStub.restore()
@@ -592,7 +592,7 @@ test('### deleteOne Call - Error Case ###', function (t) {
   const findSpy = sinon.spy()
   const removeSpy = sinon.spy()
 
-  const resolveKeyStub = sinon.stub(modelUtils, 'resolveKey', (name, key) => {
+  const resolveKeyStub = sinon.stub(modelUtils, 'resolveKey').callsFake((name, key) => {
     return `${key}`
   })
 
@@ -612,7 +612,7 @@ test('### deleteOne Call - Error Case ###', function (t) {
       t.ok(resolveKeyStub.calledOnce)
       t.ok(getMainUrlStub.calledOnce)
 
-      getMainUrlStub.reset()
+      getMainUrlStub.resetHistory()
       resolveKeyStub.restore()
       resolveKeyStub.restore()
 
@@ -625,7 +625,7 @@ test('### deleteOne Call - Ok Case ###', function (t) {
   const findSpy = sinon.spy()
   const removeSpy = sinon.spy()
 
-  const resolveKeyStub = sinon.stub(modelUtils, 'resolveKey', (name, key) => {
+  const resolveKeyStub = sinon.stub(modelUtils, 'resolveKey').callsFake((name, key) => {
     return `${key}`
   })
 
@@ -644,7 +644,7 @@ test('### deleteOne Call - Ok Case ###', function (t) {
       t.ok(resolveKeyStub.calledOnce)
       t.ok(getMainUrlStub.calledOnce)
 
-      getMainUrlStub.reset()
+      getMainUrlStub.resetHistory()
       resolveKeyStub.restore()
       resolveKeyStub.restore()
 
@@ -656,7 +656,7 @@ test('### deleteOne Call - Ok Case ###', function (t) {
 test('### deleteAll Call - Error Case ###', function (t) {
   const getSpy = sinon.spy()
 
-  const generateCountRequestStub = sinon.stub(requestUtils, 'generateCountRequest', (url, modelName) => {
+  const generateCountRequestStub = sinon.stub(requestUtils, 'generateCountRequest').callsFake((url, modelName) => {
     return Promise.resolve(6)
   })
 
@@ -674,7 +674,7 @@ test('### deleteAll Call - Error Case ###', function (t) {
       t.ok(generateCountRequestStub.calledOnce)
       t.ok(getMainUrlStub.calledOnce)
 
-      getMainUrlStub.reset()
+      getMainUrlStub.resetHistory()
       generateCountRequestStub.restore()
 
       t.end()
@@ -687,15 +687,15 @@ test('### deleteAll Call - Ok Case ###', function (t) {
   const removeSpy = sinon.spy()
   const saveSpy = sinon.spy()
 
-  const generateCountRequestStub = sinon.stub(requestUtils, 'generateCountRequest', (url, modelName) => {
+  const generateCountRequestStub = sinon.stub(requestUtils, 'generateCountRequest').callsFake((url, modelName) => {
     return Promise.resolve(6)
   })
 
-  const getPKStub = sinon.stub(modelUtils, 'getPK', R.curry((name, key) => {
+  const getPKStub = sinon.stub(modelUtils, 'getPK').callsFake(R.curry((name, key) => {
     return 0
   }))
 
-  const resolveKeyStub = sinon.stub(modelUtils, 'resolveKey', (name, key) => {
+  const resolveKeyStub = sinon.stub(modelUtils, 'resolveKey').callsFake((name, key) => {
     return `${key}`
   })
 
@@ -716,7 +716,7 @@ test('### deleteAll Call - Ok Case ###', function (t) {
       t.equal(resolveKeyStub.callCount, 6)
       t.ok(getMainUrlStub.calledOnce)
 
-      getMainUrlStub.reset()
+      getMainUrlStub.resetHistory()
       generateCountRequestStub.restore()
       getPKStub.restore()
       resolveKeyStub.restore()
@@ -741,7 +741,7 @@ test('### execute Call - Error Case ###', function (t) {
       t.ok(getSpy.calledOnce)
       t.ok(getMainUrlStub.calledOnce)
 
-      getMainUrlStub.reset()
+      getMainUrlStub.resetHistory()
       t.end()
     })
 })
@@ -758,7 +758,7 @@ test('### execute Call - Ok Case ###', function (t) {
       t.ok(getSpy.calledOnce)
       t.ok(getMainUrlStub.calledOnce)
 
-      getMainUrlStub.reset()
+      getMainUrlStub.resetHistory()
       t.end()
     })
     .catch(t.threw)
@@ -768,14 +768,14 @@ test('### create Call - Error Case ###', function (t) {
   const saveSpy = sinon.spy()
   const postSpy = sinon.spy()
 
-  const getMainFieldsStub = sinon.stub(modelUtils, 'getMainFields', (modelName, select) => {
+  const getMainFieldsStub = sinon.stub(modelUtils, 'getMainFields').callsFake((modelName, select) => {
     return []
   })
 
-  const pickRefDataStub = sinon.stub(modelUtils, 'pickRefData', (modelName, select) => {
+  const pickRefDataStub = sinon.stub(modelUtils, 'pickRefData').callsFake((modelName, select) => {
     return []
   })
-  const checkDublicateStub = sinon.stub(modelUtils, 'checkDublicate', (modelName) => {
+  const checkDublicateStub = sinon.stub(modelUtils, 'checkDublicate').callsFake((modelName) => {
     return false
   })
 
@@ -796,7 +796,7 @@ test('### create Call - Error Case ###', function (t) {
       t.ok(getMainUrlStub.calledOnce)
       t.ok(checkDublicateStub.calledOnce)
 
-      getMainUrlStub.reset()
+      getMainUrlStub.resetHistory()
       checkDublicateStub.restore()
       getMainFieldsStub.restore()
       pickRefDataStub.restore()
@@ -809,19 +809,19 @@ test('### create Call - Ok Case ###', function (t) {
   const saveSpy = sinon.spy()
   const postSpy = sinon.spy()
 
-  const getMainFieldsStub = sinon.stub(modelUtils, 'getMainFields', (modelName, select) => {
+  const getMainFieldsStub = sinon.stub(modelUtils, 'getMainFields').callsFake((modelName, select) => {
     return []
   })
 
-  const pickRefDataStub = sinon.stub(modelUtils, 'pickRefData', (modelName, select) => {
+  const pickRefDataStub = sinon.stub(modelUtils, 'pickRefData').callsFake((modelName, select) => {
     return []
   })
 
-  const getPKStub = sinon.stub(modelUtils, 'getPK', (name, key) => {
+  const getPKStub = sinon.stub(modelUtils, 'getPK').callsFake((name, key) => {
     return 123
   })
 
-  const checkDublicateStub = sinon.stub(modelUtils, 'checkDublicate', (modelName) => {
+  const checkDublicateStub = sinon.stub(modelUtils, 'checkDublicate').callsFake((modelName) => {
     return false
   })
 
@@ -842,7 +842,7 @@ test('### create Call - Ok Case ###', function (t) {
       t.ok(getMainUrlStub.calledOnce)
       t.ok(checkDublicateStub.calledOnce)
 
-      getMainUrlStub.reset()
+      getMainUrlStub.resetHistory()
       checkDublicateStub.restore()
       getMainFieldsStub.restore()
       pickRefDataStub.restore()
@@ -854,7 +854,7 @@ test('### create Call - Ok Case ###', function (t) {
 })
 
 test('### count Call - Error Case ###', function (t) {
-  const generateCountRequestStub = sinon.stub(requestUtils, 'generateCountRequest', (url, modelName) => {
+  const generateCountRequestStub = sinon.stub(requestUtils, 'generateCountRequest').callsFake((url, modelName) => {
     return Promise.reject(new Error('Fail'))
   })
 
@@ -868,7 +868,7 @@ test('### count Call - Error Case ###', function (t) {
       t.ok(generateCountRequestStub.calledOnce)
       t.ok(getMainUrlStub.calledOnce)
 
-      getMainUrlStub.reset()
+      getMainUrlStub.resetHistory()
       generateCountRequestStub.restore()
 
       t.end()
@@ -876,7 +876,7 @@ test('### count Call - Error Case ###', function (t) {
 })
 
 test('### count Call - Ok Case ###', function (t) {
-  const generateCountRequestStub = sinon.stub(requestUtils, 'generateCountRequest', (url, modelName) => {
+  const generateCountRequestStub = sinon.stub(requestUtils, 'generateCountRequest').callsFake((url, modelName) => {
     return Promise.resolve(6)
   })
 
@@ -889,7 +889,7 @@ test('### count Call - Ok Case ###', function (t) {
       t.ok(generateCountRequestStub.calledOnce)
       t.ok(getMainUrlStub.calledOnce)
 
-      getMainUrlStub.reset()
+      getMainUrlStub.resetHistory()
       generateCountRequestStub.restore()
 
       t.end()
@@ -902,21 +902,21 @@ test('### update Call - Error Case ###', function (t) {
   const putSpy = sinon.spy()
   const saveSpy = sinon.spy()
 
-  const getRefFieldsStub = sinon.stub(modelUtils, 'getRefFields', (modelName, select) => {
+  const getRefFieldsStub = sinon.stub(modelUtils, 'getRefFields').callsFake((modelName, select) => {
     return []
   })
 
-  const getMainFieldsStub = sinon.stub(modelUtils, 'getMainFields', (modelName, select) => {
+  const getMainFieldsStub = sinon.stub(modelUtils, 'getMainFields').callsFake((modelName, select) => {
     return []
   })
 
-  const resolveKeyStub = sinon.stub(modelUtils, 'resolveKey', (name, key) => {
+  const resolveKeyStub = sinon.stub(modelUtils, 'resolveKey').callsFake((name, key) => {
     return `${key}`
   })
-  const getPKNameStub = sinon.stub(modelUtils, 'getPKName', (modelName) => {
+  const getPKNameStub = sinon.stub(modelUtils, 'getPKName').callsFake((modelName) => {
     return 'id'
   })
-  const checkDublicateStub = sinon.stub(modelUtils, 'checkDublicate', (modelName) => {
+  const checkDublicateStub = sinon.stub(modelUtils, 'checkDublicate').callsFake((modelName) => {
     return false
   })
 
@@ -940,7 +940,7 @@ test('### update Call - Error Case ###', function (t) {
       t.ok(getPKNameStub.calledOnce)
       t.ok(checkDublicateStub.calledOnce)
 
-      getMainUrlStub.reset()
+      getMainUrlStub.resetHistory()
       checkDublicateStub.restore()
       getPKNameStub.restore()
       getRefFieldsStub.restore()
@@ -958,19 +958,19 @@ test('### update Call - Ok Case ###', function (t) {
     Category: '578f2baa12eaebabec4af28e'
   }
 
-  const getRefFieldsStub = sinon.stub(modelUtils, 'getRefFields', (modelName, select) => {
+  const getRefFieldsStub = sinon.stub(modelUtils, 'getRefFields').callsFake((modelName, select) => {
     return ['Category']
   })
 
-  const getMainFieldsStub = sinon.stub(modelUtils, 'getMainFields', (modelName, select) => {
+  const getMainFieldsStub = sinon.stub(modelUtils, 'getMainFields').callsFake((modelName, select) => {
     return []
   })
 
-  const resolveKeyStub = sinon.stub(modelUtils, 'resolveKey', (name, key) => {
+  const resolveKeyStub = sinon.stub(modelUtils, 'resolveKey').callsFake((name, key) => {
     return `${key}`
   })
 
-  const objectToArrayStub = sinon.stub(utils, 'objectToArray', (obj) => {
+  const objectToArrayStub = sinon.stub(utils, 'objectToArray').callsFake((obj) => {
     if (!obj) {
       return []
     }
@@ -978,28 +978,28 @@ test('### update Call - Ok Case ###', function (t) {
     return [`${obj}`]
   })
 
-  const getPKStub = sinon.stub(modelUtils, 'getPK', (name, key) => {
+  const getPKStub = sinon.stub(modelUtils, 'getPK').callsFake((name, key) => {
     return `${key}`
   })
 
-  const generateAddRefRequestStub = sinon.stub(requestUtils, 'generateAddRefRequest', (url, modelName, key, refModel, refField, refKey) => {
+  const generateAddRefRequestStub = sinon.stub(requestUtils, 'generateAddRefRequest').callsFake((url, modelName, key, refModel, refField, refKey) => {
     return {}
   })
 
-  const generateRemoveRefRequestStub = sinon.stub(requestUtils, 'generateRemoveRefRequest', (url, modelName, key, refModel, refField, refKey) => {
+  const generateRemoveRefRequestStub = sinon.stub(requestUtils, 'generateRemoveRefRequest').callsFake((url, modelName, key, refModel, refField, refKey) => {
     return {}
   })
-  const hasRefFieldsStub = sinon.stub(modelUtils, 'hasRefFields', (modelName) => {
+  const hasRefFieldsStub = sinon.stub(modelUtils, 'hasRefFields').callsFake((modelName) => {
     const Model = arrow.getModel(modelName)
     return Model.metadata && Model.metadata['appc.odata'] ? Model.metadata['appc.odata'].refFields : false
   })
-  const getPKNameStub = sinon.stub(modelUtils, 'getPKName', (modelName) => {
+  const getPKNameStub = sinon.stub(modelUtils, 'getPKName').callsFake((modelName) => {
     return 'id'
   })
-  const checkDublicateStub = sinon.stub(modelUtils, 'checkDublicate', (modelName) => {
+  const checkDublicateStub = sinon.stub(modelUtils, 'checkDublicate').callsFake((modelName) => {
     return false
   })
-  const getRefModelStub = sinon.stub(modelUtils, 'getRefModel', (modelName) => {
+  const getRefModelStub = sinon.stub(modelUtils, 'getRefModel').callsFake((modelName) => {
     return 'Category'
   })
 
@@ -1023,7 +1023,7 @@ test('### update Call - Ok Case ###', function (t) {
       t.ok(getRefModelStub.calledTwice)
       t.ok(checkDublicateStub.calledOnce)
 
-      getMainUrlStub.reset()
+      getMainUrlStub.resetHistory()
       checkDublicateStub.restore()
       getRefModelStub.restore()
       getPKNameStub.restore()
@@ -1048,10 +1048,10 @@ test('### _getPayload no dublicate ###', function (t) {
     Name: 'Name',
     Age: 45
   }
-  const getPKNameStub = sinon.stub(modelUtils, 'getPKName', (name) => {
+  const getPKNameStub = sinon.stub(modelUtils, 'getPKName').callsFake((name) => {
     return `id`
   })
-  const checkDublicateStub = sinon.stub(modelUtils, 'checkDublicate', (modelName) => {
+  const checkDublicateStub = sinon.stub(modelUtils, 'checkDublicate').callsFake((modelName) => {
     return false
   })
   const o = oMocks({}, { getResult: { data: {} }, saveResult: { data: {} } })
@@ -1078,10 +1078,10 @@ test('### _getPayload with dublicate ###', function (t) {
     Name: 'Name',
     Age: 45
   }
-  const getPKNameStub = sinon.stub(modelUtils, 'getPKName', (name) => {
+  const getPKNameStub = sinon.stub(modelUtils, 'getPKName').callsFake((name) => {
     return `Name`
   })
-  const checkDublicateStub = sinon.stub(modelUtils, 'checkDublicate', (modelName) => {
+  const checkDublicateStub = sinon.stub(modelUtils, 'checkDublicate').callsFake((modelName) => {
     return 'NameID'
   })
   const o = oMocks({}, { getResult: { data: {} }, saveResult: { data: {} } })

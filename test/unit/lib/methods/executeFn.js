@@ -36,13 +36,10 @@ test('### Start Arrow ###', function (t) {
 
 test('### ExecuteFn call - Error case ###', function (t) {
   const error = { message: 'Cannot execute' }
-  const cbErrorSpy = sinon.spy()
-  const promise = sinon.stub().returnsPromise()
-  promise.rejects(error)
 
   const ODataMethods = {
     execute: (params) => {
-      return promise()
+      return Promise.reject(error)
     }
   }
   const executeFnSpy = sinon.spy(ODataMethods, 'execute')
@@ -58,21 +55,19 @@ test('### ExecuteFn call - Error case ###', function (t) {
   const options = {
     fn: 'function'
   }
-  executeFn.bind(connector, Model, params, options, cbErrorSpy)()
-  t.ok(executeFnSpy.calledOnce)
-  t.ok(getODataMethodsSpy.calledOnce)
-  t.equals(getODataMethodsSpy.firstCall.args[0], options.fn)
-  t.ok(cbErrorSpy.calledOnce)
-  t.ok(cbErrorSpy.calledWith(error))
+  executeFn.call(connector, Model, params, options, (err) => {
+    t.ok(executeFnSpy.calledOnce)
+    t.ok(getODataMethodsSpy.calledOnce)
+    t.equals(err, error)
 
-  cbErrorSpy.reset()
-  getODataMethodsSpy.reset()
-  executeFnSpy.reset()
-  t.end()
+    getODataMethodsSpy.resetHistory()
+    executeFnSpy.resetHistory()
+    t.end()
+  })
 })
 test('### ExecuteFn call - Ok case (not returning a collection) ###', function (t) {
   var instance
-  const createModelFromPayloadStub = sinon.stub(modelUtils, 'createModelFromPayload', (Model, item) => {
+  const createModelFromPayloadStub = sinon.stub(modelUtils, 'createModelFromPayload').callsFake((Model, item) => {
     instance = Model.instance(item, true)
     instance.setPrimaryKey(item.id)
 
@@ -86,13 +81,10 @@ test('### ExecuteFn call - Ok case (not returning a collection) ###', function (
       Products: []
     }
   }
-  const cbOkSpy = sinon.spy()
-  const promise = sinon.stub().returnsPromise()
-  promise.resolves(result)
 
   const ODataMethods = {
     execute: (params) => {
-      return promise()
+      return Promise.resolve(result)
     }
   }
   const executeFnSpy = sinon.spy(ODataMethods, 'execute')
@@ -108,26 +100,25 @@ test('### ExecuteFn call - Ok case (not returning a collection) ###', function (
   const options = {
     fn: 'function'
   }
-  executeFn.bind(connector, Model, params, options, cbOkSpy)()
-  t.ok(executeFnSpy.calledOnce)
-  t.ok(getODataMethodsSpy.calledOnce)
-  t.equals(getODataMethodsSpy.firstCall.args[0], options.fn)
-  t.ok(createModelFromPayloadStub.calledOnce)
-  t.equals(createModelFromPayloadStub.firstCall.args[0], Model)
-  t.equals(createModelFromPayloadStub.firstCall.args[1], result.data)
-  t.ok(cbOkSpy.calledOnce)
-  t.equals(cbOkSpy.firstCall.args[0], null)
-  t.equals(cbOkSpy.firstCall.args[1], instance)
+  executeFn.call(connector, Model, params, options, (err, arg) => {
+    t.ok(executeFnSpy.calledOnce)
+    t.ok(getODataMethodsSpy.calledOnce)
+    t.equals(getODataMethodsSpy.firstCall.args[0], options.fn)
+    t.ok(createModelFromPayloadStub.calledOnce)
+    t.equals(createModelFromPayloadStub.firstCall.args[0], Model)
+    t.equals(createModelFromPayloadStub.firstCall.args[1], result.data)
+    t.equals(err, null)
+    t.equals(arg, instance)
 
-  cbOkSpy.reset()
-  getODataMethodsSpy.reset()
-  executeFnSpy.reset()
-  t.end()
+    getODataMethodsSpy.resetHistory()
+    executeFnSpy.resetHistory()
+    t.end()
+  })
 })
 
 test('### ExecuteFn call - Ok case (returning a collection) ###', function (t) {
   var instance
-  const createCollectionFromPayloadStub = sinon.stub(modelUtils, 'createCollectionFromPayload', (Model, item) => {
+  const createCollectionFromPayloadStub = sinon.stub(modelUtils, 'createCollectionFromPayload').callsFake((Model, item) => {
     instance = Model.instance(item, true)
     instance.setPrimaryKey(item.id)
 
@@ -141,13 +132,10 @@ test('### ExecuteFn call - Ok case (returning a collection) ###', function (t) {
       Products: []
     }
   }
-  const cbOkSpy = sinon.spy()
-  const promise = sinon.stub().returnsPromise()
-  promise.resolves(result)
 
   const ODataMethods = {
     execute: (params) => {
-      return promise()
+      return Promise.resolve(result)
     }
   }
   const executeFnSpy = sinon.spy(ODataMethods, 'execute')
@@ -164,21 +152,20 @@ test('### ExecuteFn call - Ok case (returning a collection) ###', function (t) {
     returnCollection: true,
     fn: 'function'
   }
-  executeFn.bind(connector, Model, params, options, cbOkSpy)()
-  t.ok(executeFnSpy.calledOnce)
-  t.ok(getODataMethodsSpy.calledOnce)
-  t.equals(getODataMethodsSpy.firstCall.args[0], options.fn)
-  t.ok(createCollectionFromPayloadStub.calledOnce)
-  t.equals(createCollectionFromPayloadStub.firstCall.args[0], Model)
-  t.equals(createCollectionFromPayloadStub.firstCall.args[1], result.data)
-  t.ok(cbOkSpy.calledOnce)
-  t.equals(cbOkSpy.firstCall.args[0], null)
-  t.equals(cbOkSpy.firstCall.args[1], instance)
+  executeFn.call(connector, Model, params, options, (err, arg) => {
+    t.ok(executeFnSpy.calledOnce)
+    t.ok(getODataMethodsSpy.calledOnce)
+    t.equals(getODataMethodsSpy.firstCall.args[0], options.fn)
+    t.ok(createCollectionFromPayloadStub.calledOnce)
+    t.equals(createCollectionFromPayloadStub.firstCall.args[0], Model)
+    t.equals(createCollectionFromPayloadStub.firstCall.args[1], result.data)
+    t.equals(err, null)
+    t.equals(arg, instance)
 
-  cbOkSpy.reset()
-  getODataMethodsSpy.reset()
-  executeFnSpy.reset()
-  t.end()
+    getODataMethodsSpy.resetHistory()
+    executeFnSpy.resetHistory()
+    t.end()
+  })
 })
 
 test('### ExecuteFn call - Ok case (no Model) ###', function (t) {
@@ -190,13 +177,10 @@ test('### ExecuteFn call - Ok case (no Model) ###', function (t) {
       Products: []
     }
   }
-  const cbOkSpy = sinon.spy()
-  const promise = sinon.stub().returnsPromise()
-  promise.resolves(result)
 
   const ODataMethods = {
     execute: (params) => {
-      return promise()
+      return Promise.resolve(result)
     }
   }
   const executeFnSpy = sinon.spy(ODataMethods, 'execute')
@@ -213,18 +197,17 @@ test('### ExecuteFn call - Ok case (no Model) ###', function (t) {
     returnCollection: true,
     fn: 'function'
   }
-  executeFn.bind(connector, Model, params, options, cbOkSpy)()
-  t.ok(executeFnSpy.calledOnce)
-  t.ok(getODataMethodsSpy.calledOnce)
-  t.equals(getODataMethodsSpy.firstCall.args[0], options.fn)
-  t.ok(cbOkSpy.calledOnce)
-  t.equals(cbOkSpy.firstCall.args[0], null)
-  t.equals(cbOkSpy.firstCall.args[1], result.data)
+  executeFn.call(connector, Model, params, options, (err, arg) => {
+    t.ok(executeFnSpy.calledOnce)
+    t.ok(getODataMethodsSpy.calledOnce)
+    t.equals(getODataMethodsSpy.firstCall.args[0], options.fn)
+    t.equals(err, null)
+    t.equals(arg, result.data)
 
-  cbOkSpy.reset()
-  getODataMethodsSpy.reset()
-  executeFnSpy.reset()
-  t.end()
+    getODataMethodsSpy.resetHistory()
+    executeFnSpy.resetHistory()
+    t.end()
+  })
 })
 
 test('### Stop Arrow ###', function (t) {

@@ -2,10 +2,12 @@
 
 const test = require('tap').test
 const sinon = require('sinon')
+const sinonTest = require('sinon-test')
+const testWrap = sinonTest(sinon)
 const schemaModelsTransformer = require('../../../utils/schemaModelsTransformer')
 const txtSchemaJSON = require('../../txtSchemaJSON')
 
-test('### Should transforms shema to models ###', sinon.test(function (t) {
+test('### Should transforms shema to models ###', testWrap(function (t) {
   const schema = schemaModelsTransformer({}, txtSchemaJSON)
 
   t.ok(schema)

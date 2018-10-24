@@ -36,82 +36,75 @@ test('### Start Arrow ###', function (t) {
 })
 
 test('### Not valid primary key settings (hasPKColumnFalse)### ', function (t) {
-  const getNameStub = sinon.stub(modelUtils, 'getName', (Model) => {
+  const getNameStub = sinon.stub(modelUtils, 'getName').callsFake((Model) => {
     return 'Categories'
   })
-  var hasPKColumnFalse = sinon.stub(modelUtils, 'hasPKColumn', (modelName) => {
+  var hasPKColumnFalse = sinon.stub(modelUtils, 'hasPKColumn').callsFake((modelName) => {
     return false
   })
   const Model = arrow.getModel('Categories')
 
   const error = { message: 'can\'t find primary key column for Categories' }
-  const cbErrorSpy = sinon.spy()
 
-  createMethod.bind(connector, Model, '', cbErrorSpy)()
-  t.ok(hasPKColumnFalse.calledOnce)
-  t.ok(getNameStub.calledOnce)
-  t.ok(getNameStub.calledWith(Model))
-  t.ok(cbErrorSpy.calledWith(error))
-  t.ok(cbErrorSpy.calledOnce)
+  createMethod.call(connector, Model, '', (err) => {
+    t.ok(hasPKColumnFalse.calledOnce)
+    t.ok(getNameStub.calledOnce)
+    t.ok(getNameStub.calledWith(Model))
+    t.deepEquals(err, error)
 
-  hasPKColumnFalse.restore()
-  getNameStub.restore()
-  cbErrorSpy.reset()
+    hasPKColumnFalse.restore()
+    getNameStub.restore()
 
-  t.end()
+    t.end()
+  })
 })
 
 test('### Not valid primary key settings (isPKUpdatedTrue) ### ', function (t) {
-  const getNameStub = sinon.stub(modelUtils, 'getName', (Model) => {
+  const getNameStub = sinon.stub(modelUtils, 'getName').callsFake((Model) => {
     return 'Categories'
   })
-  var isPKUpdatedTrue = sinon.stub(modelUtils, 'isPKUpdated', (modelName, values) => {
+  var isPKUpdatedTrue = sinon.stub(modelUtils, 'isPKUpdated').callsFake((modelName, values) => {
     return true
   })
-  var hasPKColumnStub = sinon.stub(modelUtils, 'hasPKColumn', (modelName) => {
+  var hasPKColumnStub = sinon.stub(modelUtils, 'hasPKColumn').callsFake((modelName) => {
     return true
   })
   const Model = arrow.getModel('Categories')
 
   const error = { message: 'primary key column can\'t be specified' }
-  const cbErrorSpy = sinon.spy()
 
-  createMethod.bind(connector, Model, '', cbErrorSpy)()
-  t.ok(hasPKColumnStub.calledOnce)
-  t.ok(isPKUpdatedTrue.calledOnce)
-  t.ok(getNameStub.calledOnce)
-  t.ok(getNameStub.calledWith(Model))
-  t.ok(cbErrorSpy.calledWith(error))
-  t.ok(cbErrorSpy.calledOnce)
+  createMethod.call(connector, Model, '', (err) => {
+    t.ok(hasPKColumnStub.calledOnce)
+    t.ok(isPKUpdatedTrue.calledOnce)
+    t.ok(getNameStub.calledOnce)
+    t.ok(getNameStub.calledWith(Model))
+    t.deepEquals(err, error)
 
-  isPKUpdatedTrue.restore()
-  getNameStub.restore()
-  hasPKColumnStub.restore()
-  cbErrorSpy.reset()
+    isPKUpdatedTrue.restore()
+    getNameStub.restore()
+    hasPKColumnStub.restore()
 
-  t.end()
+    t.end()
+  })
 })
 
 test('### Create Call - Error Case ###', function (t) {
-  const getNameStub = sinon.stub(modelUtils, 'getName', (Model) => {
+  const getNameStub = sinon.stub(modelUtils, 'getName').callsFake((Model) => {
     return 'Categories'
   })
-  var hasPKColumnStub = sinon.stub(modelUtils, 'hasPKColumn', (modelName) => {
+  var hasPKColumnStub = sinon.stub(modelUtils, 'hasPKColumn').callsFake((modelName) => {
     return true
   })
-  var isPKUpdatedStub = sinon.stub(modelUtils, 'isPKUpdated', (modelName, values) => {
+  var isPKUpdatedStub = sinon.stub(modelUtils, 'isPKUpdated').callsFake((modelName, values) => {
     return false
   })
   const Model = arrow.getModel('Categories')
 
   const error = { message: 'Cannot find' }
-  const cbErrorSpy = sinon.spy()
-  const promise = sinon.stub().returnsPromise()
-  promise.rejects(error)
 
   const ODataMethods = {
     create: (key) => {
-      return promise()
+      return Promise.reject(error)
     }
   }
   const createSpy = sinon.spy(ODataMethods, 'create')
@@ -122,39 +115,37 @@ test('### Create Call - Error Case ###', function (t) {
     return ODataMethods
   }
 
-  createMethod.bind(connector, Model, 'id', cbErrorSpy)()
+  createMethod.call(connector, Model, 'id', (err) => {
+    t.ok(getODataMethodsSpy.calledOnce)
+    t.ok(getODataMethodsSpy.calledWith('Categories'))
+    t.ok(hasPKColumnStub.calledOnce)
+    t.ok(isPKUpdatedStub.calledOnce)
+    t.ok(getNameStub.calledOnce)
+    t.ok(getNameStub.calledWith(Model))
+    t.ok(createSpy.calledOnce)
+    t.ok(createSpy.calledWith('id'))
+    t.deepEquals(err, error)
 
-  t.ok(getODataMethodsSpy.calledOnce)
-  t.ok(getODataMethodsSpy.calledWith('Categories'))
-  t.ok(hasPKColumnStub.calledOnce)
-  t.ok(isPKUpdatedStub.calledOnce)
-  t.ok(getNameStub.calledOnce)
-  t.ok(getNameStub.calledWith(Model))
-  t.ok(createSpy.calledOnce)
-  t.ok(createSpy.calledWith('id'))
-  t.ok(cbErrorSpy.calledOnce)
-  t.ok(cbErrorSpy.calledWith(error))
-
-  hasPKColumnStub.restore()
-  isPKUpdatedStub.restore()
-  getNameStub.restore()
-  cbErrorSpy.reset()
-  t.end()
+    hasPKColumnStub.restore()
+    isPKUpdatedStub.restore()
+    getNameStub.restore()
+    t.end()
+  })
 })
 
 test('### Create Call - Ok Case ###', function (t) {
-  const getNameStub = sinon.stub(modelUtils, 'getName', (Model) => {
+  const getNameStub = sinon.stub(modelUtils, 'getName').callsFake((Model) => {
     return 'Categories'
   })
 
-  const hasPKColumnStub = sinon.stub(modelUtils, 'hasPKColumn', (modelName) => {
+  const hasPKColumnStub = sinon.stub(modelUtils, 'hasPKColumn').callsFake((modelName) => {
     return true
   })
-  const isPKUpdatedStub = sinon.stub(modelUtils, 'isPKUpdated', (modelName, values) => {
+  const isPKUpdatedStub = sinon.stub(modelUtils, 'isPKUpdated').callsFake((modelName, values) => {
     return false
   })
 
-  const createModelFromPayloadStub = sinon.stub(modelUtils, 'createModelFromPayload', (Model, data) => {
+  const createModelFromPayloadStub = sinon.stub(modelUtils, 'createModelFromPayload').callsFake((Model, data) => {
     return instance
   })
 
@@ -169,16 +160,12 @@ test('### Create Call - Ok Case ###', function (t) {
     }
   }
 
-  const cbOkSpy = sinon.spy()
-  const promise = sinon.stub().returnsPromise()
-  promise.resolves(result)
-
   const instance = Model.instance(result.data, true)
   instance.setPrimaryKey(result.data.id)
 
   const ODataMethods = {
     create: (key) => {
-      return promise()
+      return Promise.resolve(result)
     }
   }
   const createSpy = sinon.spy(ODataMethods, 'create')
@@ -189,25 +176,25 @@ test('### Create Call - Ok Case ###', function (t) {
     return ODataMethods
   }
 
-  createMethod.bind(connector, Model, result.data, cbOkSpy)()
+  createMethod.call(connector, Model, result.data, (err, arg) => {
+    t.ok(getODataMethodsSpy.calledOnce)
+    t.ok(getODataMethodsSpy.calledWith('Categories'))
+    t.ok(createSpy.calledOnce)
+    t.ok(createSpy.calledWith(result.data))
+    t.ok(getNameStub.calledOnce)
+    t.ok(getNameStub.calledWith(Model))
+    t.ok(hasPKColumnStub.calledOnce)
+    t.ok(isPKUpdatedStub.calledOnce)
+    t.ok(createModelFromPayloadStub.calledWith(Model, result.data))
+    t.equals(null, err)
+    t.deepEquals(arg, instance)
 
-  t.ok(getODataMethodsSpy.calledOnce)
-  t.ok(getODataMethodsSpy.calledWith('Categories'))
-  t.ok(createSpy.calledOnce)
-  t.ok(createSpy.calledWith(result.data))
-  t.ok(getNameStub.calledOnce)
-  t.ok(getNameStub.calledWith(Model))
-  t.ok(hasPKColumnStub.calledOnce)
-  t.ok(isPKUpdatedStub.calledOnce)
-  t.ok(createModelFromPayloadStub.calledWith(Model, result.data))
-  t.ok(cbOkSpy.calledOnce)
-  t.ok(cbOkSpy.calledWith(null, instance))
-
-  hasPKColumnStub.restore()
-  isPKUpdatedStub.restore()
-  getNameStub.restore()
-  createModelFromPayloadStub.restore()
-  t.end()
+    hasPKColumnStub.restore()
+    isPKUpdatedStub.restore()
+    getNameStub.restore()
+    createModelFromPayloadStub.restore()
+    t.end()
+  })
 })
 
 test('### Stop Arrow ###', function (t) {

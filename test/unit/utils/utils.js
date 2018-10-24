@@ -52,7 +52,7 @@ test('### Should resolve number value ###', function (t) {
 })
 
 test('### Should returns string query ###', function (t) {
-  const resolveValueStub = sinon.stub(utils, 'resolveValue', (value) => {
+  const resolveValueStub = sinon.stub(utils, 'resolveValue').callsFake((value) => {
     return typeof value === 'string' ? `'${value}'` : `${value}`
   })
 
@@ -74,7 +74,7 @@ test('### Should returns string query ###', function (t) {
 })
 
 test('### Should returns string query ###', function (t) {
-  const resolveValueStub = sinon.stub(utils, 'resolveValue', (value) => {
+  const resolveValueStub = sinon.stub(utils, 'resolveValue').callsFake((value) => {
     return typeof value === 'string' ? `'${value}'` : `${value}`
   })
 
@@ -96,7 +96,7 @@ test('### Should returns string query ###', function (t) {
 })
 
 test('### Should returns string query ###', function (t) {
-  const resolveValueStub = sinon.stub(utils, 'resolveValue', (value) => {
+  const resolveValueStub = sinon.stub(utils, 'resolveValue').callsFake((value) => {
     return typeof value === 'string' ? `'${value}'` : `${value}`
   })
 
@@ -118,7 +118,7 @@ test('### Should returns string query ###', function (t) {
 })
 
 test('### Should returns string query ###', function (t) {
-  const resolveValueStub = sinon.stub(utils, 'resolveValue', (value) => {
+  const resolveValueStub = sinon.stub(utils, 'resolveValue').callsFake((value) => {
     return typeof value === 'string' ? `'${value}'` : `${value}`
   })
 
@@ -140,7 +140,7 @@ test('### Should returns string query ###', function (t) {
 })
 
 test('### Should returns string query ###', function (t) {
-  const resolveValueStub = sinon.stub(utils, 'resolveValue', (value) => {
+  const resolveValueStub = sinon.stub(utils, 'resolveValue').callsFake((value) => {
     return typeof value === 'string' ? `'${value}'` : `${value}`
   })
 
@@ -162,7 +162,7 @@ test('### Should returns string query ###', function (t) {
 })
 
 test('### Should returns string query ###', function (t) {
-  const resolveValueStub = sinon.stub(utils, 'resolveValue', (value) => {
+  const resolveValueStub = sinon.stub(utils, 'resolveValue').callsFake((value) => {
     return typeof value === 'string' ? `'${value}'` : `${value}`
   })
 
@@ -184,7 +184,7 @@ test('### Should returns string query ###', function (t) {
 })
 
 test('### Should returns string query ###', function (t) {
-  const resolveValueStub = sinon.stub(utils, 'resolveValue', (value) => {
+  const resolveValueStub = sinon.stub(utils, 'resolveValue').callsFake((value) => {
     return typeof value === 'string' ? `'${value}'` : `${value}`
   })
 
@@ -206,7 +206,7 @@ test('### Should returns string query ###', function (t) {
 })
 
 test('### Should returns string query ###', function (t) {
-  const resolveValueStub = sinon.stub(utils, 'resolveValue', (value) => {
+  const resolveValueStub = sinon.stub(utils, 'resolveValue').callsFake((value) => {
     return typeof value === 'string' ? `'${value}'` : `${value}`
   })
 
@@ -226,7 +226,7 @@ test('### Should returns string query ###', function (t) {
 })
 
 test('### Should returns string query ###', function (t) {
-  const resolveValueStub = sinon.stub(utils, 'resolveValue', (value) => {
+  const resolveValueStub = sinon.stub(utils, 'resolveValue').callsFake((value) => {
     return typeof value === 'string' ? `'${value}'` : `${value}`
   })
 

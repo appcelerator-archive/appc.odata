@@ -39,13 +39,10 @@ test('### findById Call - Error Case ###', function (t) {
   const Model = arrow.getModel('Categories')
 
   const error = { message: 'Cannot find' }
-  const cbErrorSpy = sinon.spy((errorMessage, data) => { })
-  const promise = sinon.stub().returnsPromise()
-  promise.rejects(error)
 
   const ODataMethods = {
     findByID: (key) => {
-      return promise()
+      return Promise.reject(error)
     }
   }
   const findByIDSpy = sinon.spy(ODataMethods, 'findByID')
@@ -56,16 +53,15 @@ test('### findById Call - Error Case ###', function (t) {
     return ODataMethods
   }
 
-  findByIdMethod.bind(connector, Model, '58b7f3c8e1674727aaf2ebf0', cbErrorSpy)()
+  findByIdMethod.call(connector, Model, '58b7f3c8e1674727aaf2ebf0', (err) => {
+    t.ok(getODataMethodsSpy.calledOnce)
+    t.ok(getODataMethodsSpy.calledWith('Categories'))
+    t.ok(findByIDSpy.calledOnce)
+    t.ok(findByIDSpy.calledWith('58b7f3c8e1674727aaf2ebf0'))
+    t.deepEquals(err, error.message)
 
-  t.ok(getODataMethodsSpy.calledOnce)
-  t.ok(getODataMethodsSpy.calledWith('Categories'))
-  t.ok(findByIDSpy.calledOnce)
-  t.ok(findByIDSpy.calledWith('58b7f3c8e1674727aaf2ebf0'))
-  t.ok(cbErrorSpy.calledOnce)
-  t.ok(cbErrorSpy.calledWith(error.message))
-
-  t.end()
+    t.end()
+  })
 })
 
 test('### findById Call - Ok Case ###', function (t) {
@@ -79,20 +75,17 @@ test('### findById Call - Ok Case ###', function (t) {
       Products: []
     }
   }
-  const cbOkSpy = sinon.spy(() => { })
-  const promise = sinon.stub().returnsPromise()
-  promise.resolves(result)
 
   const instance = Model.instance(result.data, true)
   instance.setPrimaryKey('58b7f3c8e1674727aaf2ebf0')
 
-  const modelUtilsStub = sinon.stub(modelUtils, 'createModelFromPayload', (Model, item) => {
+  const modelUtilsStub = sinon.stub(modelUtils, 'createModelFromPayload').callsFake((Model, item) => {
     return instance
   })
 
   const ODataMethods = {
     findByID: (key) => {
-      return promise()
+      return Promise.resolve(result)
     }
   }
   const findByIDSpy = sinon.spy(ODataMethods, 'findByID')
@@ -103,20 +96,20 @@ test('### findById Call - Ok Case ###', function (t) {
     return ODataMethods
   }
 
-  findByIdMethod.bind(connector, Model, '58b7f3c8e1674727aaf2ebf0', cbOkSpy)()
+  findByIdMethod.call(connector, Model, '58b7f3c8e1674727aaf2ebf0', (err, arg) => {
+    t.equal(modelUtilsStub.firstCall.args[0], Model)
+    t.equal(modelUtilsStub.firstCall.args[1], result.data)
+    t.ok(getODataMethodsSpy.calledOnce)
+    t.ok(getODataMethodsSpy.calledWith('Categories'))
+    t.ok(findByIDSpy.calledOnce)
+    t.ok(findByIDSpy.calledWith('58b7f3c8e1674727aaf2ebf0'))
+    t.ok(modelUtilsStub.calledOnce)
+    t.equals(err, null)
+    t.equals(arg, instance)
 
-  t.equal(modelUtilsStub.firstCall.args[0], Model)
-  t.equal(modelUtilsStub.firstCall.args[1], result.data)
-  t.ok(getODataMethodsSpy.calledOnce)
-  t.ok(getODataMethodsSpy.calledWith('Categories'))
-  t.ok(findByIDSpy.calledOnce)
-  t.ok(findByIDSpy.calledWith('58b7f3c8e1674727aaf2ebf0'))
-  t.ok(modelUtilsStub.calledOnce)
-  t.ok(cbOkSpy.calledOnce)
-  t.ok(cbOkSpy.calledWith(null, instance))
-
-  modelUtilsStub.restore()
-  t.end()
+    modelUtilsStub.restore()
+    t.end()
+  })
 })
 
 test('### findById Call - Ok Case with empty callback ###', function (t) {
@@ -125,13 +118,10 @@ test('### findById Call - Ok Case with empty callback ###', function (t) {
   const result = {
     data: null
   }
-  const cbOkSpy = sinon.spy((errorMessage, data) => { })
-  const promise = sinon.stub().returnsPromise()
-  promise.resolves(result)
 
   const ODataMethods = {
     findByID: (key) => {
-      return promise()
+      return Promise.resolve(result)
     }
   }
   const findByIDSpy = sinon.spy(ODataMethods, 'findByID')
@@ -142,16 +132,16 @@ test('### findById Call - Ok Case with empty callback ###', function (t) {
     return ODataMethods
   }
 
-  findByIdMethod.bind(connector, Model, '58b7f3c8e1674727aaf2ebf0', cbOkSpy)()
+  findByIdMethod.call(connector, Model, '58b7f3c8e1674727aaf2ebf0', (err, arg) => {
+    t.ok(getODataMethodsSpy.calledOnce)
+    t.ok(getODataMethodsSpy.calledWith('Categories'))
+    t.ok(findByIDSpy.calledOnce)
+    t.ok(findByIDSpy.calledWith('58b7f3c8e1674727aaf2ebf0'))
+    t.equals(err, undefined)
+    t.equals(arg, undefined)
 
-  t.ok(getODataMethodsSpy.calledOnce)
-  t.ok(getODataMethodsSpy.calledWith('Categories'))
-  t.ok(findByIDSpy.calledOnce)
-  t.ok(findByIDSpy.calledWith('58b7f3c8e1674727aaf2ebf0'))
-  t.ok(cbOkSpy.calledOnce)
-  t.ok(cbOkSpy.calledWith())
-
-  t.end()
+    t.end()
+  })
 })
 
 test('### Stop Arrow ###', function (t) {

@@ -46,12 +46,10 @@ test('## Save Many - Error case', function (t) {
   const Model = arrow.getModel('Categories')
 
   const error = 'Cannot find'
-  const promise = sinon.stub().returnsPromise()
-  promise.rejects(error)
 
   const ODataMethods = {
     update: (key, changedFields, payload) => {
-      return promise()
+      return Promise.reject(error)
     }
   }
 
@@ -95,20 +93,16 @@ test('## Save Many - Ok case', function (t) {
     Products: []
   }
 
-  var createCollectionFromPayloadStub = sinon.stub(modelUtils, 'createCollectionFromPayload', (Model, item) => {
+  var createCollectionFromPayloadStub = sinon.stub(modelUtils, 'createCollectionFromPayload').callsFake((Model, item) => {
     var instance = Model.instance(item, true)
     instance.setPrimaryKey(item.id)
     return instance
   })
   const Model = arrow.getModel('Categories')
 
-  // const cbErrorSpy = sinon.spy()
-  const promise = sinon.stub().returnsPromise()
-  promise.resolves(result)
-
   const ODataMethods = {
     update: (key, changedFields, payload) => {
-      return promise()
+      return Promise.resolve(result)
     }
   }
 
@@ -132,7 +126,7 @@ test('## Save Many - Ok case', function (t) {
       t.ok(getODataMethodsSpy.calledOnce)
 
       createCollectionFromPayloadStub.restore()
-      getODataMethodsSpy.reset()
+      getODataMethodsSpy.resetHistory()
 
       t.end()
     })
@@ -153,20 +147,16 @@ test('## Save Many - Empty responce', function (t) {
     Name: 'New Name'
   }
 
-  var createCollectionFromPayloadStub = sinon.stub(modelUtils, 'createCollectionFromPayload', (Model, results) => {
+  var createCollectionFromPayloadStub = sinon.stub(modelUtils, 'createCollectionFromPayload').callsFake((Model, results) => {
     var instance = Model.instance(results, true)
     instance.setPrimaryKey(results.id)
     return instance
   })
   const Model = arrow.getModel('Categories')
 
-  // const cbErrorSpy = sinon.spy()
-  const promise = sinon.stub().returnsPromise()
-  promise.resolves(result)
-
   const ODataMethods = {
     update: (key, changedFields, payload) => {
-      return promise()
+      return Promise.resolve(result)
     }
   }
 
@@ -187,7 +177,7 @@ test('## Save Many - Empty responce', function (t) {
       t.ok(getODataMethodsSpy.calledOnce)
 
       createCollectionFromPayloadStub.restore()
-      getODataMethodsSpy.reset()
+      getODataMethodsSpy.resetHistory()
 
       t.end()
     })
